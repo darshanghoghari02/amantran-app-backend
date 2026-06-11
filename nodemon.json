@@ -1,0 +1,7 @@
+{
+  "ignore": [
+    "assets/*",
+    "db.json",
+    "node_modules/*"
+  ]
+}
