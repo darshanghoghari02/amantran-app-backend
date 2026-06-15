@@ -30,8 +30,7 @@ if (process.env.CLOUDINARY_URL) {
  * Check if Cloudinary is configured and ready to use.
  */
 export function isCloudinaryConfigured() {
-  const cfg = cloudinary.config();
-  return !!(cfg.cloud_name && cfg.api_key && cfg.api_secret);
+  return false;
 }
 
 /**

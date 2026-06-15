@@ -16,17 +16,15 @@ function safeDate(val) {
 
 // Helper to check trial eligibility
 async function checkTrialEligible(userId) {
-  if (dbService.isFirebase) {
-    try {
-      const snapshot = await dbService.db.collection('user_subscriptions').where('userId', '==', userId).limit(1).get();
-      return snapshot.empty;
-    } catch (e) {
-      console.error('Error checking trial eligibility in Firestore:', e);
-    }
+  try {
+    const userSubs = await dbService.getByField('user_subscriptions', 'userId', userId);
+    return userSubs.length === 0;
+  } catch (e) {
+    console.error('Error checking trial eligibility:', e);
+    const allSubs = await dbService.getAll('user_subscriptions');
+    const userSubs = allSubs.filter(s => s.userId === userId);
+    return userSubs.length === 0;
   }
-  const allSubs = await dbService.getAll('user_subscriptions');
-  const userSubs = allSubs.filter(s => s.userId === userId);
-  return userSubs.length === 0;
 }
 
 // On-the-fly expiry and auto-renewal evaluator
@@ -34,19 +32,14 @@ async function getOrUpdateActiveSubscription(userId, preFetchedSubs = null) {
   let userSubs;
   if (preFetchedSubs) {
     userSubs = preFetchedSubs.filter(s => s.userId === userId);
-  } else if (dbService.isFirebase) {
+  } else {
     try {
-      const snapshot = await dbService.db.collection('user_subscriptions').where('userId', '==', userId).get();
-      userSubs = [];
-      snapshot.forEach(doc => userSubs.push({ id: doc.id, ...doc.data() }));
+      userSubs = await dbService.getByField('user_subscriptions', 'userId', userId);
     } catch (e) {
-      console.error('Error querying user subscription in Firestore:', e);
+      console.error('Error querying user subscription:', e);
       const allSubs = await dbService.getAll('user_subscriptions');
       userSubs = allSubs.filter(s => s.userId === userId);
     }
-  } else {
-    const allSubs = await dbService.getAll('user_subscriptions');
-    userSubs = allSubs.filter(s => s.userId === userId);
   }
 
   if (userSubs.length === 0) {

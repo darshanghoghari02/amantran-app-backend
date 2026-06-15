@@ -3,6 +3,10 @@ import cors from 'cors';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 // Route Imports
 import categoryRoutes from './src/routes/categories.js';
@@ -21,6 +25,8 @@ import userDraftRoutes from './src/routes/user-drafts.js';
 import transactionRoutes from './src/routes/transactions.js';
 import auditLogRoutes from './src/routes/audit-logs.js';
 import settingsRoutes from './src/routes/settings.js';
+import appMobileRoutes from './src/routes/app-mobile.js';
+import authRoutes from './src/routes/auth.js';
 import { dbService } from './src/services/db.js';
 import { isCloudinaryConfigured } from './src/services/cloudinary.js';
 
@@ -101,14 +107,17 @@ app.use('/api/user-drafts', userDraftRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/audit-logs', auditLogRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/app', appMobileRoutes);
+app.use('/api/auth', authRoutes);
 
 // Base route info
 app.get('/', (req, res) => {
   res.json({
     name: 'Amantran CMS Admin Backend API',
     version: '1.0.0',
-    mode: dbService.isFirebase ? 'firebase' : 'local',
+    mode: dbService.isMySQL ? 'mysql' : (dbService.isFirebase ? 'firebase' : 'local'),
     isFirebase: dbService.isFirebase,
+    isMySQL: dbService.isMySQL,
     status: 'online',
     assetsUrl: `${req.protocol}://${req.get('host')}/assets`
   });
@@ -118,16 +127,15 @@ app.get('/', (req, res) => {
 app.get('/api/diagnose', (req, res) => {
   res.json({
     isFirebaseConnected: dbService.isFirebase,
+    isMySQLConnected: dbService.isMySQL,
     isCloudinaryConfigured: isCloudinaryConfigured(),
-    firebaseDatabaseId: process.env.FIREBASE_DATABASE_ID || '(default)',
-    hasServiceAccountKeyEnv: !!process.env.FIREBASE_SERVICE_ACCOUNT_JSON,
-    serviceAccountKeyLength: process.env.FIREBASE_SERVICE_ACCOUNT_JSON ? process.env.FIREBASE_SERVICE_ACCOUNT_JSON.length : 0,
+    mysqlHost: process.env.DB_HOST || 'localhost',
+    mysqlDatabase: process.env.DB_NAME || 'amantran_db',
     connectionError: dbService.connectionError || 'None',
-    imageStorage: isCloudinaryConfigured() ? 'Cloudinary (persistent)' : 'Local disk (ephemeral — images will be lost on restart!)',
+    imageStorage: isCloudinaryConfigured() ? 'Cloudinary (persistent)' : 'Local disk storage (assets/ folder)',
     environment: {
       nodeVersion: process.version,
       platform: process.platform,
-      hasEnvKey: !!process.env.FIREBASE_SERVICE_ACCOUNT_JSON,
       hasCloudinaryUrl: !!process.env.CLOUDINARY_URL,
       hasCloudinaryKeys: !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET)
     }
@@ -181,5 +189,6 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`🚀 Amantran CMS Backend running at http://localhost:${PORT}`);
-  console.log(`☁️ Cloudinary: ${isCloudinaryConfigured() ? '✅ Configured — images will persist permanently' : '⚠️ NOT configured — images will be lost on restart! Set CLOUDINARY_URL env variable.'}`);
+  console.log(`📂 Storage Provider: Local Disk (assets/ folder)`);
 });
+// Trigger nodemon reload 4

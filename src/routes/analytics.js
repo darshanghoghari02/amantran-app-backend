@@ -343,10 +343,42 @@ router.get('/subscription-summary', async (req, res) => {
     // Monthly growth trend over the last 6 months
     const growthTrend = [];
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    for (let i = 5; i >= 0; i--) {
-      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      const endOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59, 999);
+    let start = new Date();
+    let end = new Date();
+    let stepMonths = 6;
+    
+    const range = req.query.subGrowthRange || '6m';
+    if (range === '6m') {
+      stepMonths = 6;
+      start = new Date(now.getFullYear(), now.getMonth() - 5, 1);
+      end = now;
+    } else if (range === '12m') {
+      stepMonths = 12;
+      start = new Date(now.getFullYear(), now.getMonth() - 11, 1);
+      end = now;
+    } else if (range === 'this_year') {
+      start = new Date(now.getFullYear(), 0, 1);
+      end = now;
+      stepMonths = now.getMonth() + 1;
+    } else if (range === 'last_year') {
+      start = new Date(now.getFullYear() - 1, 0, 1);
+      end = new Date(now.getFullYear() - 1, 11, 31, 23, 59, 59, 999);
+      stepMonths = 12;
+    } else if (range === 'custom') {
+      const startDateStr = req.query.subGrowthStart;
+      const endDateStr = req.query.subGrowthEnd;
+      start = startDateStr ? new Date(startDateStr) : new Date(now.getFullYear(), now.getMonth() - 5, 1);
+      end = endDateStr ? new Date(endDateStr) : now;
+      
+      const diffYear = end.getFullYear() - start.getFullYear();
+      const diffMonth = end.getMonth() - start.getMonth();
+      stepMonths = Math.max(1, diffYear * 12 + diffMonth + 1);
+    }
+
+    for (let i = 0; i < stepMonths; i++) {
+      const d = new Date(start.getFullYear(), start.getMonth() + i, 1);
       const label = months[d.getMonth()] + " '" + String(d.getFullYear()).slice(-2);
+      const endOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59, 999);
       
       // Count active subscribers as of end of that month
       let activeAsOf = 0;

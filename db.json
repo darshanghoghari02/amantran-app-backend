@@ -1,1689 +1,259 @@
 {
-  "categories": [
-    {
-      "id": "cat_wedding",
-      "name": "Wedding",
-      "slug": "wedding",
-      "imageUrl": "/assets/images/wedding/wedding_card1_1779500817266.jpg",
-      "displayOrder": 1,
-      "isActive": true,
-      "createdAt": "2026-05-23T01:36:27.020Z",
-      "updatedAt": "2026-05-23T01:50:04.633Z"
-    },
-    {
-      "id": "cat_engagement",
-      "name": "Engagement",
-      "slug": "engagement",
-      "imageUrl": "/assets/images/defaults/engagement.png",
-      "displayOrder": 2,
-      "isActive": true,
-      "createdAt": "2026-05-23T01:36:27.020Z",
-      "updatedAt": "2026-05-23T01:36:27.020Z"
-    },
-    {
-      "id": "cat_baby_shower",
-      "name": "Baby Shower",
-      "slug": "baby_shower",
-      "imageUrl": "/assets/images/defaults/baby_shower.png",
-      "displayOrder": 3,
-      "isActive": true,
-      "createdAt": "2026-05-23T01:36:27.020Z",
-      "updatedAt": "2026-05-23T01:36:27.020Z"
-    },
-    {
-      "id": "cat_reception",
-      "name": "Reception",
-      "slug": "reception",
-      "imageUrl": "/assets/images/defaults/reception.png",
-      "displayOrder": 4,
-      "isActive": true,
-      "createdAt": "2026-05-23T01:36:27.020Z",
-      "updatedAt": "2026-05-23T01:36:27.020Z"
-    },
-    {
-      "id": "cat_xf6jj8c18",
-      "name": "wed",
-      "slug": "wed",
-      "imageUrl": "",
-      "displayOrder": 1,
-      "isActive": true,
-      "createdAt": "2026-05-23T23:22:11.951Z",
-      "updatedAt": "2026-05-23T23:22:11.951Z"
-    }
-  ],
-  "fonts": [
-    {
-      "id": "font_rasa",
-      "family": "Rasa",
-      "localPath": "assets/fonts/Rasa-Regular.ttf",
-      "isActive": true,
-      "createdAt": "2026-05-23T01:36:27.020Z"
-    },
-    {
-      "id": "font_hind_vadodara",
-      "family": "Hind Vadodara",
-      "localPath": "assets/fonts/HindVadodara-Regular.ttf",
-      "isActive": true,
-      "createdAt": "2026-05-23T01:36:27.020Z"
-    },
-    {
-      "id": "font_farsan",
-      "family": "Farsan",
-      "localPath": "assets/fonts/Farsan-Regular.ttf",
-      "isActive": true,
-      "createdAt": "2026-05-23T01:36:27.020Z"
-    },
-    {
-      "id": "font_kap011",
-      "family": "KAP011",
-      "localPath": "assets/fonts/KAP011.ttf",
-      "isActive": true,
-      "createdAt": "2026-05-23T01:36:27.020Z"
-    }
-  ],
-  "languages": [
-    {
-      "id": "lang_en",
-      "code": "en",
-      "name": "English",
-      "isActive": true
-    },
-    {
-      "id": "lang_gu",
-      "code": "gu",
-      "name": "Gujarati",
-      "isActive": true
-    },
-    {
-      "id": "lang_hi",
-      "code": "hi",
-      "name": "Hindi",
-      "isActive": true
-    },
-    {
-      "id": "lang_mr",
-      "code": "mr",
-      "name": "Marathi",
-      "isActive": true
-    },
-    {
-      "id": "lang_ur",
-      "code": "ur",
-      "name": "Urdu",
-      "isActive": true
-    },
-    {
-      "id": "lang_ta",
-      "code": "ta",
-      "name": "Tamil",
-      "isActive": true
-    }
-  ],
-  "templates": [
-    {
-      "id": "tem_tible2j83",
-      "categoryId": "cat_wedding",
-      "name": "royal wedding",
-      "slug": "royal_wedding",
-      "thumbnail": "/assets/images/wedding/royal_wedding/royal_wedding_card1_1779568940321.jpg",
-      "previewImages": [
-        "/assets/images/wedding/royal_wedding/royal_wedding_card1_1779568940350.jpg",
-        "/assets/images/wedding/royal_wedding/royal_wedding_card2_1779568940352.jpg",
-        "/assets/images/wedding/royal_wedding/royal_wedding_card3_1779568940359.jpg",
-        "/assets/images/wedding/royal_wedding/royal_wedding_card4_1779568940365.jpg",
-        "/assets/images/wedding/royal_wedding/royal_wedding_card5_1779568940370.jpg",
-        "/assets/images/wedding/royal_wedding/royal_wedding_card6_1779568940378.jpg",
-        "/assets/images/wedding/royal_wedding/royal_wedding_card7_1779568940381.jpg"
-      ],
-      "localAssetPaths": [
-        "assets/images/wedding/royal_wedding/royal_wedding_card1_1779568940321.jpg",
-        "assets/images/wedding/royal_wedding/royal_wedding_card1_1779568940350.jpg",
-        "assets/images/wedding/royal_wedding/royal_wedding_card2_1779568940352.jpg",
-        "assets/images/wedding/royal_wedding/royal_wedding_card3_1779568940359.jpg",
-        "assets/images/wedding/royal_wedding/royal_wedding_card4_1779568940365.jpg",
-        "assets/images/wedding/royal_wedding/royal_wedding_card5_1779568940370.jpg",
-        "assets/images/wedding/royal_wedding/royal_wedding_card6_1779568940378.jpg",
-        "assets/images/wedding/royal_wedding/royal_wedding_card7_1779568940381.jpg"
-      ],
-      "isPremium": true,
-      "isActive": true,
-      "fonts": [
-        "Rasa",
-        "Hind Vadodara",
-        "KAP011",
-        "Farsan"
-      ],
-      "languages": [
-        "English",
-        "Gujarati",
-        "Hindi",
-        "Marathi",
-        "Urdu",
-        "Tamil"
-      ],
-      "pages": [
-        {
-          "id": "page_royal_1",
-          "name": "Cover Page",
-          "backgroundImage": "/assets/images/wedding/royal_wedding/royal_wedding_card1_1779568940350.jpg",
-          "elements": [
-            {
-              "id": "elem_ganesh_db01",
-              "type": "sticker",
-              "x": 440,
-              "y": 180,
-              "width": 200,
-              "height": 200,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 1,
-              "isLocked": false,
-              "imagePath": "/assets/images/stickers/ganesh.png"
-            },
-            {
-              "id": "elem_cover_mantra_db02",
-              "type": "text",
-              "x": 100,
-              "y": 400,
-              "width": 880,
-              "height": 60,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 2,
-              "isLocked": false,
-              "text": "|| શ્રી ગણેશાય નમઃ ||",
-              "fontFamily": "Hind Vadodara",
-              "fontSize": 22,
-              "color": "#AA820A",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "600",
-              "letterSpacing": 2,
-              "translations": {
-                "English": "|| OM SHREE GANESHAYA NAMAH ||",
-                "Gujarati": "|| શ્રી ગણેશાય નમઃ ||",
-                "Hindi": "|| श्री गणेशाय नमः ||",
-                "Marathi": "|| श्री गणेशाय नमः ||",
-                "Tamil": "|| ஸ்ரீ கணேஷாய நமஹ ||",
-                "Urdu": "|| श्री गणेशाय नमः ||"
-              }
-            },
-            {
-              "id": "elem_cover_title_db03",
-              "type": "text",
-              "x": 100,
-              "y": 480,
-              "width": 880,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 3,
-              "isLocked": false,
-              "text": "શુભ વિવાહ",
-              "fontFamily": "KAP011",
-              "fontSize": 56,
-              "color": "#8A1E2B",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "700",
-              "letterSpacing": 2,
-              "translations": {
-                "English": "SHUBH VIVAH",
-                "Gujarati": "શુભ વિવાહ",
-                "Hindi": "शुभ विवाह",
-                "Marathi": "शुभ विवाह",
-                "Tamil": "மங்கள திருமணம்",
-                "Urdu": "شادی مبارک"
-              }
-            },
-            {
-              "id": "elem_cover_bride_db04",
-              "type": "text",
-              "x": 80,
-              "y": 600,
-              "width": 400,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 4,
-              "isLocked": false,
-              "text": "ચિ. હાર્મી",
-              "fontFamily": "KAP011",
-              "fontSize": 44,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "right",
-              "fontWeight": "700",
-              "letterSpacing": 0,
-              "translations": {
-                "English": "Harmi",
-                "Gujarati": "ચિ. હાર્મી",
-                "Hindi": "चि. हार्मी",
-                "Marathi": "चि. हार्मी",
-                "Tamil": "ஹார்மி",
-                "Urdu": "ہارمی"
-              }
-            },
-            {
-              "id": "elem_cover_weds_db04_c",
-              "type": "text",
-              "x": 480,
-              "y": 600,
-              "width": 120,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 4,
-              "isLocked": false,
-              "text": "સંગ",
-              "fontFamily": "KAP011",
-              "fontSize": 36,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "700",
-              "letterSpacing": 0,
-              "translations": {
-                "English": "Weds",
-                "Gujarati": "સંગ",
-                "Hindi": "संग",
-                "Marathi": "संग",
-                "Tamil": "சங்க",
-                "Urdu": "سنگ"
-              }
-            },
-            {
-              "id": "elem_cover_groom_db04_g",
-              "type": "text",
-              "x": 600,
-              "y": 600,
-              "width": 400,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 4,
-              "isLocked": false,
-              "text": "ચિ. કિશન",
-              "fontFamily": "KAP011",
-              "fontSize": 44,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "left",
-              "fontWeight": "700",
-              "letterSpacing": 0,
-              "translations": {
-                "English": "Kishan",
-                "Gujarati": "ચિ. કિશન",
-                "Hindi": "चि. किशन",
-                "Marathi": "चि. किशन",
-                "Tamil": "கிஷன்",
-                "Urdu": "کشن"
-              }
-            },
-            {
-              "id": "elem_cover_date_db05",
-              "type": "text",
-              "x": 100,
-              "y": 740,
-              "width": 880,
-              "height": 80,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 5,
-              "isLocked": false,
-              "text": "તા. ૨૩/૦૧/૨૦૨૬, શુક્રવાર",
-              "fontFamily": "Hind Vadodara",
-              "fontSize": 24,
-              "color": "#3D3B3C",
-              "lineHeight": 1.3,
-              "alignment": "center",
-              "fontWeight": "500",
-              "letterSpacing": 1,
-              "translations": {
-                "English": "Friday, January 23, 2026",
-                "Gujarati": "તા. ૨૩/૦૧/૨૦૨૬, શુક્રવાર",
-                "Hindi": "दिनांक: ૨૩/૦૧/२०૨૬,  शुक्रवार",
-                "Marathi": "दिनांक: ૨૩/૦૧/२०૨૬,  शुक्रवार",
-                "Tamil": "ஜனவரி 23, 2026, வெள்ளிக்கிழமை",
-                "Urdu": "جمعہ، 23 جنوری 2026"
-              }
-            },
-            {
-              "id": "elem_cover_guest_db06",
-              "type": "text",
-              "x": 100,
-              "y": 840,
-              "width": 880,
-              "height": 80,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 6,
-              "isLocked": false,
-              "text": "સ્નેહી શ્રી, ...........................................................",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "500",
-              "letterSpacing": 0,
-              "translations": {
-                "English": "To, ............................................................",
-                "Gujarati": "સ્નેહી શ્રી, ...........................................................",
-                "Hindi": "સ્નેહી શ્રી, ...........................................................",
-                "Marathi": "સ્નેહી શ્રી, ..........................................................."
-              }
-            },
-            {
-              "id": "elem_cover_inviter_title_db07",
-              "type": "text",
-              "x": 100,
-              "y": 940,
-              "width": 880,
-              "height": 60,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 7,
-              "isLocked": false,
-              "text": "નિમંત્રક",
-              "fontFamily": "Rasa",
-              "fontSize": 26,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "bold",
-              "letterSpacing": 0,
-              "translations": {
-                "English": "Inviter",
-                "Gujarati": "નિમંત્રક",
-                "Hindi": "निमंत्रक",
-                "Marathi": "निमंत्रक",
-                "Tamil": "அழைப்பாளர்",
-                "Urdu": "داعی"
-              }
-            },
-            {
-              "id": "elem_cover_inviter_details_db08",
-              "type": "text",
-              "x": 100,
-              "y": 1010,
-              "width": 880,
-              "height": 200,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 8,
-              "isLocked": false,
-              "text": "કમલેશકુમાર કાંતિલાલ પટેલ\nવિણાબેન કમલેશકુમાર પટેલ\n૧૨, વિશ્વદૂપા સોસાયટી,\nસુમુલડેરી રોડ, સુરત.",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.5,
-              "alignment": "center",
-              "fontWeight": "500",
-              "letterSpacing": 0,
-              "translations": {
-                "English": "Kamleshkumar Kantilal Patel\nVinaben Kamleshkumar Patel\n12, Vishvadupa Society,\nSumul Dairy Road, Surat.",
-                "Gujarati": "કમલેશકુમાર કાંતિલાલ પટેલ\nવિણાબેન કમલેશકુમાર પટેલ\n૧૨, વિશ્વદૂપા સોસાયટી,\nસુમુલડેરી રોડ, સુરત.",
-                "Hindi": "कमलेशकुमार कांतिलाल पटेल\nवीणाबेन कमलेशकुमार पटेल\n१२, विश्वदूपा सोसायटी,\nसुमुल डेयरी रोड, सूरत.",
-                "Marathi": "कमलेशकुमार कांतिलाल पटेल\nवीणाबेन कमलेशकुमार पटेल\n१२, विश्वदूपा सोसायटी,\nसुमुल डेयरी रोड, सूरत."
-              }
-            }
-          ]
-        },
-        {
-          "id": "page_royal_2",
-          "name": "Welcome Page",
-          "backgroundImage": "/assets/images/wedding/royal_wedding/royal_wedding_card2_1779568940352.jpg",
-          "elements": [
-            {
-              "id": "elem_welcome_mantra_left_db01",
-              "type": "text",
-              "x": 80,
-              "y": 80,
-              "width": 440,
-              "height": 60,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 1,
-              "isLocked": false,
-              "text": "|| શ્રી ગણેશાય નમઃ ||",
-              "fontFamily": "Hind Vadodara",
-              "fontSize": 18,
-              "color": "#AA820A",
-              "lineHeight": 1.2,
-              "alignment": "left",
-              "fontWeight": "600",
-              "translations": {
-                "English": "|| OM SHREE GANESHAYA NAMAH ||",
-                "Gujarati": "|| શ્રી ગણેશાય નમઃ ||",
-                "Hindi": "|| શ્રી ગણેશાય નમઃ ||",
-                "Marathi": "|| શ્રી ગણેશાય નમઃ ||"
-              }
-            },
-            {
-              "id": "elem_welcome_mantra_right_db02",
-              "type": "text",
-              "x": 560,
-              "y": 80,
-              "width": 440,
-              "height": 60,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 2,
-              "isLocked": false,
-              "text": "|| ૐ નમઃ શિવાય ||",
-              "fontFamily": "Hind Vadodara",
-              "fontSize": 18,
-              "color": "#AA820A",
-              "lineHeight": 1.2,
-              "alignment": "right",
-              "fontWeight": "600",
-              "translations": {
-                "English": "|| OM NAMAH SHIVAYA ||",
-                "Gujarati": "|| ૐ નમઃ શિવાય ||",
-                "Hindi": "|| ॐ नमः शिवाय ||",
-                "Marathi": "|| ॐ नमः शिवाय ||"
-              }
-            },
-            {
-              "id": "elem_welcome_title_db03",
-              "type": "text",
-              "x": 100,
-              "y": 180,
-              "width": 880,
-              "height": 120,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 3,
-              "isLocked": false,
-              "text": "લગ્નોત્સવ",
-              "fontFamily": "KAP011",
-              "fontSize": 58,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "700",
-              "letterSpacing": 1,
-              "translations": {
-                "English": "Wedding Celebration",
-                "Gujarati": "લગ્નોત્સવ",
-                "Hindi": "લગ્નોત્સવ",
-                "Marathi": "લગ્નોત્સવ"
-              }
-            },
-            {
-              "id": "elem_welcome_inviter_db04",
-              "type": "text",
-              "x": 100,
-              "y": 340,
-              "width": 880,
-              "height": 290,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 4,
-              "isLocked": false,
-              "text": "સહર્ષ ખુશાલી સાથે જણાવવાનું કે\nઅમારા કુલદેવી શ્રી વિંઝીઆ માતાની અસીમ કૃપા થી\n(વાનપ્રસ્થ નિવાસી) (હાલ સુરત)\nકમલેશકુમાર કાંતિલાલ પટેલ અને વિણાબેન કમલેશકુમાર પટેલ\nની સુપુત્રી",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.6,
-              "alignment": "center",
-              "fontWeight": "400",
-              "letterSpacing": 0,
-              "translations": {
-                "English": "With the blessings of family deity,\nwe are happy to announce the wedding ceremony of the daughter of\nKamleshkumar Kantilal Patel & Vinaben Kamleshkumar Patel",
-                "Gujarati": "સહર્ષ ખુશાલી સાથે જણાવવાનું કે\nઅમારા કુલદેવી શ્રી વિંઝીઆ માતાની અસીમ કૃપા થી\n(વાનપ્રસ્થ નિવાસી) (હાલ સુરત)\nકમલેશકુમાર કાંતિલાલ પટેલ અને વિણાબેન કમલેશકુમાર પટેલ\nની સુપુત્રી"
-              }
-            },
-            {
-              "id": "elem_welcome_bride_db05",
-              "type": "text",
-              "x": 80,
-              "y": 650,
-              "width": 400,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 5,
-              "isLocked": false,
-              "text": "ચિ. હાર્મી",
-              "fontFamily": "KAP011",
-              "fontSize": 44,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "right",
-              "fontWeight": "700",
-              "translations": {
-                "English": "Harmi",
-                "Gujarati": "ચિ. હાર્મી",
-                "Hindi": "चि. हार्मी",
-                "Marathi": "चि. हार्मी",
-                "Tamil": "ஹார்மி",
-                "Urdu": "ہارمی"
-              }
-            },
-            {
-              "id": "elem_welcome_weds_db05_c",
-              "type": "text",
-              "x": 480,
-              "y": 650,
-              "width": 120,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 5,
-              "isLocked": false,
-              "text": "સંગ",
-              "fontFamily": "KAP011",
-              "fontSize": 36,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "700",
-              "translations": {
-                "English": "Weds",
-                "Gujarati": "સંગ",
-                "Hindi": "संग",
-                "Marathi": "संग",
-                "Tamil": "சங்க",
-                "Urdu": "سنگ"
-              }
-            },
-            {
-              "id": "elem_welcome_groom_db05_g",
-              "type": "text",
-              "x": 600,
-              "y": 650,
-              "width": 400,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 5,
-              "isLocked": false,
-              "text": "ચિ. કિશન",
-              "fontFamily": "KAP011",
-              "fontSize": 44,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "left",
-              "fontWeight": "700",
-              "translations": {
-                "English": "Kishan",
-                "Gujarati": "ચિ. કિશન",
-                "Hindi": "चि. किशन",
-                "Marathi": "चि. किशन",
-                "Tamil": "கிஷன்",
-                "Urdu": "کشن"
-              }
-            },
-            {
-              "id": "elem_welcome_groom_details_db06",
-              "type": "text",
-              "x": 100,
-              "y": 780,
-              "width": 880,
-              "height": 380,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 6,
-              "isLocked": false,
-              "text": "જોષીપુરા નિવાસી (હાલ સુરત)\nઅ.સૌ. નીલાબેન અને શ્રી રાજેશભાઈ નરસિંહભાઈ પટેલ\nના સુપુત્ર સાથે\nસંવત ૨૦૮૨ ને મહાસુદ ૬ ને શનિવાર તા. ૨૪/૦૧/૨૦૨૬\nના શુભદિને નિર્ધાર્યા છે.\nઆ શુભ પ્રસંગે નવદંપતિને આશીર્વાદ થી ભીંજવવા\nઆપશ્રી ને પધારવા ભાવભર્યું નમ્રું તેડું પાઠવી એ છીએ.",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.6,
-              "alignment": "center",
-              "fontWeight": "500",
-              "translations": {
-                "English": "With the son of\nNilaben & Rajeshbhai Narsinhbhai Patel (Surat)\nScheduled on Saturday, Jan 24, 2026.\nWe cordially invite you to bless the newlywed couple.",
-                "Gujarati": "જોષીપુરા નિવાસી (હાલ સુરત)\nઅ.સૌ. નીલાબેન અને શ્રી રાજેશભાઈ નરસિંહભાઈ પટેલ\nના સુપુત્ર સાથે\nસંવત ૨૦૮૨ ને મહાસુદ ૬ ને શનિવાર તા. ૨૪/૦૧/૨૦૨૬\nના શુભદિને નિર્ધાર્યા છે.\nઆ શુભ પ્રસંગે નવદંપતિને આશીર્વાદ થી ભીંજવવા\nઆપશ્રી ને પધારવા ભાવભર્યું નમ્રું તેડું પાઠવી એ છીએ."
-              }
-            }
-          ]
-        },
-        {
-          "id": "page_royal_3",
-          "name": "Mangalik Prasango Page",
-          "backgroundImage": "/assets/images/wedding/royal_wedding/royal_wedding_card3_1779568940359.jpg",
-          "elements": [
-            {
-              "id": "elem_mangal_title_db01",
-              "type": "text",
-              "x": 100,
-              "y": 200,
-              "width": 880,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 1,
-              "isLocked": false,
-              "text": "માંગલિક પ્રસંગો",
-              "fontFamily": "KAP011",
-              "fontSize": 46,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "700",
-              "translations": {
-                "English": "Auspicious Ceremonies",
-                "Gujarati": "માંગલિક પ્રસંગો"
-              }
-            },
-            {
-              "id": "elem_mangal_event1_db02",
-              "type": "text",
-              "x": 80,
-              "y": 360,
-              "width": 440,
-              "height": 250,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 2,
-              "isLocked": false,
-              "text": "ગણેશ સ્થાપના\nતા. ૨૩/૦૧/૨૦૨૬ ને શુક્રવાર\nસવારે ૯:૩૦ કલાકે",
-              "fontFamily": "Rasa",
-              "fontSize": 24,
-              "color": "#3E603B",
-              "lineHeight": 1.4,
-              "alignment": "center",
-              "fontWeight": "500",
-              "translations": {
-                "English": "Ganesh Sthapana\nFriday, Jan 23, 2026\nTime: 9:30 AM",
-                "Gujarati": "ગણેશ સ્થાપના\nતા. ૨૩/૦૧/૨૦૨૬ ને શુક્રવાર\nસવારે ૯:૩૦ કલાકે"
-              }
-            },
-            {
-              "id": "elem_mangal_event2_db03",
-              "type": "text",
-              "x": 560,
-              "y": 360,
-              "width": 440,
-              "height": 250,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 3,
-              "isLocked": false,
-              "text": "મંડપ મુહૂર્ત\nતા. ૨૩/૦૧/૨૦૨૬ ને શુક્રવાર\nસવારે ૯:૩૦ કલાકે",
-              "fontFamily": "Rasa",
-              "fontSize": 24,
-              "color": "#3E603B",
-              "lineHeight": 1.4,
-              "alignment": "center",
-              "fontWeight": "500",
-              "translations": {
-                "English": "Mandap Muhurat\nFriday, Jan 23, 2026\nTime: 9:30 AM",
-                "Gujarati": "મંડપ મુહૂર્ત\nતા. ૨૩/૦૧/૨૦૨૬ ને શુક્રવાર\nસવારે ૯:૩૦ કલાકે"
-              }
-            },
-            {
-              "id": "elem_mangal_event3_db04",
-              "type": "text",
-              "x": 100,
-              "y": 650,
-              "width": 880,
-              "height": 250,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 4,
-              "isLocked": false,
-              "text": "ગ્રહશાંતિ\nતા. ૨૩/૦૧/૨૦૨૬ ને શુક્રવાર\nસવારે ૧૦:૩૦ કલાકે\nઆ શુભ પ્રસંગે યોજેલ ભોજન સમારંભ\nબપોરે ૧૨:૦૦ કલાકે\nઆપ શ્રી ........ પધારશોજી",
-              "fontFamily": "Rasa",
-              "fontSize": 24,
-              "color": "#8A1E2B",
-              "lineHeight": 1.5,
-              "alignment": "center",
-              "fontWeight": "500",
-              "translations": {
-                "English": "Grah Shanti\nFriday, Jan 23, 2026\nTime: 10:30 AM\nLunch: 12:00 PM\nYou are cordially invited",
-                "Gujarati": "ગ્રહશાંતિ\nતા. ૨૩/૦૧/૨૦૨૬ ને શુક્રવાર\nસવારે ૧૦:૩૦ કલાકે\nઆ શુભ પ્રસંગે યોજેલ ભોજન સમારંભ\nબપોરે ૧૨:૦૦ કલાકે\nઆપ શ્રી ........ પધારશોજી"
-              }
-            },
-            {
-              "id": "elem_mangal_venue_db05",
-              "type": "text",
-              "x": 100,
-              "y": 930,
-              "width": 880,
-              "height": 200,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 5,
-              "isLocked": false,
-              "text": "શુભ સ્થળ\nકામધેનુ ગૌ જતન લોન્સ & રીસોર્ટ,\nબાયોનિક્સ સ્કુલની બાજુમાં,\nકેનાલ રોડ, લાડવી ગામ, સુરત.",
-              "fontFamily": "Rasa",
-              "fontSize": 24,
-              "color": "#8A1E2B",
-              "lineHeight": 1.5,
-              "alignment": "center",
-              "fontWeight": "500",
-              "translations": {
-                "English": "Venue\nKamdhenu Gau Jatan Lawns & Resort,\nNext to Bionics School,\nCanal Road, Ladvi, Surat.",
-                "Gujarati": "શુભ સ્થળ\nકામધેનુ ગૌ જતન લોન્સ & રીસોર્ટ,\nબાયોનિક્સ સ્કુલની બાજુમાં,\nકેનાલ રોડ, લાડવી ગામ, સુરત."
-              }
-            }
-          ]
-        },
-        {
-          "id": "page_royal_4",
-          "name": "Sangeet Sandhya Page",
-          "backgroundImage": "/assets/images/wedding/royal_wedding/royal_wedding_card4_1779568940365.jpg",
-          "elements": [
-            {
-              "id": "elem_sangeet_title_db01",
-              "type": "text",
-              "x": 100,
-              "y": 200,
-              "width": 880,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 1,
-              "isLocked": false,
-              "text": "સંગીત સંધ્યા",
-              "fontFamily": "KAP011",
-              "fontSize": 46,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "700",
-              "translations": {
-                "English": "Sangeet Sandhya",
-                "Gujarati": "સંગીત સંધ્યા"
-              }
-            },
-            {
-              "id": "elem_sangeet_poem_db02",
-              "type": "text",
-              "x": 100,
-              "y": 320,
-              "width": 880,
-              "height": 300,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 2,
-              "isLocked": false,
-              "text": "તંત્રીલા સૂર શરણાઈના સુરમાં ઉમંગા અજીજ છે,\nહાર્મી-કિશન તણા શાદી બહેન-સુજીજ્ઞા\nપ્રેમના તાંતણે ગુંથવા આતુર છે, આ \"રાસ લીલા\" માં\nઅવસરે તમારા સંગાથ સંગ રમવા \"ચિ.હાર્મી\" આતુર છે.\n\"સંગીત સંધ્યા\" ના મધુર પ્રસંગે આપણા આગમનને વધાવવા\nપટેલ પરિવાર આતુર છે.",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.5,
-              "alignment": "center",
-              "fontWeight": "400",
-              "translations": {
-                "English": "Join us for a beautiful musical night!\nThe family is excited to welcome you and dance together to celebrate Harmi and Kishan's pre-wedding festivities.",
-                "Gujarati": "તંત્રીલા સૂર શરણાઈના સુરમાં ઉમંગા અજીજ છે,\nહાર્મી-કિશન તણા શાદી બહેન-સુજીજ્ઞા\nપ્રેમના તાંતણે ગુંથવા આતુર છે, આ \"રાસ લીલા\" માં\nઅવસરે તમારા સંગાથ સંગ રમવા \"ચિ.હાર્મી\" આતુર છે.\n\"સંગીત સંધ્યા\" ના મધુર પ્રસંગે આપણા આગમનને વધાવવા\nપટેલ પરિવાર આતુર છે."
-              }
-            },
-            {
-              "id": "elem_sangeet_bride_db03",
-              "type": "text",
-              "x": 80,
-              "y": 640,
-              "width": 400,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 3,
-              "isLocked": false,
-              "text": "ચિ. હાર્મી",
-              "fontFamily": "KAP011",
-              "fontSize": 44,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "right",
-              "fontWeight": "700",
-              "translations": {
-                "English": "Harmi",
-                "Gujarati": "ચિ. હાર્મી",
-                "Hindi": "चि. हार्मी",
-                "Marathi": "चि. हार्मी",
-                "Tamil": "ஹார்மி",
-                "Urdu": "ہارمی"
-              }
-            },
-            {
-              "id": "elem_sangeet_weds_db03_c",
-              "type": "text",
-              "x": 480,
-              "y": 640,
-              "width": 120,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 3,
-              "isLocked": false,
-              "text": "સંગ",
-              "fontFamily": "KAP011",
-              "fontSize": 36,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "700",
-              "translations": {
-                "English": "Weds",
-                "Gujarati": "સંગ",
-                "Hindi": "संग",
-                "Marathi": "संग",
-                "Tamil": "சங்க",
-                "Urdu": "سنگ"
-              }
-            },
-            {
-              "id": "elem_sangeet_groom_db03_g",
-              "type": "text",
-              "x": 600,
-              "y": 640,
-              "width": 400,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 3,
-              "isLocked": false,
-              "text": "ચિ. કિશન",
-              "fontFamily": "KAP011",
-              "fontSize": 44,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "left",
-              "fontWeight": "700",
-              "translations": {
-                "English": "Kishan",
-                "Gujarati": "ચિ. કિશન",
-                "Hindi": "चि. किशन",
-                "Marathi": "चि. किशन",
-                "Tamil": "கிஷன்",
-                "Urdu": "کشن"
-              }
-            },
-            {
-              "id": "elem_sangeet_details_db04",
-              "type": "text",
-              "x": 100,
-              "y": 760,
-              "width": 880,
-              "height": 160,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 4,
-              "isLocked": false,
-              "text": "સૂર હિલોળે ઝુલાવશું, સૂર નૃત્ય સંધ્યામાં\nઆપવાનું ભાવભર્યું નિમંત્રણ છે.\nશુક્રવાર, તા. ૨૩-૦૧-૨૦૨૬ નાં રોજ\nસાંજે ૬:૦0 કલાકે",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.5,
-              "alignment": "center",
-              "fontWeight": "500",
-              "translations": {
-                "English": "Join us for musical & dance night\nFriday, January 23, 2026\nTime: 6:00 PM",
-                "Gujarati": "સૂર હિલોળે ઝુલાવશું, સૂર નૃત્ય સંધ્યામાં\nઆપવાનું ભાવભર્યું નિમંત્રણ છે.\nશુક્રવાર, તા. ૨૩-૦૧-૨૦૨૬ નાં રોજ\nસાંજે ૬:૦0 કલાકે"
-              }
-            },
-            {
-              "id": "elem_sangeet_bhojan_db05",
-              "type": "text",
-              "x": 100,
-              "y": 910,
-              "width": 880,
-              "height": 120,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 5,
-              "isLocked": false,
-              "text": "સ્વરૂચિ ભોજન સમારંભ\nસાંજે ૭:૩૦ કલાકે\nઆપશ્રી .......... પધારશોજી",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.4,
-              "alignment": "center",
-              "fontWeight": "500",
-              "translations": {
-                "English": "Svaruchi Bhojan\nTime: 7:30 PM\nPlease join us",
-                "Gujarati": "સ્વરૂચિ ભોજન સમારંભ\nસાંજે ૭:૩૦ કલાકે\nઆપશ્રી .......... પધારશોજી"
-              }
-            },
-            {
-              "id": "elem_sangeet_venue_db06",
-              "type": "text",
-              "x": 100,
-              "y": 1030,
-              "width": 880,
-              "height": 160,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 6,
-              "isLocked": false,
-              "text": "શુભ સ્થળ\nકામધેનુ ગૌ જતન લોન્સ & રીસોર્ટ,\nબાયોનિક્સ સ્કુલની બાજુમાં,\nકેનાલ રોડ, લાડવી ગામ, સુરત.",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.5,
-              "alignment": "center",
-              "fontWeight": "500",
-              "translations": {
-                "English": "Venue\nKamdhenu Gau Jatan Lawns & Resort,\nNext to Bionics School,\nCanal Road, Ladvi, Surat.",
-                "Gujarati": "શુભ સ્થળ\nકામધેનુ ગૌ જતન લોન્સ & રીસોર્ટ,\nબાયોનિક્સ સ્કુલની બાજુમાં,\nકેનાલ રોડ, લાડવી ગામ, સુરત."
-              }
-            }
-          ]
-        },
-        {
-          "id": "page_royal_5",
-          "name": "Parinay Utsav Page",
-          "backgroundImage": "/assets/images/wedding/royal_wedding/royal_wedding_card5_1779568940370.jpg",
-          "elements": [
-            {
-              "id": "elem_parinay_title_db01",
-              "type": "text",
-              "x": 100,
-              "y": 200,
-              "width": 880,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 1,
-              "isLocked": false,
-              "text": "પરિણય ઉત્સવ",
-              "fontFamily": "KAP011",
-              "fontSize": 46,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "700",
-              "translations": {
-                "English": "Wedding Ceremony",
-                "Gujarati": "પરિણય ઉત્સવ"
-              }
-            },
-            {
-              "id": "elem_parinay_intro_db02",
-              "type": "text",
-              "x": 100,
-              "y": 310,
-              "width": 880,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 2,
-              "isLocked": false,
-              "text": "લગ્ન એ બે આત્માનું મિલન છે.\nસ્વર્ગમાં રચાય છે. અને પૃથ્વી પર ઉજવાય છે.",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.5,
-              "alignment": "center",
-              "fontWeight": "500",
-              "translations": {
-                "English": "Marriage is a union of two souls.\nMade in heaven, celebrated on earth.",
-                "Gujarati": "લગ્ન એ બે આત્માનું મિલન છે.\nસ્વર્ગમાં રચાય છે. અને પૃથ્વી પર ઉજવાય છે."
-              }
-            },
-            {
-              "id": "elem_parinay_bride_db03",
-              "type": "text",
-              "x": 80,
-              "y": 430,
-              "width": 400,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 3,
-              "isLocked": false,
-              "text": "ચિ. હાર્મી",
-              "fontFamily": "KAP011",
-              "fontSize": 44,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "right",
-              "fontWeight": "700",
-              "translations": {
-                "English": "Harmi",
-                "Gujarati": "ચિ. હાર્મી",
-                "Hindi": "चि. हार्मी",
-                "Marathi": "चि. हार्मी",
-                "Tamil": "ஹார்மி",
-                "Urdu": "ہارمی"
-              }
-            },
-            {
-              "id": "elem_parinay_weds_db03_c",
-              "type": "text",
-              "x": 480,
-              "y": 430,
-              "width": 120,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 3,
-              "isLocked": false,
-              "text": "સંગ",
-              "fontFamily": "KAP011",
-              "fontSize": 36,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "700",
-              "translations": {
-                "English": "Weds",
-                "Gujarati": "સંગ",
-                "Hindi": "संग",
-                "Marathi": "संग",
-                "Tamil": "சங்க",
-                "Urdu": "سنگ"
-              }
-            },
-            {
-              "id": "elem_parinay_groom_db03_g",
-              "type": "text",
-              "x": 600,
-              "y": 430,
-              "width": 400,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 3,
-              "isLocked": false,
-              "text": "ચિ. કિશન",
-              "fontFamily": "KAP011",
-              "fontSize": 44,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "left",
-              "fontWeight": "700",
-              "translations": {
-                "English": "Kishan",
-                "Gujarati": "ચિ. કિશન",
-                "Hindi": "चि. किशन",
-                "Marathi": "चि. किशन",
-                "Tamil": "கிஷன்",
-                "Urdu": "کشن"
-              }
-            },
-            {
-              "id": "elem_parinay_under_db04",
-              "type": "text",
-              "x": 100,
-              "y": 540,
-              "width": 880,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 4,
-              "isLocked": false,
-              "text": "ના શુભ લગ્ન પ્રસંગે આશીર્ભૂત શુભવિવાહ સમારંભ માં\nશનિવાર તા. ૨૪/૦૧/૨૦૨૬ ના રોજ",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.5,
-              "alignment": "center",
-              "fontWeight": "500",
-              "translations": {
-                "English": "On their auspicious wedding ceremony\nSaturday, January 24, 2026",
-                "Gujarati": "ના શુભ લગ્ન પ્રસંગે આશીર્ભૂત શુભવિવાહ સમારંભ માં\nશનિવાર તા. ૨૪/૦૧/૨૦૨૬ ના રોજ"
-              }
-            },
-            {
-              "id": "elem_parinay_left_db05",
-              "type": "text",
-              "x": 80,
-              "y": 670,
-              "width": 440,
-              "height": 160,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 5,
-              "isLocked": false,
-              "text": "જાન આગમન\nતા. ૨૪/૦૧/૨૦૨૬ ને શનિવાર\nસાંજે ૫:૦૦ કલાકે",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#3E603B",
-              "lineHeight": 1.4,
-              "alignment": "center",
-              "translations": {
-                "English": "Jaan Aagman\nSaturday, Jan 24, 2026\nTime: 5:00 PM",
-                "Gujarati": "જાન આગમન\nતા. ૨૪/૦૧/૨૦૨૬ ને શનિવાર\nસાંજે ૫:૦૦ કલાકે"
-              }
-            },
-            {
-              "id": "elem_parinay_right_db06",
-              "type": "text",
-              "x": 560,
-              "y": 670,
-              "width": 440,
-              "height": 160,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 6,
-              "isLocked": false,
-              "text": "હસ્ત મેળાપ\nતા. ૨૪/૦૧/૨૦૨૬ ને શનિવાર\nસાંજે ૬:૩૦ કલાકે",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#3E603B",
-              "lineHeight": 1.4,
-              "alignment": "center",
-              "translations": {
-                "English": "Hast Melap\nSaturday, Jan 24, 2026\nTime: 6:30 PM",
-                "Gujarati": "હસ્ત મેળાપ\nતા. ૨૪/૦૧/૨૦૨૬ ને શનિવાર\nસાંજે ૬:૩૦ કલાકે"
-              }
-            },
-            {
-              "id": "elem_parinay_bhojan_left_db07",
-              "type": "text",
-              "x": 80,
-              "y": 860,
-              "width": 440,
-              "height": 180,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 7,
-              "isLocked": false,
-              "text": "સ્વરૂચિ ભોજન\nસાંજે ૭:૩૦ કલાકે\nઆપશ્રી .......... પધારશોજી",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.4,
-              "alignment": "center",
-              "translations": {
-                "English": "Feast Invitation\nTime: 7:30 PM\nPlease join us",
-                "Gujarati": "સ્વરૂચિ ભોજન\nસાંજે ૭:૩૦ કલાકે\nઆપશ્રી .......... પધારશોજી"
-              }
-            },
-            {
-              "id": "elem_parinay_sthala_right_db08",
-              "type": "text",
-              "x": 560,
-              "y": 860,
-              "width": 440,
-              "height": 180,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 8,
-              "isLocked": false,
-              "text": "લગ્ન સ્થળ\nકામધેનુ ગૌ જતન લોન્સ & રીસોર્ટ,\nબાયોનિક્સ સ્કુલની બાજુમાં,\nકેનાલ રોડ, લાડવી ગામ, સુરત.",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.4,
-              "alignment": "center",
-              "translations": {
-                "English": "Venue\nKamdhenu Gau Jatan Lawns & Resort,\nNext to Bionics School,\nCanal Road, Ladvi, Surat.",
-                "Gujarati": "લગ્ન સ્થળ\nકામધેનુ ગૌ જતન લોન્સ & રીસોર્ટ,\nબાયોનિક્સ સ્કુલની બાજુમાં,\nકેનાલ રોડ, લાડવી ગામ, સુરત."
-              }
-            }
-          ]
-        },
-        {
-          "id": "page_royal_6",
-          "name": "Family Details Page",
-          "backgroundImage": "/assets/images/wedding/royal_wedding/royal_wedding_card6_1779568940378.jpg",
-          "elements": [
-            {
-              "id": "elem_welcome_mantra_page6_db01",
-              "type": "text",
-              "x": 100,
-              "y": 60,
-              "width": 880,
-              "height": 60,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 1,
-              "isLocked": false,
-              "text": "|| શ્રી ગણેશાય નમઃ ||",
-              "fontFamily": "Hind Vadodara",
-              "fontSize": 18,
-              "color": "#AA820A",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "600",
-              "translations": {
-                "English": "|| OM SHREE GANESHAYA NAMAH ||",
-                "Gujarati": "|| શ્રી ગણેશાય નમઃ ||"
-              }
-            },
-            {
-              "id": "elem_family_snehadhin_db02",
-              "type": "text",
-              "x": 100,
-              "y": 130,
-              "width": 880,
-              "height": 50,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 2,
-              "isLocked": false,
-              "text": ":: સ્નેહાધીન ::",
-              "fontFamily": "KAP011",
-              "fontSize": 32,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "700",
-              "translations": {
-                "English": ":: Snehadhin ::",
-                "Gujarati": ":: સ્નેહાધીન ::"
-              }
-            },
-            {
-              "id": "elem_family_snehadhin_left_db03",
-              "type": "text",
-              "x": 80,
-              "y": 190,
-              "width": 440,
-              "height": 250,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 3,
-              "isLocked": false,
-              "text": "સ્વ. રામભાઈ સોમાભાઈ પટેલ\nસ્વ. કેશવલાલ સોમાભાઈ પટેલ\nસ્વ. મણિલાલ સોમાભાઈ પટેલ\nશ્રી શંભુભાઈ કાશીરામ પટેલ\nશ્રી મહાદેવભાઈ અંબાલાલ પટેલ\nશ્રી ભગુભાઈ જગજીવનભાઈ પટેલ\nશ્રી ભરતભાઈ કેશવલાલ પટેલ",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.5,
-              "alignment": "center",
-              "translations": {
-                "English": "Late Rambhai Somabhai Patel\nLate Keshavlal Somabhai Patel\nLate Manilal Somabhai Patel\nShri Shambhubhai Kashiram Patel\nShri Mahadevbhai Ambalal Patel\nShri Bhagubhai Jagjivanbhai Patel\nShri Bharatbhai Keshavlal Patel",
-                "Gujarati": "સ્વ. રામભાઈ સોમાભાઈ પટેલ\nસ્વ. કેશવલાલ સોમાભાઈ પટેલ\nસ્વ. મણિલાલ સોમાભાઈ પટેલ\nશ્રી શંભુભાઈ કાશીરામ પટેલ\nશ્રી મહાદેવભાઈ અંબાલાલ પટેલ\nશ્રી ભગુભાઈ જગજીવનભાઈ પટેલ\nશ્રી ભરતભાઈ કેશવલાલ પટેલ"
-              }
-            },
-            {
-              "id": "elem_family_snehadhin_right_db04",
-              "type": "text",
-              "x": 560,
-              "y": 190,
-              "width": 440,
-              "height": 250,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 4,
-              "isLocked": false,
-              "text": "સ્વ. સોમાભાઈ બોયદાસ પટેલ\nસ્વ. અંબાલાલ સોમાભાઈ પટેલ\nસ્વ. આશાભાઈ સોમાભાઈ પટેલ\nસ્વ. ધનજીભાઈ રવજીભાઈ પટેલ\nશ્રી વિનોદભાઈ શંભુભાઈ પટેલ\nશ્રી વસંતભાઈ રમણભાઈ પટેલ\nશ્રી ચેતનભાઈ કેશવલાલ પટેલ",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.5,
-              "alignment": "center",
-              "fontWeight": "500",
-              "translations": {
-                "English": "Late Somabhai Boydas Patel\nLate Ambalal Somabhai Patel\nLate Ashabhai Somabhai Patel\nLate Dhanjibhai Ravjibhai Patel\nShri Vinodbhai Shambhubhai Patel\nShri Vasantbhai Ramanbhai Patel\nShri Chetanbhai Keshavlal Patel",
-                "Gujarati": "સ્વ. સોમાભાઈ બોયદાસ પટેલ\nસ્વ. અંબાલાલ સોમાભાઈ પટેલ\nસ્વ. આશાભાઈ સોમાભાઈ પટેલ\nસ્વ. ધનજીભાઈ રવજીભાઈ પટેલ\nશ્રી વિનોદભાઈ શંભુભાઈ પટેલ\nશ્રી વસંતભાઈ રમણભાઈ પટેલ\nશ્રી ચેતનભાઈ કેશવલાલ પટેલ"
-              }
-            },
-            {
-              "id": "elem_family_darshnabhilashi_db05",
-              "type": "text",
-              "x": 100,
-              "y": 460,
-              "width": 880,
-              "height": 50,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 5,
-              "isLocked": false,
-              "text": ":: દર્શનાભિલાષી ::",
-              "fontFamily": "KAP011",
-              "fontSize": 32,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "700",
-              "translations": {
-                "English": ":: Darshnabhilashi ::",
-                "Gujarati": ":: દર્શનાભિલાષી ::"
-              }
-            },
-            {
-              "id": "elem_family_darshna_left_db06",
-              "type": "text",
-              "x": 80,
-              "y": 520,
-              "width": 440,
-              "height": 250,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 6,
-              "isLocked": false,
-              "text": "શ્રી યોગેશ ભગવાનભાઈ પટેલ\nશ્રી વિપુલ બળદેવભાઈ પટેલ\nશ્રી પ્રીતેશ બળદેવભાઈ પટેલ\nશ્રી હર્ષદ ભગવાનભાઈ પટેલ\nત્વ. કાર્તિક મનુભાઈ પટેલ\nશ્રી સાગર ભરતભાઈ પટેલ\nશ્રી ગૌતમ ભરતભાઈ પટેલ",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.5,
-              "alignment": "center",
-              "translations": {
-                "English": "Shri Yogesh Bhagwanbhai Patel\nShri Vipul Baldevbhai Patel\nShri Pritesh Baldevbhai Patel\nShri Harshad Bhagwanbhai Patel\nLate Kartik Manubhai Patel\nShri Sagar Bharatbhai Patel\nShri Gautam Bharatbhai Patel",
-                "Gujarati": "શ્રી યોગેશ ભગવાનભાઈ પટેલ\nશ્રી વિપુલ બળદેવભાઈ પટેલ\nશ્રી પ્રીતેશ બળદેવભાઈ પટેલ\nશ્રી હર્ષદ ભગવાનભાઈ પટેલ\nત્વ. કાર્તિક મનુભાઈ પટેલ\nશ્રી સાગર ભરતભાઈ પટેલ\nશ્રી ગૌતમ ભરતભાઈ પટેલ"
-              }
-            },
-            {
-              "id": "elem_family_darshna_right_db07",
-              "type": "text",
-              "x": 560,
-              "y": 520,
-              "width": 440,
-              "height": 250,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 7,
-              "isLocked": false,
-              "text": "શ્રી આકાશ વિનોદભાઈ પટેલ\nશ્રી હર્ષ ચેતનભાઈ પટેલ\nશ્રી સાર્થક રાકેશભાઈ પટેલ\nશ્રી દેવ વિપુલભાઈ પટેલ\nશ્રી અનંત યોગેશભાઈ પટેલ\nશ્રી હેત હર્ષદભાઈ પટેલ\nશ્રી સ્વયં વસંતભાઈ પટેલ",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.5,
-              "alignment": "center",
-              "translations": {
-                "English": "Shri Akash Vinodbhai Patel\nShri Harsh Chetanbhai Patel\nShri Sarthak Rakeshbhai Patel\nShri Dev Vipulbhai Patel\nShri Anant Yogeshbhai Patel\nShri Het Harshadbhai Patel\nShri Swayam Vasantbhai Patel",
-                "Gujarati": "શ્રી આકાશ વિનોદભાઈ પટેલ\nશ્રી હર્ષ ચેતનભાઈ પટેલ\nશ્રી સાર્થક રાકેશભાઈ પટેલ\nશ્રી દેવ વિપુલભાઈ પટેલ\nશ્રી અનંત યોગેશભાઈ પટેલ\nશ્રી હેત હર્ષદભાઈ પટેલ\nશ્રી સ્વયં વસંતભાઈ પટેલ"
-              }
-            },
-            {
-              "id": "elem_family_mosalu_db08",
-              "type": "text",
-              "x": 100,
-              "y": 790,
-              "width": 880,
-              "height": 180,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 8,
-              "isLocked": false,
-              "text": ":: મામેરૂ મોસાળ ::\n\nપટેલ હર્ષદભાઈ કાંતિલાલ\nસ્વ. પટેલ મનીષભાઈ કાંતિલાલ\nપટેલ દેવેન્દ્રભાઈ અંબાલાલ",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.4,
-              "alignment": "center",
-              "translations": {
-                "English": ":: Mameru Mosal ::\n\nPatel Harshadbhai Kantilal\nLate Patel Manishbhai Kantilal\nPatel Devendrabhai Ambalal",
-                "Gujarati": ":: મામેરૂ મોસાળ ::\n\nપટેલ હર્ષદભાઈ કાંતિલાલ\nસ્વ. પટેલ મનીષભાઈ કાંતિલાલ\nપટેલ દેવેન્દ્રભાઈ અંબાલાલ"
-              }
-            },
-            {
-              "id": "elem_family_ladla_db09",
-              "type": "text",
-              "x": 100,
-              "y": 990,
-              "width": 880,
-              "height": 180,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 9,
-              "isLocked": false,
-              "text": ":: માસી અને ફોઈ ના લાડલા ::\n\nશૌર્ય ભાવિનકુમાર પટેલ\nરીવાંશ ભાવિનકુમાર પટેલ\nઅંશાંશ ચિંતનભાઈ પટેલ",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.4,
-              "alignment": "center",
-              "translations": {
-                "English": ":: Dear Children (Masi & Foi) ::\n\nShaurya Bhavinkumar Patel\nRivansh Bhavinkumar Patel\nAnshansh Chintanbhai Patel",
-                "Gujarati": ":: માસી અને ફોઈ ના લાડલા ::\n\nશૌર્ય ભાવિનકુમાર પટેલ\nરીવાંશ ભાવિનકુમાર પટેલ\nઅંશાંશ ચિંતનભાઈ પટેલ"
-              }
-            },
-            {
-              "id": "elem_family_tahuko_db10",
-              "type": "text",
-              "x": 100,
-              "y": 1190,
-              "width": 880,
-              "height": 200,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 10,
-              "isLocked": false,
-              "text": ":: ટહુકો ::\n\nદુમક દુમક ચાલતા જાય, લગ્ન ગીત ગાતા જાય,\nકોઈ પુછે ક્યાં ચાલ્યા\nઆ જીજ્ઞાસા માસીની શાદી કહેતા જાય,\nઅમે તો અમારા ફોઈ અને દીદી ના લગ્ન માં જઈએ છીએ .......\nખુશી, કીર્તલ, કેવલ, ક્રિષ્ના, હેત્વી, રુદ્ર, નિતાંશ",
-              "fontFamily": "Rasa",
-              "fontSize": 20,
-              "color": "#8A1E2B",
-              "lineHeight": 1.4,
-              "alignment": "center",
-              "fontWeight": "500",
-              "translations": {
-                "English": ":: Tahuko ::\n\nWalking with tiny steps, singing wedding songs,\nIf anyone asks where we go,\nWe tell them we are going to our Foi and Didi's wedding...\nKhushi, Kirtal, Keval, Krishna, Hetvi, Rudra, Nitansh",
-                "Gujarati": ":: ટહુકો ::\n\nદુમક દુમક ચાલતા જાય, લગ્ન ગીત ગાતા જાય,\nકોઈ પુછે ક્યાં ચાલ્યા\nઆ જીજ્ઞાસા માસીની શાદી કહેતા જાય,\nઅમે તો અમારા ફોઈ અને દીદી ના લગ્ન માં જઈએ છીએ .......\nખુશી, કીર્તલ, કેવલ, ક્રિષ્ના, હેત્વી, રુદ્ર, નિતાંશ"
-              }
-            }
-          ]
-        },
-        {
-          "id": "page_royal_7",
-          "name": "Contact / Thanks Page",
-          "backgroundImage": "/assets/images/wedding/royal_wedding/royal_wedding_card7_1779568940381.jpg",
-          "elements": [
-            {
-              "id": "elem_thanks_mantra_db01",
-              "type": "text",
-              "x": 100,
-              "y": 80,
-              "width": 880,
-              "height": 60,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 1,
-              "isLocked": false,
-              "text": "|| શ્રી ગણેશાય નમઃ ||",
-              "fontFamily": "Hind Vadodara",
-              "fontSize": 18,
-              "color": "#AA820A",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "600",
-              "translations": {
-                "English": "|| OM SHREE GANESHAYA NAMAH ||",
-                "Gujarati": "|| શ્રી ગણેશાય નમઃ ||"
-              }
-            },
-            {
-              "id": "elem_thanks_pratiksha_db02",
-              "type": "text",
-              "x": 100,
-              "y": 150,
-              "width": 880,
-              "height": 60,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 2,
-              "isLocked": false,
-              "text": "આપ સ્નેહીજનોની પ્રતિક્ષામાં",
-              "fontFamily": "Rasa",
-              "fontSize": 24,
-              "color": "#8A1E2B",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "500",
-              "translations": {
-                "English": "Waiting for your presence",
-                "Gujarati": "આપ સ્નેહીજનોની પ્રતિક્ષામાં"
-              }
-            },
-            {
-              "id": "elem_thanks_title_db03",
-              "type": "text",
-              "x": 100,
-              "y": 220,
-              "width": 880,
-              "height": 100,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 3,
-              "isLocked": false,
-              "text": "શ્રી પટેલ પરિવાર",
-              "fontFamily": "KAP011",
-              "fontSize": 48,
-              "color": "#3E603B",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "700",
-              "translations": {
-                "English": "Shree Patel Family",
-                "Gujarati": "શ્રી પટેલ પરિવાર"
-              }
-            },
-            {
-              "id": "elem_thanks_desc_db04",
-              "type": "text",
-              "x": 100,
-              "y": 350,
-              "width": 880,
-              "height": 220,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 4,
-              "isLocked": false,
-              "text": "આ ભાવભર્યું આમંત્રણ રુબરૂ મળ્યા તુલ્ય સમજવું\nOK\nએવો જવાબ આપશો.\nઆ ડિજીટલ આમંત્રણ સ્વીકાર્યું તે બદલ\nઆપનો ખૂબ ખૂબ આભાર...",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.5,
-              "alignment": "center",
-              "fontWeight": "500",
-              "translations": {
-                "English": "Please consider this digital invitation as personal.\nPlease reply with OK.\nThank you for accepting our digital invitation.",
-                "Gujarati": "આ ભાવભર્યું આમંત્રણ રુબરૂ મળ્યા તુલ્ય સમજવું\nOK\nએવો જવાબ આપશો.\nઆ ડિજીટલ આમંત્રણ સ્વીકાર્યું તે બદલ\nઆપનો ખૂબ ખૂબ આભાર..."
-              }
-            },
-            {
-              "id": "elem_thanks_nimantrak_db05",
-              "type": "text",
-              "x": 100,
-              "y": 600,
-              "width": 880,
-              "height": 250,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 5,
-              "isLocked": false,
-              "text": ":: નિમંત્રક ::\n\nસ્વ. ચંદ્રકાન્તભાઈ રામભાઈ પટેલ\nશ્રી પિયુષભાઈ રામભાઈ પટેલ\nશ્રી ચિંતનભાઈ પિયુષભાઈ પટેલ",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.5,
-              "alignment": "center",
-              "fontWeight": "500",
-              "translations": {
-                "English": ":: Inviters ::\n\nLate Chandrakantbhai Rambhai Patel\nShri Piyushbhai Rambhai Patel\nShri Chintanbhai Piyushbhai Patel",
-                "Gujarati": ":: નિમંત્રક ::\n\nસ્વ. ચંદ્રકાન્તભાઈ રામભાઈ પટેલ\nશ્રી પિયુષભાઈ રામભાઈ પટેલ\nશ્રી ચિંતનભાઈ પિયુષભાઈ પટેલ"
-              }
-            },
-            {
-              "id": "elem_thanks_bottom_db06",
-              "type": "text",
-              "x": 100,
-              "y": 880,
-              "width": 880,
-              "height": 80,
-              "rotation": 0,
-              "opacity": 1,
-              "zIndex": 6,
-              "isLocked": false,
-              "text": "ચાંદલો અને ભેટ અસ્વીકાર્ય છે.",
-              "fontFamily": "Rasa",
-              "fontSize": 22,
-              "color": "#8A1E2B",
-              "lineHeight": 1.2,
-              "alignment": "center",
-              "fontWeight": "bold",
-              "translations": {
-                "English": "Gift and Cash not accepted.",
-                "Gujarati": "ચાંદલો અને ભેટ અસ્વીકાર્ય છે."
-              }
-            }
-          ]
-        }
-      ],
-      "createdAt": "2026-05-23T20:42:20.397Z",
-      "updatedAt": "2026-05-23T20:58:48.626Z"
-    }
-  ],
-  "users": [
-    {
-      "id": "user_1",
-      "email": "vicky.patel@gmail.com",
-      "displayName": "Vicky Patel",
-      "role": "editor",
-      "isBlocked": false,
-      "invitationCount": 12,
-      "draftsCount": 3,
-      "createdAt": "2026-05-23T01:36:27.020Z",
-      "updatedAt": "2026-05-23T01:41:03.966Z"
-    },
-    {
-      "id": "user_2",
-      "email": "sneha.sharma@yahoo.com",
-      "displayName": "Sneha Sharma",
-      "role": "content_manager",
-      "isBlocked": false,
-      "invitationCount": 4,
-      "draftsCount": 1,
-      "createdAt": "2026-05-23T01:36:27.020Z",
-      "updatedAt": "2026-05-23T01:41:05.468Z"
-    },
-    {
-      "id": "user_3",
-      "email": "rajesh.shah@hotmail.com",
-      "displayName": "Rajesh Shah",
-      "role": "editor",
-      "isBlocked": true,
-      "invitationCount": 0,
-      "draftsCount": 0,
-      "createdAt": "2026-05-23T01:36:27.020Z"
-    }
-  ],
-  "subscriptions": [
-    {
-      "id": "monthly",
-      "name": "Monthly Premium",
-      "price": 99,
-      "description": "Access all monthly premium templates.",
-      "isActive": true,
-      "includedCategories": [],
-      "includedTemplateIds": [],
-      "createdAt": "2026-05-23T01:36:27.020Z",
-      "updatedAt": "2026-05-23T01:36:27.020Z"
-    },
-    {
-      "id": "yearly",
-      "name": "Yearly Premium",
-      "price": 499,
-      "description": "Access all premium templates including yearly exclusives.",
-      "isActive": true,
-      "includedCategories": [],
-      "includedTemplateIds": [],
-      "createdAt": "2026-05-23T01:36:27.020Z",
-      "updatedAt": "2026-05-23T01:36:27.020Z"
-    }
-  ],
   "app_users": [
     {
-      "id": "app_user_1",
-      "phone": "+919876543210",
-      "email": "amit.patel@gmail.com",
-      "displayName": "Amit Patel",
-      "provider": "phone",
+      "id": "cYekpcFZoASbdlBGuEDVz0933NT2",
+      "uid": "cYekpcFZoASbdlBGuEDVz0933NT2",
+      "name": "IMSC-IT-B-41 JAY ITALIYA",
+      "email": "imsc20096jay@ljku.edu.in",
+      "phone": "+911122334400",
+      "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjWWCvBUW3M0kent60hM6gNSUcxYGSHG5OvBKa_XlAtMENdY7MkbnvSpPSj7ZApd7Q6NsKEaLbRvoErww9r1jTlhS0H6fGzeCPu4C-ArA2eftGg4obZFpRWgQKRq3iaSJI5ZTx5JyCitgBOcFTZvwSRlbY8V5vJeWYA77VPsG3aV1SpX092oByiiDFYxUvmlZ6390_Tm6PYrox6oIDrxARO4CS8tOi-L8kj0R--ERNhid84D3bDIGYj3Zj3hAKIaae726IsDNPpQ0ddLkReQLm6va3x_wKpSDp5eiRHdMIzILbH0UltJvN6SzX5IAVIxjuXoXoUcoADG8w00DFmXZnClBqWCs_fbulM8CPGxzw2uPMI1vH0YkT0iLLSxFtix6KLGL3lEX8WNCBovkS6XNdN3d38JUgLKCg8b-RYVhZy8jR87q-EIf5nnlyINUJjYwBbvWsK3INNlsCovkFM-_Eep0aIvkGTXm5UKKknu-m5NZZsaBzo4zj9A7D0UU6eqPwRr8LY1fKmItPnTI0GTBbnrADJ3ZMPlKZTyF3Xze59lw3p0oNiJDYqZYAfwL-UCpLJdrCUVxrMa7Qzom6IkhOYrDR8X8gEcOK-ImOimHPWpMk3-U-QB9EDjh0lnIztlPXkTxD67xIJ1rcZETmSJU02Kq3Dz1P8y1iWAyJJ787EhyUvs8juTaL1UmDryB_HWDI_2lIzA7AmgVo1uSott2HGfBszCWr1VHZua5tFNVKcIg822N-mDs23sNgGNg2vzVW2NG8kqon-t13vJhIB8_2M5V4H1S7TZhU4WIFm4DmlHOSGW1bLZUefN1I1iDw_Q8GVKWwbLx46mw2Dd4Ft13Nn6BOXH-LKEbAvHtD6rYpLww8oK9HiraDAo3pZ_OToJ3bjFZTPNl_HGEUrhF8xPgDE-ZHzqytvKmc-8mAxg5TULaX-VTdFITpfIfmAxSbMDfibOI5Pms4diEEKYI12R3c7c6NsUTomZcirxSnL_bscQ2B6L-Qh_h2sAcXgFGdwmbyskYdA4wGkNl9ddMw6Wl3oQ4vvVBWPclShr66v3xclQZxQTp-C_bxw=s96-c",
+      "provider": "google",
+      "role": "user",
+      "accountStatus": "active",
       "isBlocked": false,
-      "invitationCount": 5,
-      "draftsCount": 2,
-      "createdAt": "2026-06-11T10:58:09.154Z"
+      "lastLoginAt": "2026-06-15T05:33:02.502Z",
+      "updatedAt": "2026-06-15T05:40:52.293Z",
+      "createdAt": "2026-06-13T12:24:40.241Z",
+      "settings": {
+        "app_language": "Gujarati",
+        "invitation_language": "Marathi",
+        "invitation_languages_list": [
+          "English",
+          "Gujarati",
+          "Hindi",
+          "Marathi"
+        ]
+      }
     },
     {
-      "id": "app_user_2",
-      "phone": "+918765432109",
-      "email": "priya.mehta@yahoo.com",
-      "displayName": "Priya Mehta",
+      "phone": "+911122334455",
       "provider": "google",
+      "accountStatus": "active",
       "isBlocked": false,
-      "invitationCount": 14,
-      "draftsCount": 4,
-      "createdAt": "2026-06-11T10:58:09.154Z"
-    },
-    {
-      "id": "app_user_3",
-      "phone": "+917654321098",
-      "email": "rahul.sharma@outlook.com",
-      "displayName": "Rahul Sharma",
-      "provider": "google",
-      "isBlocked": true,
       "invitationCount": 0,
       "draftsCount": 0,
-      "createdAt": "2026-06-11T10:58:09.154Z"
+      "createdAt": "2026-06-13T11:27:27.660Z",
+      "lastLoginAt": "2026-06-15T05:28:05.718Z",
+      "id": "app_1e067pbwq",
+      "updatedAt": "2026-06-15T10:13:56.565Z",
+      "settings": {
+        "app_language": "English",
+        "invitation_language": "English",
+        "invitation_languages_list": [
+          "Gujarati",
+          "Hindi",
+          "Marathi",
+          "Urdu",
+          "English"
+        ]
+      },
+      "uid": "app_1e067pbwq",
+      "name": "test",
+      "email": "abc@gmail.com",
+      "profilePhoto": ""
+    },
+    {
+      "phone": "+916355983475",
+      "provider": "google",
+      "accountStatus": "active",
+      "isBlocked": false,
+      "invitationCount": 0,
+      "draftsCount": 0,
+      "createdAt": "2026-06-13T10:03:58.182Z",
+      "lastLoginAt": "2026-06-15T09:15:00.124Z",
+      "id": "app_8ey1y8t2u",
+      "updatedAt": "2026-06-15T09:21:07.022Z",
+      "settings": {
+        "app_language": "Hindi",
+        "invitation_language": "English",
+        "invitation_languages_list": [
+          "Gujarati",
+          "Hindi",
+          "Marathi",
+          "Urdu",
+          "English"
+        ]
+      },
+      "uid": "app_8ey1y8t2u",
+      "name": "Darshan Ghoghari",
+      "email": "ghogharidarshan1202@gmail.com",
+      "profilePhoto": "http://192.168.1.68:5000/assets/images/general/asset_1000342230_1781346196568.jpg"
+    }
+  ],
+  "user_drafts": [],
+  "audit_logs": [
+    {
+      "userId": "cYekpcFZoASbdlBGuEDVz0933NT2",
+      "type": "save_draft",
+      "description": "Saved draft invitation design: eng",
+      "details": {
+        "designId": "1781501878945",
+        "originalDesignId": "1781501878945",
+        "templateId": "tem_l70kly0ht",
+        "isDraft": true
+      },
+      "createdAt": "2026-06-15T05:37:59.661Z",
+      "id": "aud_zf0lkfphe",
+      "updatedAt": "2026-06-15T05:37:59.661Z"
+    },
+    {
+      "userId": "cYekpcFZoASbdlBGuEDVz0933NT2",
+      "type": "save_draft",
+      "description": "Saved draft invitation design: eng",
+      "details": {
+        "designId": "1781501878945",
+        "originalDesignId": "1781501878945",
+        "templateId": "tem_l70kly0ht",
+        "isDraft": true
+      },
+      "createdAt": "2026-06-15T05:38:10.143Z",
+      "id": "aud_wi8fn1ory",
+      "updatedAt": "2026-06-15T05:38:10.143Z"
+    },
+    {
+      "userId": "cYekpcFZoASbdlBGuEDVz0933NT2",
+      "type": "save_draft",
+      "description": "Saved draft invitation design: eng",
+      "details": {
+        "designId": "1781501878945",
+        "originalDesignId": "1781501878945",
+        "templateId": "tem_l70kly0ht",
+        "isDraft": true
+      },
+      "createdAt": "2026-06-15T05:38:23.774Z",
+      "id": "aud_unkq2y3ap",
+      "updatedAt": "2026-06-15T05:38:23.774Z"
+    },
+    {
+      "userId": "cYekpcFZoASbdlBGuEDVz0933NT2",
+      "type": "delete_design",
+      "description": "Deleted design from drafts and completed cards",
+      "details": {
+        "designId": "1781501878945"
+      },
+      "createdAt": "2026-06-15T05:38:26.671Z",
+      "id": "aud_9x4dvr5wb",
+      "updatedAt": "2026-06-15T05:38:26.671Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "change_app_language",
+      "description": "Changed application UI language to English",
+      "details": {
+        "language": "English"
+      },
+      "createdAt": "2026-06-15T06:54:58.516Z",
+      "id": "aud_ytv0dkb0h",
+      "updatedAt": "2026-06-15T06:54:58.516Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "change_app_language",
+      "description": "Changed application UI language to English",
+      "details": {
+        "language": "English"
+      },
+      "createdAt": "2026-06-15T07:00:11.870Z",
+      "id": "aud_09u2zvou7",
+      "updatedAt": "2026-06-15T07:00:11.870Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "change_app_language",
+      "description": "Changed application UI language to English",
+      "details": {
+        "language": "English"
+      },
+      "createdAt": "2026-06-15T07:03:06.351Z",
+      "id": "aud_m72qysqrq",
+      "updatedAt": "2026-06-15T07:03:06.351Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "change_app_language",
+      "description": "Changed application UI language to English",
+      "details": {
+        "language": "English"
+      },
+      "createdAt": "2026-06-15T07:08:01.547Z",
+      "id": "aud_rad57li22",
+      "updatedAt": "2026-06-15T07:08:01.547Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "change_app_language",
+      "description": "Changed application UI language to English",
+      "details": {
+        "language": "English"
+      },
+      "createdAt": "2026-06-15T07:10:48.074Z",
+      "id": "aud_rjxkg0vtt",
+      "updatedAt": "2026-06-15T07:10:48.074Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "change_app_language",
+      "description": "Changed application UI language to English",
+      "details": {
+        "language": "English"
+      },
+      "createdAt": "2026-06-15T09:08:33.185Z",
+      "id": "aud_6yv9scg66",
+      "updatedAt": "2026-06-15T09:08:33.185Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "change_app_language",
+      "description": "Changed application UI language to English",
+      "details": {
+        "language": "English"
+      },
+      "createdAt": "2026-06-15T09:14:38.334Z",
+      "id": "aud_hi5hah8x1",
+      "updatedAt": "2026-06-15T09:14:38.334Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "change_app_language",
+      "description": "Changed application UI language to English",
+      "details": {
+        "language": "English"
+      },
+      "createdAt": "2026-06-15T09:29:19.210Z",
+      "id": "aud_mmz7ucg3c",
+      "updatedAt": "2026-06-15T09:29:19.210Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "change_app_language",
+      "description": "Changed application UI language to English",
+      "details": {
+        "language": "English"
+      },
+      "createdAt": "2026-06-15T09:43:20.886Z",
+      "id": "aud_o9jg1j8zd",
+      "updatedAt": "2026-06-15T09:43:20.886Z"
+    }
+  ],
+  "user_cards": [],
+  "otp_codes": [
+    {
+      "phone": "+916355983475",
+      "otp": "897436",
+      "createdAt": "2026-06-15T09:14:43.945Z",
+      "expiresAt": "2026-06-15T09:19:43.945Z",
+      "isVerified": true,
+      "id": "otp_to3qcsp7l",
+      "updatedAt": "2026-06-15T09:15:00.122Z"
+    },
+    {
+      "phone": "+916355983475",
+      "otp": "677946",
+      "createdAt": "2026-06-15T09:43:26.669Z",
+      "expiresAt": "2026-06-15T09:48:26.669Z",
+      "isVerified": false,
+      "id": "otp_14sg6bosx",
+      "updatedAt": "2026-06-15T09:43:26.671Z"
     }
   ]
 }

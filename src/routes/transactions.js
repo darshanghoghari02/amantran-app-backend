@@ -7,8 +7,26 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const list = await dbService.getAll('transactions');
+    const users = await dbService.getAll('app_users').catch(() => []);
+    
+    // Create a map of userId -> email/phone
+    const userMap = {};
+    users.forEach(u => {
+      if (u.id) {
+        userMap[u.id] = u.email || u.phone || '';
+      }
+    });
+
+    const enriched = list.map(t => {
+      const email = t.userEmail || userMap[t.userId] || 'anonymous';
+      return {
+        ...t,
+        userEmail: email
+      };
+    });
+
     // Sort newest first
-    const sorted = list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const sorted = enriched.sort((a, b) => new Date(b.createdAt || b.timestamp) - new Date(a.createdAt || a.timestamp));
     res.json(sorted);
   } catch (error) {
     res.status(500).json({ error: error.message });

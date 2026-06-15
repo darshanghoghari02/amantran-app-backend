@@ -27,8 +27,8 @@ function deleteLocalFile(filePath) {
 
 const router = express.Router();
 
-// GET all fonts (guarded by fonts.view)
-router.get('/', requirePermission('fonts.view'), async (req, res) => {
+// GET all fonts (public so custom fonts can load on login and guest screens)
+router.get('/', async (req, res) => {
   try {
     const list = await dbService.getAll('fonts');
     res.json(list);

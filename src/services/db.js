@@ -1,188 +1,150 @@
 import fs from 'fs/promises';
+import { existsSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import admin from 'firebase-admin';
-import { getFirestore } from 'firebase-admin/firestore';
+import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const BACKEND_DIR = path.resolve(__dirname, '../..');
 const LOCAL_DB_PATH = path.join(BACKEND_DIR, 'db.json');
-const FIREBASE_KEY_PATH = path.join(BACKEND_DIR, 'firebase-service-account.json');
 
 class DatabaseService {
   constructor() {
     this.isFirebase = false;
-    this.db = null;
+    this.isMySQL = false;
+    this.pool = null;
     this.connectionError = null;
     this.initPromise = this.init();
   }
 
   async init() {
     try {
-      let serviceAccount;
+      const dbHost = process.env.DB_HOST || 'localhost';
+      const dbPort = parseInt(process.env.DB_PORT || '3306', 10);
+      const dbUser = process.env.DB_USER || 'root';
+      const dbPassword = process.env.DB_PASSWORD || '';
+      const dbName = process.env.DB_NAME || 'amantran_db';
 
-      // Try loading from environment variable first (standard for production/Render)
-      if (process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
-        serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
-      } else {
-        // Fallback to checking and reading local file
-        await fs.access(FIREBASE_KEY_PATH);
-        serviceAccount = JSON.parse(await fs.readFile(FIREBASE_KEY_PATH, 'utf-8'));
-      }
+      console.log(`🔌 Connecting to MySQL server at ${dbHost}:${dbPort}...`);
 
-      // Determine the correct storage bucket dynamically
-      let selectedBucket = process.env.FIREBASE_STORAGE_BUCKET || process.env.STORAGE_BUCKET || undefined;
-
-      if (!selectedBucket && serviceAccount.project_id) {
-        const primaryBucket = `${serviceAccount.project_id}.appspot.com`;
-        const secondaryBucket = `${serviceAccount.project_id}.firebasestorage.app`;
-
-        console.log(`🔍 Checking Firebase Storage bucket accessibility...`);
-
-        // Use a temporary named Firebase App to test bucket accessibility
-        const tempAppName = `temp-discovery-${Date.now()}`;
-        let tempApp;
-        try {
-          tempApp = admin.initializeApp({
-            credential: admin.credential.cert(serviceAccount)
-          }, tempAppName);
-
-          // Test primary bucket
-          try {
-            const bucket = tempApp.storage().bucket(primaryBucket);
-            await bucket.getFiles({ maxResults: 1 });
-            selectedBucket = primaryBucket;
-            console.log(`✅ Verified Firebase Storage bucket: ${primaryBucket}`);
-          } catch (primaryErr) {
-            // Test secondary bucket
-            try {
-              const bucket = tempApp.storage().bucket(secondaryBucket);
-              await bucket.getFiles({ maxResults: 1 });
-              selectedBucket = secondaryBucket;
-              console.log(`✅ Verified Firebase Storage bucket: ${secondaryBucket}`);
-            } catch (secondaryErr) {
-              // If both failed, Firebase Storage might not be enabled yet in Firebase Console
-              console.warn(`⚠️ Warning: Firebase Storage bucket is not provisioned or accessible.`);
-              console.warn(`👉 Please ensure Firebase Storage is enabled in the Firebase Console:`);
-              console.warn(`   https://console.firebase.google.com/project/${serviceAccount.project_id}/storage`);
-              console.warn(`🔄 Falling back to local disk storage for asset uploads.`);
-              // Default to primary so standard SDK APIs do not crash on startup
-              selectedBucket = primaryBucket;
-            }
-          }
-        } catch (initErr) {
-          console.warn(`⚠️ Error during storage bucket discovery:`, initErr.message);
-          selectedBucket = primaryBucket;
-        } finally {
-          if (tempApp) {
-            try {
-              await tempApp.delete();
-            } catch (_) { }
-          }
-        }
-      }
-
-      // Initialize Firebase Admin with verified storageBucket configuration
-      const app = admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-        storageBucket: selectedBucket
+      // 1. Create connection without database to ensure DB exists
+      const connection = await mysql.createConnection({
+        host: dbHost,
+        port: dbPort,
+        user: dbUser,
+        password: dbPassword
       });
 
-      const dbId = process.env.FIREBASE_DATABASE_ID || undefined;
-      this.db = dbId ? getFirestore(app, dbId) : getFirestore(app);
+      await connection.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\``);
+      await connection.end();
+      console.log(`✅ Database \`${dbName}\` verified/created.`);
 
-      try {
-        // Run a test query to verify connection and database existence
-        await this.db.collection('categories').limit(1).get();
-        this.isFirebase = true;
-        this.connectionError = null;
-        console.log('🔥 Connected successfully to Firebase Firestore.', dbId ? `Database instance: ${dbId}` : 'Database instance: (default)');
-      } catch (testError) {
-        // If it failed because a custom database was not found, try falling back to the '(default)' database
-        const isNotFoundError = testError.code === 5 ||
-          testError.message?.includes('NOT_FOUND') ||
-          testError.message?.toLowerCase().includes('not found');
+      // 2. Create the pool with the database specified
+      this.pool = mysql.createPool({
+        host: dbHost,
+        port: dbPort,
+        user: dbUser,
+        password: dbPassword,
+        database: dbName,
+        waitForConnections: true,
+        connectionLimit: 10,
+        queueLimit: 0
+      });
 
-        if (dbId && isNotFoundError) {
-          console.warn(`⚠️ Custom database ID '${dbId}' was not found. Attempting fallback to the '(default)' database...`);
-          this.db = getFirestore(app);
+      this.isMySQL = true;
+      console.log(`🚀 Connected successfully to XAMPP MySQL database \`${dbName}\`.`);
 
-          // Test the default database connection
-          await this.db.collection('categories').limit(1).get();
-          this.isFirebase = true;
-          this.connectionError = `Fallback active: Custom database '${dbId}' not found. Using default database.`;
-          console.log('🔥 Connected successfully to Firebase Firestore (default database fallback).');
-        } else {
-          // If it is another error (e.g. invalid credentials), rethrow to let the main catch block handle it
-          throw testError;
-        }
+      // 3. Create tables for all collections
+      const collections = [
+        'categories',
+        'fonts',
+        'languages',
+        'templates',
+        'subscriptions',
+        'users',
+        'app_users',
+        'user_subscriptions',
+        'user_purchases',
+        'user_drafts',
+        'transactions',
+        'audit_logs',
+        'roles',
+        'ratings',
+        'settings',
+        'user_cards',
+        'user_favorites',
+        'guests',
+        'otp_codes'
+      ];
+
+      for (const col of collections) {
+        await this.pool.query(`
+          CREATE TABLE IF NOT EXISTS \`${col}\` (
+            \`id\` VARCHAR(255) PRIMARY KEY,
+            \`data\` LONGTEXT NOT NULL
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+        `);
       }
+      console.log(`✅ Database tables verified/created.`);
 
-      // Clean up any orphaned ghost template subcollections in the background
-      this.cleanupOrphanedFirestoreTemplates();
+      // 4. Initialize local db file if missing (as fallback/seed source)
+      await this.initLocalDbFile();
+
+      // 5. Migrate data from db.json if tables are empty
+      await this.migrateDataFromLocalDb(collections);
+
     } catch (error) {
-      console.warn('⚠️ Firebase Credentials not found or invalid, or Firestore database does not exist. Falling back to LOCAL JSON DB Mode.');
+      console.error('❌ Failed to initialize MySQL database. Falling back to local JSON database mode.');
       console.error('Connection Error:', error.message || error);
-      console.log(`📁 Local database path: ${LOCAL_DB_PATH}`);
-      this.isFirebase = false;
+      this.isMySQL = false;
       this.connectionError = error.message || String(error);
-      await this.initLocalDb();
+      await this.initLocalDbFile();
     }
   }
 
-  async cleanupOrphanedFirestoreTemplates() {
-    if (!this.isFirebase || !this.db) return;
-    try {
-      console.log('🧹 Scanning Firestore for orphaned/ghost template subcollections...');
-      const templatesRef = this.db.collection('templates');
-      const docRefs = await templatesRef.listDocuments();
-
-      let count = 0;
-      for (const docRef of docRefs) {
-        const docSnap = await docRef.get();
-        if (!docSnap.exists) {
-          console.log(`🧹 Found orphaned/ghost template document: ${docRef.id}. Cleaning up subcollections recursively...`);
-
-          // Delete all pages in this page's subcollection
-          const pagesSnapshot = await docRef.collection('pages').get();
-          for (const pageDoc of pagesSnapshot.docs) {
-            const elementsSnapshot = await pageDoc.ref.collection('elements').get();
-            for (const elemDoc of elementsSnapshot.docs) {
-              await elemDoc.ref.delete();
-            }
-            await pageDoc.ref.delete();
-          }
-          count++;
-        }
-      }
-      if (count > 0) {
-        console.log(`✅ Successfully cleaned up ${count} orphaned template subcollection(s) from Firestore.`);
-      } else {
-        console.log('✅ No orphaned template subcollections found in Firestore.');
-      }
-    } catch (err) {
-      console.warn('⚠️ Failed to run Firestore orphaned template cleanup:', err.message);
-    }
-  }
-
-  async initLocalDb() {
+  async initLocalDbFile() {
     try {
       await fs.access(LOCAL_DB_PATH);
-      // Auto-migrate: if app_users is missing in existing db.json, add default ones
-      const data = await this.readLocal();
-      if (!data.app_users) {
-        const defaultData = this.getDefaultMockData();
-        data.app_users = defaultData.app_users;
-        await this.writeLocal(data);
-        console.log('✅ Auto-migrated: Seeded app_users into existing local database.');
-      }
     } catch (error) {
       // If db.json doesn't exist, create it with beautiful default mock data
       const defaultDb = this.getDefaultMockData();
       await fs.writeFile(LOCAL_DB_PATH, JSON.stringify(defaultDb, null, 2), 'utf-8');
-      console.log('✅ Created new local database with rich initial mock data.');
+      console.log('✅ Created new local db.json file with rich initial mock data.');
+    }
+  }
+
+  async migrateDataFromLocalDb(collections) {
+    try {
+      // Read db.json
+      const localData = JSON.parse(await fs.readFile(LOCAL_DB_PATH, 'utf-8'));
+      
+      for (const col of collections) {
+        // Check if table has any data
+        const [rows] = await this.pool.query(`SELECT COUNT(*) as count FROM \`${col}\``);
+        const count = rows[0].count;
+
+        if (count === 0 && localData[col] && Array.isArray(localData[col])) {
+          console.log(`📦 Migrating ${localData[col].length} items into table \`${col}\`...`);
+          for (const item of localData[col]) {
+            const id = item.id || `${col.slice(0, 3)}_${Math.random().toString(36).substr(2, 9)}`;
+            // Make sure ID is set in the data itself
+            item.id = id;
+            await this.pool.query(
+              `INSERT INTO \`${col}\` (id, data) VALUES (?, ?)`,
+              [id, JSON.stringify(item)]
+            );
+          }
+          console.log(`✅ Migration for \`${col}\` complete.`);
+        }
+      }
+    } catch (err) {
+      console.error('⚠️ Migration from local database failed:', err.message);
     }
   }
 
@@ -468,34 +430,32 @@ class DatabaseService {
 
   // Helper to read local DB
   async readLocal() {
-    const data = await fs.readFile(LOCAL_DB_PATH, 'utf-8');
-    return JSON.parse(data);
+    try {
+      const data = await fs.readFile(LOCAL_DB_PATH, 'utf-8');
+      return JSON.parse(data);
+    } catch {
+      return {};
+    }
   }
 
   // Helper to write local DB
   async writeLocal(data) {
-    await fs.writeFile(LOCAL_DB_PATH, JSON.stringify(data, null, 2), 'utf-8');
+    try {
+      await fs.writeFile(LOCAL_DB_PATH, JSON.stringify(data, null, 2), 'utf-8');
+    } catch (err) {
+      console.error('Failed to write local database file:', err);
+    }
   }
 
   // Generic Query method to get all documents from a collection
   async getAll(collectionName) {
     await this.initPromise;
-    if (this.isFirebase) {
+    if (this.isMySQL) {
       try {
-        let snapshot;
-        if (collectionName === 'ratings') {
-          snapshot = await this.db.collectionGroup('ratings').get();
-        } else {
-          snapshot = await this.db.collection(collectionName).get();
-        }
-        const list = [];
-        snapshot.forEach(doc => {
-          list.push({ id: doc.id, ...doc.data() });
-        });
-        return list;
+        const [rows] = await this.pool.query(`SELECT data FROM \`${collectionName}\``);
+        return rows.map(r => JSON.parse(r.data));
       } catch (error) {
-        console.error(`⚠️ Firebase Firestore query failed (getAll: ${collectionName}):`, error.message);
-        console.warn('🔄 Falling back to LOCAL JSON DB Mode for this query.');
+        console.error(`⚠️ MySQL query failed (getAll: ${collectionName}):`, error.message);
         const data = await this.readLocal();
         return data[collectionName] || [];
       }
@@ -508,14 +468,13 @@ class DatabaseService {
   // Generic Get Single Document
   async getOne(collectionName, id) {
     await this.initPromise;
-    if (this.isFirebase) {
+    if (this.isMySQL) {
       try {
-        const doc = await this.db.collection(collectionName).doc(id).get();
-        if (!doc.exists) return null;
-        return { id: doc.id, ...doc.data() };
+        const [rows] = await this.pool.query(`SELECT data FROM \`${collectionName}\` WHERE id = ?`, [id]);
+        if (rows.length === 0) return null;
+        return JSON.parse(rows[0].data);
       } catch (error) {
-        console.error(`⚠️ Firebase Firestore query failed (getOne: ${collectionName}, id: ${id}):`, error.message);
-        console.warn('🔄 Falling back to LOCAL JSON DB Mode for this query.');
+        console.error(`⚠️ MySQL query failed (getOne: ${collectionName}, id: ${id}):`, error.message);
         const data = await this.readLocal();
         const list = data[collectionName] || [];
         return list.find(item => item.id === id) || null;
@@ -527,100 +486,24 @@ class DatabaseService {
     }
   }
 
-  async syncTemplateFirestore(templateId, templateData) {
-    if (!this.isFirebase || !this.db) return;
-
-    try {
-      const templateRef = this.db.collection('templates').doc(templateId);
-      const pages = templateData.pages || [];
-
-      // 1. Process all pages in the templateData
-      const currentPageIds = new Set();
-      for (let i = 0; i < pages.length; i++) {
-        const page = pages[i];
-        const pageId = page.id || `page_${Math.random().toString(36).substr(2, 9)}`;
-        currentPageIds.add(pageId);
-
-        const pageRef = templateRef.collection('pages').doc(pageId);
-
-        // Write the page document
-        await pageRef.set({
-          id: pageId,
-          backgroundImage: page.backgroundImage || '',
-          pageNumber: i + 1,
-          width: Number(page.width) || 1080,
-          height: Number(page.height) || 1920
-        }, { merge: true });
-
-        // Process elements on this page
-        const elements = page.elements || [];
-        const currentElementIds = new Set();
-        for (let j = 0; j < elements.length; j++) {
-          const elem = elements[j];
-          const elemId = elem.id || `elem_${Math.random().toString(36).substr(2, 9)}`;
-          currentElementIds.add(elemId);
-
-          const elementRef = pageRef.collection('elements').doc(elemId);
-
-          // Standardize element fields according to Requirement 5
-          const firestoreElem = {
-            id: elemId,
-            type: elem.type || 'text',
-            x: Number(elem.x) || 0,
-            y: Number(elem.y) || 0,
-            width: Number(elem.width) || 0,
-            height: Number(elem.height) || 0,
-            rotation: Number(elem.rotation) || 0,
-            opacity: Number(elem.opacity) !== undefined ? Number(elem.opacity) : 1,
-            zIndex: Number(elem.zIndex) || 0,
-            fontSize: Number(elem.fontSize) || null,
-            fontFamily: elem.fontFamily || null,
-            fontWeight: elem.fontWeight || null,
-            textAlign: elem.alignment || elem.textAlign || null,
-            color: elem.color || null,
-            lineHeight: elem.lineHeight !== undefined ? Number(elem.lineHeight) : null,
-            letterSpacing: elem.letterSpacing !== undefined ? Number(elem.letterSpacing) : null,
-            imageUrl: elem.imagePath || elem.imageUrl || null,
-            translations: elem.translations || null,
-            content: elem.text || elem.content || null
-          };
-
-          // Also keep original keys for backwards compatibility in element subcollection!
-          const elemWithOriginals = {
-            ...elem,
-            ...firestoreElem
-          };
-
-          await elementRef.set(elemWithOriginals);
-        }
-
-        // Clean up deleted elements from Firestore subcollection for this page
-        const elementsSnapshot = await pageRef.collection('elements').get();
-        for (const elDoc of elementsSnapshot.docs) {
-          if (!currentElementIds.has(elDoc.id)) {
-            await elDoc.ref.delete();
-            console.log(`🗑️ Deleted stale element subcollection doc: ${elDoc.id}`);
-          }
-        }
+  // Generic Get Documents matching a specific field value
+  async getByField(collectionName, fieldName, value) {
+    await this.initPromise;
+    if (this.isMySQL) {
+      try {
+        // Query using MySQL JSON functions for safety and performance
+        const sql = `SELECT data FROM \`${collectionName}\` WHERE JSON_EXTRACT(data, '$.${fieldName}') = ? OR JSON_UNQUOTE(JSON_EXTRACT(data, '$.${fieldName}')) = ?`;
+        const jsonVal = JSON.stringify(value);
+        const [rows] = await this.pool.query(sql, [jsonVal, String(value)]);
+        return rows.map(r => JSON.parse(r.data));
+      } catch (error) {
+        console.error(`⚠️ MySQL query failed (getByField: ${collectionName}, fieldName: ${fieldName}, value: ${value}):`, error.message);
+        const list = await this.getAll(collectionName);
+        return list.filter(item => item[fieldName] === value);
       }
-
-      // 2. Clean up deleted pages from Firestore subcollections
-      const pagesSnapshot = await templateRef.collection('pages').get();
-      for (const pDoc of pagesSnapshot.docs) {
-        const pageId = pDoc.id;
-        if (!currentPageIds.has(pageId)) {
-          // First delete all elements inside that page
-          const staleElementsSnapshot = await pDoc.ref.collection('elements').get();
-          for (const elDoc of staleElementsSnapshot.docs) {
-            await elDoc.ref.delete();
-          }
-          // Then delete the page itself
-          await pDoc.ref.delete();
-          console.log(`🗑️ Deleted stale page subcollection doc: ${pageId}`);
-        }
-      }
-    } catch (err) {
-      console.error(`⚠️ Failed to sync template subcollections in Firestore (id: ${templateId}):`, err.message);
+    } else {
+      const list = await this.getAll(collectionName);
+      return list.filter(item => item[fieldName] === value);
     }
   }
 
@@ -628,154 +511,212 @@ class DatabaseService {
   async add(collectionName, documentData) {
     await this.initPromise;
     const now = new Date().toISOString();
-    const docWithDates = {
+    const id = documentData.id || `${collectionName.slice(0, 3)}_${Math.random().toString(36).substr(2, 9)}`;
+    
+    const finalDoc = {
       ...documentData,
+      id,
       createdAt: now,
       updatedAt: now
     };
 
-    if (this.isFirebase) {
+    if (this.isMySQL) {
       try {
-        const docRef = documentData.id
-          ? this.db.collection(collectionName).doc(documentData.id)
-          : this.db.collection(collectionName).doc();
-
-        const finalData = { ...docWithDates, id: docRef.id };
-        await docRef.set(finalData);
-        if (collectionName === 'templates') {
-          await this.syncTemplateFirestore(finalData.id, finalData);
-        }
-        return finalData;
+        await this.pool.query(
+          `INSERT INTO \`${collectionName}\` (id, data) VALUES (?, ?)`,
+          [id, JSON.stringify(finalDoc)]
+        );
+        // Sync local db.json file in the background so it is kept in sync as a backup
+        this.syncLocalDbBackup(collectionName, finalDoc, 'add');
+        return finalDoc;
       } catch (error) {
-        console.error(`⚠️ Firebase Firestore write failed (add: ${collectionName}):`, error.message);
-        console.warn('🔄 Falling back to LOCAL JSON DB Mode to store this document.');
-        // Write to local database as fallback
-        const data = await this.readLocal();
-        if (!data[collectionName]) data[collectionName] = [];
-
-        const newDoc = {
-          id: documentData.id || `${collectionName.slice(0, 3)}_${Math.random().toString(36).substr(2, 9)}`,
-          ...docWithDates
-        };
-
-        data[collectionName].push(newDoc);
-        await this.writeLocal(data);
-        return newDoc;
+        console.error(`⚠️ MySQL write failed (add: ${collectionName}):`, error.message);
+        return this.addLocalFallback(collectionName, finalDoc);
       }
     } else {
-      const data = await this.readLocal();
-      if (!data[collectionName]) data[collectionName] = [];
-
-      const newDoc = {
-        id: documentData.id || `${collectionName.slice(0, 3)}_${Math.random().toString(36).substr(2, 9)}`,
-        ...docWithDates
-      };
-
-      data[collectionName].push(newDoc);
-      await this.writeLocal(data);
-      return newDoc;
+      return this.addLocalFallback(collectionName, finalDoc);
     }
+  }
+
+  async addLocalFallback(collectionName, finalDoc) {
+    const data = await this.readLocal();
+    if (!data[collectionName]) data[collectionName] = [];
+    data[collectionName].push(finalDoc);
+    await this.writeLocal(data);
+    return finalDoc;
   }
 
   // Generic Update Document
   async update(collectionName, id, updates) {
     await this.initPromise;
     const now = new Date().toISOString();
-    const dataWithUpdate = { ...updates, updatedAt: now };
 
-    if (this.isFirebase) {
+    if (this.isMySQL) {
       try {
-        await this.db.collection(collectionName).doc(id).update(dataWithUpdate);
-        const updatedDoc = await this.db.collection(collectionName).doc(id).get();
-        const finalData = { id: updatedDoc.id, ...updatedDoc.data() };
-        if (collectionName === 'templates' && updates.pages !== undefined) {
-          await this.syncTemplateFirestore(id, finalData);
-        }
-        return finalData;
-      } catch (error) {
-        console.error(`⚠️ Firebase Firestore write failed (update: ${collectionName}, id: ${id}):`, error.message);
-        console.warn('🔄 Falling back to LOCAL JSON DB Mode to update this document.');
-        // Update local database as fallback
-        const data = await this.readLocal();
-        const list = data[collectionName] || [];
-        const index = list.findIndex(item => item.id === id);
-        if (index === -1) throw new Error(`Document not found in local db ${collectionName} with id: ${id}`);
+        // Fetch current first
+        const current = await this.getOne(collectionName, id);
+        if (!current) throw new Error(`Document not found in ${collectionName} with id: ${id}`);
 
-        const updatedItem = {
-          ...list[index],
-          ...dataWithUpdate
+        // Cleanup old profile photos if updated
+        if (collectionName === 'app_users') {
+          if (updates.profilePhoto !== undefined && current.profilePhoto && current.profilePhoto !== updates.profilePhoto) {
+            await this.deleteProfilePhotoFile(current.profilePhoto);
+          }
+          if (updates.profile && updates.profile.profileImagePath !== undefined) {
+            if (current.profile?.profileImagePath && current.profile.profileImagePath !== updates.profile.profileImagePath) {
+              await this.deleteProfilePhotoFile(current.profile.profileImagePath);
+            }
+          }
+        }
+
+        const updatedDoc = {
+          ...current,
+          ...updates,
+          id, // protect id field
+          updatedAt: now
         };
-        list[index] = updatedItem;
-        data[collectionName] = list;
-        await this.writeLocal(data);
-        return updatedItem;
+
+        await this.pool.query(
+          `UPDATE \`${collectionName}\` SET data = ? WHERE id = ?`,
+          [JSON.stringify(updatedDoc), id]
+        );
+        // Sync local db.json in the background
+        this.syncLocalDbBackup(collectionName, updatedDoc, 'update');
+        return updatedDoc;
+      } catch (error) {
+        console.error(`⚠️ MySQL write failed (update: ${collectionName}, id: ${id}):`, error.message);
+        return this.updateLocalFallback(collectionName, id, updates, now);
       }
     } else {
-      const data = await this.readLocal();
-      const list = data[collectionName] || [];
-      const index = list.findIndex(item => item.id === id);
-      if (index === -1) throw new Error(`Document not found in ${collectionName} with id: ${id}`);
-
-      const updatedItem = {
-        ...list[index],
-        ...dataWithUpdate
-      };
-      list[index] = updatedItem;
-      data[collectionName] = list;
-      await this.writeLocal(data);
-      return updatedItem;
+      return this.updateLocalFallback(collectionName, id, updates, now);
     }
   }
 
-  async deleteTemplateSubcollections(templateId) {
-    if (!this.isFirebase || !this.db) return;
-    try {
-      const templateRef = this.db.collection('templates').doc(templateId);
-      const pagesSnapshot = await templateRef.collection('pages').get();
+  async updateLocalFallback(collectionName, id, updates, now) {
+    const data = await this.readLocal();
+    const list = data[collectionName] || [];
+    const index = list.findIndex(item => item.id === id);
+    if (index === -1) throw new Error(`Document not found in ${collectionName} with id: ${id}`);
 
-      for (const pageDoc of pagesSnapshot.docs) {
-        // Delete all elements in this page's subcollection
-        const elementsSnapshot = await pageDoc.ref.collection('elements').get();
-        for (const elemDoc of elementsSnapshot.docs) {
-          await elemDoc.ref.delete();
-        }
-        // Delete the page document itself
-        await pageDoc.ref.delete();
+    const current = list[index];
+
+    // Cleanup old profile photos if updated
+    if (collectionName === 'app_users') {
+      if (updates.profilePhoto !== undefined && current.profilePhoto && current.profilePhoto !== updates.profilePhoto) {
+        await this.deleteProfilePhotoFile(current.profilePhoto);
       }
-      console.log(`🗑️ Recursively deleted Firestore pages & elements subcollections for template: ${templateId}`);
-    } catch (err) {
-      console.error(`⚠️ Failed to recursively delete subcollections for template ${templateId}:`, err.message);
+      if (updates.profile && updates.profile.profileImagePath !== undefined) {
+        if (current.profile?.profileImagePath && current.profile.profileImagePath !== updates.profile.profileImagePath) {
+          await this.deleteProfilePhotoFile(current.profile.profileImagePath);
+        }
+      }
     }
+
+    const updatedItem = {
+      ...list[index],
+      ...updates,
+      id,
+      updatedAt: now
+    };
+    list[index] = updatedItem;
+    data[collectionName] = list;
+    await this.writeLocal(data);
+    return updatedItem;
   }
 
   // Generic Delete Document
   async delete(collectionName, id) {
     await this.initPromise;
-    if (this.isFirebase) {
+    if (this.isMySQL) {
       try {
-        if (collectionName === 'templates') {
-          await this.deleteTemplateSubcollections(id);
-        }
-        await this.db.collection(collectionName).doc(id).delete();
+        await this.pool.query(`DELETE FROM \`${collectionName}\` WHERE id = ?`, [id]);
+        // Sync local db.json in the background
+        this.syncLocalDbBackup(collectionName, { id }, 'delete');
         return true;
       } catch (error) {
-        console.error(`⚠️ Firebase Firestore delete failed (delete: ${collectionName}, id: ${id}):`, error.message);
-        console.warn('🔄 Falling back to LOCAL JSON DB Mode to delete this document.');
-        // Delete from local database as fallback
-        const data = await this.readLocal();
-        const list = data[collectionName] || [];
-        const filtered = list.filter(item => item.id !== id);
-        data[collectionName] = filtered;
-        await this.writeLocal(data);
-        return true;
+        console.error(`⚠️ MySQL delete failed (delete: ${collectionName}, id: ${id}):`, error.message);
+        return this.deleteLocalFallback(collectionName, id);
       }
     } else {
+      return this.deleteLocalFallback(collectionName, id);
+    }
+  }
+
+  async deleteLocalFallback(collectionName, id) {
+    const data = await this.readLocal();
+    const list = data[collectionName] || [];
+    const filtered = list.filter(item => item.id !== id);
+    data[collectionName] = filtered;
+    await this.writeLocal(data);
+    return true;
+  }
+
+  // Background sync helper to keep db.json as a backup
+  async syncLocalDbBackup(collectionName, item, operation) {
+    try {
       const data = await this.readLocal();
-      const list = data[collectionName] || [];
-      const filtered = list.filter(item => item.id !== id);
-      data[collectionName] = filtered;
+      if (!data[collectionName]) data[collectionName] = [];
+      
+      if (operation === 'add') {
+        data[collectionName].push(item);
+      } else if (operation === 'update') {
+        const idx = data[collectionName].findIndex(x => x.id === item.id);
+        if (idx !== -1) {
+          data[collectionName][idx] = item;
+        } else {
+          data[collectionName].push(item);
+        }
+      } else if (operation === 'delete') {
+        data[collectionName] = data[collectionName].filter(x => x.id !== item.id);
+      }
+      
       await this.writeLocal(data);
-      return true;
+    } catch (err) {
+      console.warn('⚠️ Background db.json backup sync failed:', err.message);
+    }
+  }
+
+  async deleteProfilePhotoFile(filePath) {
+    if (!filePath) return;
+    try {
+      // 1. If it's a Cloudinary URL, delete from Cloudinary
+      if (filePath.includes('res.cloudinary.com')) {
+        const { deleteFromCloudinary, extractPublicId } = await import('./cloudinary.js');
+        const publicId = extractPublicId(filePath);
+        if (publicId) {
+          await deleteFromCloudinary(publicId);
+          console.log(`☁️ Auto-deleted old Cloudinary profile photo: ${publicId}`);
+        }
+        return;
+      }
+      
+      // 2. Skip legacy Firebase Storage URLs
+      if (filePath.startsWith('https://firebasestorage.googleapis.com')) {
+        return;
+      }
+
+      // 3. Delete local file
+      let relativePath = filePath;
+      if (filePath.startsWith('http://') || filePath.startsWith('https://')) {
+        try {
+          const urlObj = new URL(filePath);
+          relativePath = urlObj.pathname;
+        } catch (_) {}
+      }
+
+      const cleanPath = relativePath.startsWith('/') ? relativePath.substring(1) : relativePath;
+      const absolutePath = path.join(BACKEND_DIR, cleanPath);
+      const assetsDir = path.join(BACKEND_DIR, 'assets');
+
+      const normAbs = path.normalize(absolutePath).toLowerCase();
+      const normAssets = path.normalize(assetsDir).toLowerCase();
+
+      if (normAbs.startsWith(normAssets) && existsSync(absolutePath)) {
+        await fs.unlink(absolutePath);
+        console.log(`🗑️ Auto-deleted old local profile photo file: ${absolutePath}`);
+      }
+    } catch (err) {
+      console.warn(`⚠️ Failed to auto-delete old profile photo ${filePath}:`, err.message);
     }
   }
 }
