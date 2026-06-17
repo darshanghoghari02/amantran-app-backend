@@ -1,7 +1,30 @@
 import express from 'express';
 import { dbService } from '../services/db.js';
+import { OAuth2Client } from 'google-auth-library';
+import jwt from 'jsonwebtoken';
 
 const router = express.Router();
+
+// Google OAuth2 client for ID token verification
+const googleClient = new OAuth2Client(
+  process.env.GOOGLE_CLIENT_ID || '6374728923-.apps.googleusercontent.com'
+);
+
+// JWT secret key (should be in environment variables in production)
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+
+// Generate JWT token
+function generateJWTToken(user) {
+  return jwt.sign(
+    {
+      id: user.id,
+      email: user.email,
+      provider: user.provider
+    },
+    JWT_SECRET,
+    { expiresIn: '30d' }
+  );
+}
 
 // Check if Twilio is configured
 const isTwilioConfigured = () => {
@@ -73,7 +96,7 @@ router.post('/send-whatsapp-otp', async (req, res) => {
     // Send OTP via WhatsApp (supports Meta Cloud API and Twilio)
     if (isMetaWhatsappConfigured()) {
       try {
-        const url = `https://graph.facebook.com/v18.0/${process.env.META_WHATSAPP_PHONE_NUMBER_ID}/messages`;
+        const url = `https://graph.facebook.com/v20.0/${process.env.META_WHATSAPP_PHONE_NUMBER_ID}/messages`;
         const formattedPhone = phone.replace(/\+/g, ''); // "+91XXXXXXXXXX" -> "91XXXXXXXXXX"
         const templateName = process.env.META_WHATSAPP_TEMPLATE_NAME;
 
@@ -88,22 +111,20 @@ router.post('/send-whatsapp-otp', async (req, res) => {
         if (templateName !== 'hello_world') {
           let parameters = [];
           if (templateName === 'whtsapp_group_invitaiton') {
+            // whtsapp_group_invitaiton: {{1}} = name, {{2}} = otp
             parameters = [
-              {
-                type: 'text',
-                text: 'User'
-              },
-              {
-                type: 'text',
-                text: otp
-              }
+              { type: 'text', text: 'User' },
+              { type: 'text', text: otp }
+            ];
+          } else if (templateName === 'amantran_ticket_id') {
+            // amantran_ticket_id: "Hi {{1}}, welcome to Amantran!" - {{1}} = phone/identifier
+            parameters = [
+              { type: 'text', text: phone }
             ];
           } else {
+            // Generic OTP template: {{1}} = otp
             parameters = [
-              {
-                type: 'text',
-                text: otp
-              }
+              { type: 'text', text: otp }
             ];
           }
 
@@ -115,23 +136,31 @@ router.post('/send-whatsapp-otp', async (req, res) => {
           ];
 
           // If template has a copy code button (standard Meta Auth template)
-          // whtsapp_group_invitaiton is a utility template and does not have buttons
-          if (templateName !== 'whtsapp_group_invitaiton' && process.env.META_WHATSAPP_HAS_BUTTON === 'true') {
+          // whtsapp_group_invitaiton and amantran_ticket_id are not auth templates with buttons
+          if (
+            templateName !== 'whtsapp_group_invitaiton' &&
+            templateName !== 'amantran_ticket_id' &&
+            process.env.META_WHATSAPP_HAS_BUTTON === 'true'
+          ) {
             components.push({
               type: 'button',
               sub_type: 'url',
               index: '0',
-              parameters: [
-                {
-                  type: 'text',
-                  text: otp
-                }
-              ]
+              parameters: [{ type: 'text', text: otp }]
             });
           }
 
           templatePayload.components = components;
         }
+
+        const requestBody = {
+          messaging_product: 'whatsapp',
+          recipient_type: 'individual',
+          to: formattedPhone,
+          type: 'template',
+          template: templatePayload
+        };
+        console.log('📤 Meta WhatsApp request payload:', JSON.stringify(requestBody, null, 2));
 
         const response = await fetch(url, {
           method: 'POST',
@@ -139,13 +168,7 @@ router.post('/send-whatsapp-otp', async (req, res) => {
             'Authorization': `Bearer ${process.env.META_WHATSAPP_ACCESS_TOKEN}`,
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-            messaging_product: 'whatsapp',
-            recipient_type: 'individual',
-            to: formattedPhone,
-            type: 'template',
-            template: templatePayload
-          })
+          body: JSON.stringify(requestBody)
         });
 
         const resData = await response.json();
@@ -243,8 +266,12 @@ router.post('/verify-whatsapp-otp', async (req, res) => {
       user = created;
     }
 
+    // Generate JWT token
+    const token = generateJWTToken(user);
+
     res.json({
       success: true,
+      token: token,
       message: 'OTP verified successfully',
       user: {
         id: user.id,
@@ -313,42 +340,119 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+
+
 // POST /api/auth/google-login
-// Handle Google authentication (no OTP required)
+// Handle Google authentication via OAuth 2.0 authorization code exchange (no Firebase needed)
 router.post('/google-login', async (req, res) => {
   try {
-    const { uid, email, name, photoURL, idToken } = req.body;
+    const { code, redirectUri, idToken } = req.body;
 
-    if (!uid || !email) {
-      return res.status(400).json({ error: 'UID and email are required.' });
+    let email, name, picture, googleId;
+
+    if (idToken) {
+      // Flow A: Native Google Sign-In (verify idToken directly using Google's library)
+      const clientId = process.env.GOOGLE_CLIENT_ID;
+      if (!clientId) {
+        return res.status(500).json({ error: 'Google Client ID not configured on server.' });
+      }
+
+      const ticket = await googleClient.verifyIdToken({
+        idToken,
+        audience: clientId,
+      });
+      const payload = ticket.getPayload();
+
+      googleId = payload.sub;
+      email = payload.email;
+      name = payload.name;
+      picture = payload.picture;
+      
+      console.log(`✅ Google Native ID Token success for: ${email} (${name})`);
+    } else if (code) {
+      // Flow B: OAuth 2.0 Web Auth Code exchange
+      if (!redirectUri) {
+        return res.status(400).json({ error: 'Redirect URI is required.' });
+      }
+
+      const clientId = process.env.GOOGLE_CLIENT_ID;
+      const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+
+      if (!clientId || !clientSecret) {
+        return res.status(500).json({ error: 'Google OAuth credentials not configured on server.' });
+      }
+
+      // Step 1: Exchange authorization code for tokens
+      const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          code,
+          client_id: clientId,
+          client_secret: clientSecret,
+          redirect_uri: redirectUri,
+          grant_type: 'authorization_code',
+        }),
+      });
+
+      const tokenData = await tokenResponse.json();
+
+      if (!tokenResponse.ok || tokenData.error) {
+        console.error('Token exchange error:', tokenData);
+        return res.status(400).json({ error: tokenData.error_description || 'Failed to exchange code for tokens' });
+      }
+
+      const { access_token } = tokenData;
+
+      if (!access_token) {
+        return res.status(400).json({ error: 'No access token received from Google' });
+      }
+
+      // Step 2: Get user info from Google using access token
+      const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: { Authorization: `Bearer ${access_token}` },
+      });
+
+      const userInfo = await userInfoResponse.json();
+
+      if (!userInfoResponse.ok || !userInfo.email) {
+        console.error('User info error:', userInfo);
+        return res.status(400).json({ error: 'Failed to get user info from Google' });
+      }
+
+      googleId = userInfo.sub;
+      email = userInfo.email;
+      name = userInfo.name;
+      picture = userInfo.picture;
+
+      console.log(`✅ Google OAuth success for: ${email} (${name})`);
+    } else {
+      return res.status(400).json({ error: 'Either idToken or authorization code is required.' });
     }
 
-    // Check if user exists by email, uid, or phone (to prevent duplicates)
+    // Step 3: Find or create user in database
     const appUsers = await dbService.getAll('app_users');
-    let user = appUsers.find(u => u.email === email || u.id === uid);
+    let user = appUsers.find(u => u.email === email || u.google_id === googleId);
 
     if (user) {
       // Update existing user with Google data
-      const updates = {
-        lastLoginAt: new Date().toISOString()
-      };
+      const updates = { lastLoginAt: new Date().toISOString() };
       if (!user.email && email) updates.email = email;
-      if (!user.name && name) {
-        updates.name = name;
-        updates.displayName = name;
-      }
-      if (!user.profilePhoto && photoURL) updates.profilePhoto = photoURL;
+      if (!user.name && name) { updates.name = name; updates.displayName = name; }
+      if (!user.profilePhoto && picture) updates.profilePhoto = picture;
+      if (!user.google_id && googleId) updates.google_id = googleId;
       if (!user.provider) updates.provider = 'google';
-      
       await dbService.update('app_users', user.id, updates);
+      // Merge updates into user object for response
+      user = { ...user, ...updates };
     } else {
-      // Create new user only if no existing user found
+      // Create new user
       const newUser = {
-        id: uid,
+        google_id: googleId,
         email,
         name: name || 'Google User',
         displayName: name || 'Google User',
-        profilePhoto: photoURL || '',
+        profilePhoto: picture || '',
         provider: 'google',
         accountStatus: 'active',
         isBlocked: false,
@@ -361,8 +465,12 @@ router.post('/google-login', async (req, res) => {
       user = created;
     }
 
+    // Step 4: Generate JWT token
+    const token = generateJWTToken(user);
+
     res.json({
       success: true,
+      token,
       message: 'Google login successful',
       user: {
         id: user.id,
@@ -382,6 +490,7 @@ router.post('/google-login', async (req, res) => {
     res.status(500).json({ error: error.message || 'Failed to process Google login' });
   }
 });
+
 
 // POST /api/auth/apple-login
 // Handle Apple authentication (no OTP required)
