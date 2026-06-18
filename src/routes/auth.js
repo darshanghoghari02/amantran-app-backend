@@ -35,14 +35,28 @@ const isTwilioConfigured = () => {
 const isMetaWhatsappConfigured = () => {
   const token = process.env.META_WHATSAPP_ACCESS_TOKEN;
   const phoneId = process.env.META_WHATSAPP_PHONE_NUMBER_ID;
-  const template = process.env.META_WHATSAPP_TEMPLATE_NAME;
   
   return !!(
     token && token !== 'your_access_token_here' &&
-    phoneId && phoneId !== 'your_phone_number_id_here' &&
-    template && template !== 'your_approved_template_name_here'
+    phoneId && phoneId !== 'your_phone_number_id_here'
   );
 };
+
+// Helper to normalize phone numbers (convert 10 digits to +91XXXXXXXXXX format)
+function normalizePhoneNumber(phone) {
+  if (!phone) return '';
+  let cleaned = phone.trim().replace(/[\s\-\(\)]/g, '');
+  if (/^\d{10}$/.test(cleaned)) {
+    return `+91${cleaned}`;
+  }
+  if (/^91\d{10}$/.test(cleaned)) {
+    return `+${cleaned}`;
+  }
+  if (/^\+\d{10,15}$/.test(cleaned)) {
+    return cleaned;
+  }
+  return cleaned; // return raw if doesn't match standard
+}
 
 // Helper to generate 6-digit OTP
 function generateOTP() {
@@ -61,20 +75,27 @@ function isOTPExpired(createdAt) {
 // Sends OTP to WhatsApp and stores it in database
 router.post('/send-whatsapp-otp', async (req, res) => {
   try {
-    const { phone, otp } = req.body;
+    const { phone } = req.body;
+    let otp = req.body.otp;
 
-    if (!phone || !otp) {
-      return res.status(400).json({ error: 'Phone number and OTP are required.' });
+    if (!phone) {
+      return res.status(400).json({ error: 'Phone number is required.' });
     }
 
+    const normalizedPhone = normalizePhoneNumber(phone);
+
     // Validate phone format (should be +91 followed by 10 digits)
-    if (!/^\+91\d{10}$/.test(phone)) {
-      return res.status(400).json({ error: 'Invalid phone number format. Use +91XXXXXXXXXX' });
+    if (!/^\+91\d{10}$/.test(normalizedPhone)) {
+      return res.status(400).json({ error: 'Invalid phone number format. Use +91XXXXXXXXXX or a 10-digit number.' });
+    }
+
+    if (!otp) {
+      otp = generateOTP();
     }
 
     // Store OTP in database (using otp_codes collection)
     const otpData = {
-      phone,
+      phone: normalizedPhone,
       otp,
       createdAt: new Date().toISOString(),
       expiresAt: new Date(Date.now() + 5 * 60 * 1000).toISOString(), // 5 minutes
@@ -83,7 +104,7 @@ router.post('/send-whatsapp-otp', async (req, res) => {
 
     // Check if there's an existing unverified OTP for this phone
     const existingOtps = await dbService.getAll('otp_codes');
-    const existingOtp = existingOtps.find(o => o.phone === phone && !o.isVerified);
+    const existingOtp = existingOtps.find(o => o.phone === normalizedPhone && !o.isVerified);
 
     if (existingOtp) {
       // Update existing OTP
@@ -96,70 +117,87 @@ router.post('/send-whatsapp-otp', async (req, res) => {
     // Send OTP via WhatsApp (supports Meta Cloud API and Twilio)
     if (isMetaWhatsappConfigured()) {
       try {
-        const url = `https://graph.facebook.com/v20.0/${process.env.META_WHATSAPP_PHONE_NUMBER_ID}/messages`;
-        const formattedPhone = phone.replace(/\+/g, ''); // "+91XXXXXXXXXX" -> "91XXXXXXXXXX"
+        const apiVersion = process.env.META_WHATSAPP_API_VERSION || 'v21.0';
+        const url = `https://graph.facebook.com/${apiVersion}/${process.env.META_WHATSAPP_PHONE_NUMBER_ID}/messages`;
+        const formattedPhone = normalizedPhone.replace(/\+/g, ''); // "+91XXXXXXXXXX" -> "91XXXXXXXXXX"
         const templateName = process.env.META_WHATSAPP_TEMPLATE_NAME;
 
-        const templatePayload = {
-          name: templateName,
-          language: {
-            code: process.env.META_WHATSAPP_TEMPLATE_LANG || 'en_US'
-          }
-        };
+        let requestBody;
 
-        // Meta's default test template "hello_world" does not accept any parameters/components
-        if (templateName !== 'hello_world') {
-          let parameters = [];
-          if (templateName === 'whtsapp_group_invitaiton') {
-            // whtsapp_group_invitaiton: {{1}} = name, {{2}} = otp
-            parameters = [
-              { type: 'text', text: 'User' },
-              { type: 'text', text: otp }
-            ];
-          } else if (templateName === 'amantran_ticket_id') {
-            // amantran_ticket_id: "Hi {{1}}, welcome to Amantran!" - {{1}} = phone/identifier
-            parameters = [
-              { type: 'text', text: phone }
-            ];
-          } else {
-            // Generic OTP template: {{1}} = otp
-            parameters = [
-              { type: 'text', text: otp }
-            ];
-          }
-
-          const components = [
-            {
-              type: 'body',
-              parameters: parameters
+        if (!templateName || templateName === 'text' || process.env.META_WHATSAPP_SEND_AS_TEXT === 'true') {
+          // Send as direct text message (useful for testing and sandbox numbers)
+          requestBody = {
+            messaging_product: 'whatsapp',
+            recipient_type: 'individual',
+            to: formattedPhone,
+            type: 'text',
+            text: {
+              body: `Your Amantran verification code is: ${otp}. Valid for 5 minutes.`
             }
-          ];
+          };
+        } else {
+          // Send as template
+          const templatePayload = {
+            name: templateName,
+            language: {
+              code: process.env.META_WHATSAPP_TEMPLATE_LANG || 'en_US'
+            }
+          };
 
-          // If template has a copy code button (standard Meta Auth template)
-          // whtsapp_group_invitaiton and amantran_ticket_id are not auth templates with buttons
-          if (
-            templateName !== 'whtsapp_group_invitaiton' &&
-            templateName !== 'amantran_ticket_id' &&
-            process.env.META_WHATSAPP_HAS_BUTTON === 'true'
-          ) {
-            components.push({
-              type: 'button',
-              sub_type: 'url',
-              index: '0',
-              parameters: [{ type: 'text', text: otp }]
-            });
+          // Meta's default test template "hello_world" does not accept any parameters/components
+          if (templateName !== 'hello_world') {
+            let parameters = [];
+            if (templateName === 'whtsapp_group_invitaiton') {
+              // whtsapp_group_invitaiton: {{1}} = name, {{2}} = otp
+              parameters = [
+                { type: 'text', text: 'User' },
+                { type: 'text', text: otp }
+              ];
+            } else if (templateName === 'amantran_ticket_id') {
+              // amantran_ticket_id: "Hi {{1}}, welcome to Amantran!" - {{1}} = phone/identifier
+              parameters = [
+                { type: 'text', text: normalizedPhone }
+              ];
+            } else {
+              // Generic OTP template: {{1}} = otp
+              parameters = [
+                { type: 'text', text: otp }
+              ];
+            }
+
+            const components = [
+              {
+                type: 'body',
+                parameters: parameters
+              }
+            ];
+
+            // If template has a copy code button (standard Meta Auth template)
+            if (
+              templateName !== 'whtsapp_group_invitaiton' &&
+              templateName !== 'amantran_ticket_id' &&
+              process.env.META_WHATSAPP_HAS_BUTTON === 'true'
+            ) {
+              components.push({
+                type: 'button',
+                sub_type: 'url',
+                index: '0',
+                parameters: [{ type: 'text', text: otp }]
+              });
+            }
+
+            templatePayload.components = components;
           }
 
-          templatePayload.components = components;
+          requestBody = {
+            messaging_product: 'whatsapp',
+            recipient_type: 'individual',
+            to: formattedPhone,
+            type: 'template',
+            template: templatePayload
+          };
         }
 
-        const requestBody = {
-          messaging_product: 'whatsapp',
-          recipient_type: 'individual',
-          to: formattedPhone,
-          type: 'template',
-          template: templatePayload
-        };
         console.log('📤 Meta WhatsApp request payload:', JSON.stringify(requestBody, null, 2));
 
         const response = await fetch(url, {
@@ -173,7 +211,7 @@ router.post('/send-whatsapp-otp', async (req, res) => {
 
         const resData = await response.json();
         if (response.ok) {
-          console.log(`✅ WhatsApp OTP sent via Meta Cloud API to ${phone}: ${otp}`);
+          console.log(`✅ WhatsApp OTP sent via Meta Cloud API to ${normalizedPhone}: ${otp}`);
         } else {
           console.error('❌ Meta WhatsApp API error response:', resData);
         }
@@ -187,23 +225,22 @@ router.post('/send-whatsapp-otp', async (req, res) => {
         
         await client.messages.create({
           from: `whatsapp:${process.env.TWILIO_WHATSAPP_NUMBER}`,
-          to: `whatsapp:${phone}`,
+          to: `whatsapp:${normalizedPhone}`,
           body: `Your Amantran verification code is: ${otp}. Valid for 5 minutes. Do not share this code with anyone.`
         });
         
-        console.log(`✅ WhatsApp OTP sent to ${phone}: ${otp}`);
+        console.log(`✅ WhatsApp OTP sent to ${normalizedPhone}: ${otp}`);
       } catch (twilioError) {
         console.error('Twilio error:', twilioError);
         // Continue even if Twilio fails - OTP is stored in database
       }
     } else {
-      console.log(`⚠️ Neither Meta nor Twilio WhatsApp is configured - OTP for ${phone}: ${otp}`);
+      console.log(`⚠️ Neither Meta nor Twilio WhatsApp is configured - OTP for ${normalizedPhone}: ${otp}`);
     }
 
     res.json({
       success: true,
-      message: 'OTP sent successfully',
-      otp: otp // Return OTP for testing (remove in production)
+      message: 'OTP sent successfully'
     });
   } catch (error) {
     console.error('Error sending WhatsApp OTP:', error);
@@ -221,9 +258,11 @@ router.post('/verify-whatsapp-otp', async (req, res) => {
       return res.status(400).json({ error: 'Phone number and OTP are required.' });
     }
 
+    const normalizedPhone = normalizePhoneNumber(phone);
+
     // Get OTP from database
     const otpCodes = await dbService.getAll('otp_codes');
-    const otpRecord = otpCodes.find(o => o.phone === phone && o.otp === otp && !o.isVerified);
+    const otpRecord = otpCodes.find(o => o.phone === normalizedPhone && o.otp === otp && !o.isVerified);
 
     if (!otpRecord) {
       return res.status(400).json({ error: 'Invalid or expired OTP' });
@@ -239,21 +278,21 @@ router.post('/verify-whatsapp-otp', async (req, res) => {
 
     // Check if user exists by phone or email (to prevent duplicates)
     const appUsers = await dbService.getAll('app_users');
-    let user = appUsers.find(u => u.phone === phone || u.email === phone);
+    let user = appUsers.find(u => u.phone === normalizedPhone || u.email === normalizedPhone);
 
     if (user) {
       // Update existing user with phone if they logged in with phone
       const updates = {
         lastLoginAt: new Date().toISOString()
       };
-      if (!user.phone && phone) {
-        updates.phone = phone;
+      if (!user.phone && normalizedPhone) {
+        updates.phone = normalizedPhone;
       }
       await dbService.update('app_users', user.id, updates);
     } else {
       // Create new user only if no existing user found
       const newUser = {
-        phone,
+        phone: normalizedPhone,
         provider: 'phone',
         accountStatus: 'active',
         isBlocked: false,
