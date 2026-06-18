@@ -1,6 +1,7 @@
 import express from 'express';
 import { dbService } from '../services/db.js';
 import { DEFAULT_ROLES, requirePermission, getUserPermissions, logAuditEvent } from '../middleware/auth.js';
+import { hashPassword, verifyPassword } from '../utils/hash.js';
 
 const router = express.Router();
 
@@ -316,7 +317,7 @@ router.post('/', requirePermission('users.create'), async (req, res) => {
       customPermissions: resolvedCustomPermissions,
       permissions: resolvedCustomPermissions,
       isCustomPermissions: isCustomPermissions === true,
-      password: password || '123456',
+      password: hashPassword(password || '123456'),
       phoneNumber: phoneNumber || '',
       status: status || 'Active',
       isBlocked: isSuspended,
@@ -368,8 +369,15 @@ router.post('/login', async (req, res) => {
     }
 
     const storedPassword = matchedUser.password || '123456';
-    if (storedPassword !== password) {
+    if (!verifyPassword(password, storedPassword)) {
       return res.status(400).json({ error: 'Incorrect email or password.' });
+    }
+
+    // Auto-migrate to hash if it was plain-text
+    if (!storedPassword.startsWith('pbkdf2$')) {
+      const newHash = hashPassword(password);
+      matchedUser.password = newHash;
+      await dbService.update('users', matchedUser.id, { password: newHash });
     }
 
     const resolved = await resolveUserPermissions(matchedUser);
@@ -450,7 +458,7 @@ router.put('/:id', async (req, res) => {
       updates.isBlocked = status === 'Suspended';
     }
 
-    if (password !== undefined) updates.password = password;
+    if (password !== undefined) updates.password = hashPassword(password);
     if (phoneNumber !== undefined) updates.phoneNumber = phoneNumber;
 
     if (customPermissions !== undefined) {

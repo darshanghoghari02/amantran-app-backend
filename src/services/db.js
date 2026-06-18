@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
+import { hashPassword, verifyPassword } from '../utils/hash.js';
 
 // Load environment variables
 dotenv.config();
@@ -176,7 +177,7 @@ class DatabaseService {
       draftsCount: 6,
       createdAt: now,
       updatedAt: now,
-      password: adminPassword
+      password: hashPassword(adminPassword)
     };
 
     if (this.isMySQL) {
@@ -198,7 +199,9 @@ class DatabaseService {
         } else {
           // If super admin exists, verify password or metadata matches
           const existing = JSON.parse(rows[0].data);
-          if (existing.id !== 'admin_super' || existing.password !== adminPassword || existing.role !== 'super_admin') {
+          const isPasswordValid = verifyPassword(adminPassword, existing.password);
+          const isHashed = existing.password && existing.password.startsWith('pbkdf2$');
+          if (existing.id !== 'admin_super' || !isPasswordValid || !isHashed || existing.role !== 'super_admin') {
             console.log(`🔄 Updating existing Super Admin credentials/role in MySQL...`);
             if (existing.id !== 'admin_super') {
               console.log(`🧹 Deleting old Super Admin record with ID: ${existing.id}`);
@@ -213,7 +216,7 @@ class DatabaseService {
             } else {
               const updated = {
                 ...existing,
-                password: adminPassword,
+                password: hashPassword(adminPassword),
                 role: 'super_admin',
                 roleId: 'super_admin',
                 updatedAt: now
@@ -247,12 +250,14 @@ class DatabaseService {
           await this.writeLocal(localData);
         } else {
           const existing = localData.users[existingIdx];
-          if (existing.id !== 'admin_super' || existing.password !== adminPassword || existing.role !== 'super_admin') {
+          const isPasswordValid = verifyPassword(adminPassword, existing.password);
+          const isHashed = existing.password && existing.password.startsWith('pbkdf2$');
+          if (existing.id !== 'admin_super' || !isPasswordValid || !isHashed || existing.role !== 'super_admin') {
             console.log(`🔄 Updating existing Super Admin credentials/role in local db.json...`);
             localData.users[existingIdx] = {
               ...existing,
               id: 'admin_super',
-              password: adminPassword,
+              password: hashPassword(adminPassword),
               role: 'super_admin',
               roleId: 'super_admin',
               updatedAt: now

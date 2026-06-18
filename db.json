@@ -317,9 +317,9 @@
       "isBlocked": false,
       "invitationCount": 18,
       "draftsCount": 6,
-      "createdAt": "2026-06-18T06:42:34.931Z",
-      "updatedAt": "2026-06-18T06:42:34.931Z",
-      "password": "AmantranAdmin_2026_Secure!"
+      "createdAt": "2026-06-18T06:46:04.533Z",
+      "updatedAt": "2026-06-18T12:35:55.624Z",
+      "password": "pbkdf2$1000$c8742180ff34ce2bb0b2f23d78a6d337$01636e0cac17587491ea8f3a27babf4a3692e31f37d2fde2e841439d6779bf39aa4b72c92b7f0c0699b6c8fa2e51109e7e6bfde38740b8c975933a23b52d0af4"
     },
     {
       "id": "admin_super",
