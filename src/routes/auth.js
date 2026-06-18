@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Google OAuth2 client for ID token verification
 const googleClient = new OAuth2Client(
-  process.env.GOOGLE_CLIENT_ID || '6374728923-.apps.googleusercontent.com'
+  process.env.GOOGLE_CLIENT_ID || '6374728923-6m354i7velgv4qdgas7gpn5371oeld6g.apps.googleusercontent.com'
 );
 
 // JWT secret key (should be in environment variables in production)
@@ -399,16 +399,21 @@ router.post('/google-login', async (req, res) => {
 
     if (idToken) {
       // Flow A: Native Google Sign-In (verify idToken directly using Google's library)
-      const clientId = process.env.GOOGLE_CLIENT_ID;
-      if (!clientId) {
-        return res.status(500).json({ error: 'Google Client ID not configured on server.' });
-      }
+      const clientId = process.env.GOOGLE_CLIENT_ID || '6374728923-6m354i7velgv4qdgas7gpn5371oeld6g.apps.googleusercontent.com';
 
+      // We verify the token signature without passing a single client ID. 
+      // This allows verification of tokens issued for either Android, iOS, or Web client IDs in the same project.
       const ticket = await googleClient.verifyIdToken({
         idToken,
-        audience: clientId,
       });
       const payload = ticket.getPayload();
+
+      // Validate that the audience belongs to our Google Cloud Project (6374728923)
+      const aud = payload.aud;
+      if (!aud || (!aud.startsWith('6374728923-') && aud !== clientId)) {
+        console.error(`❌ Google auth audience verification failed for: ${aud}`);
+        return res.status(400).json({ error: 'Wrong recipient, payload audience != requiredAudience' });
+      }
 
       googleId = payload.sub;
       email = payload.email;
