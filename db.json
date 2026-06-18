@@ -8,9 +8,9 @@
       "invitationCount": 0,
       "draftsCount": 0,
       "createdAt": "2026-06-17T11:11:32.117Z",
-      "lastLoginAt": "2026-06-18T05:12:53.382Z",
+      "lastLoginAt": "2026-06-18T06:56:05.379Z",
       "id": "app_5u58h73tk",
-      "updatedAt": "2026-06-18T05:13:01.314Z",
+      "updatedAt": "2026-06-18T08:42:20.010Z",
       "settings": {
         "app_language": "English",
         "invitation_language": "English",
@@ -23,6 +23,29 @@
       "email": "ghogharidarshan1202@gmail.com",
       "profilePhoto": "http://192.168.1.68:5000/assets/images/general/asset_1000343195_1781694845991.jpg",
       "google_id": "108137626736919130174"
+    },
+    {
+      "phone": "+910101010101",
+      "provider": "google",
+      "accountStatus": "active",
+      "isBlocked": false,
+      "invitationCount": 0,
+      "draftsCount": 0,
+      "createdAt": "2026-06-18T06:49:38.454Z",
+      "lastLoginAt": "2026-06-18T06:50:35.451Z",
+      "id": "app_pt6cimk7o",
+      "updatedAt": "2026-06-18T06:53:27.811Z",
+      "settings": {
+        "app_language": "English",
+        "invitation_language": "English",
+        "invitation_languages_list": [
+          "English"
+        ]
+      },
+      "uid": "app_pt6cimk7o",
+      "name": "dar",
+      "email": "dar123@gmail.com",
+      "profilePhoto": ""
     }
   ],
   "user_drafts": [],
@@ -112,6 +135,127 @@
       "createdAt": "2026-06-18T05:10:55.346Z",
       "id": "aud_5j7f1t1sg",
       "updatedAt": "2026-06-18T05:10:55.346Z"
+    },
+    {
+      "user": "Super Admin",
+      "userId": "admin_super",
+      "action": "Updated system settings",
+      "resource": "Settings",
+      "date": "18/06/2026",
+      "time": "12:18:06 PM",
+      "createdAt": "2026-06-18T06:48:06.942Z",
+      "id": "aud_te5fi6ao5",
+      "updatedAt": "2026-06-18T06:48:06.942Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "change_app_language",
+      "description": "Changed application UI language to Gujarati",
+      "details": {
+        "language": "Gujarati"
+      },
+      "createdAt": "2026-06-18T06:49:47.609Z",
+      "id": "aud_8730uq4a6",
+      "updatedAt": "2026-06-18T06:49:47.609Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "change_app_language",
+      "description": "Changed application UI language to English",
+      "details": {
+        "language": "English"
+      },
+      "createdAt": "2026-06-18T06:49:48.618Z",
+      "id": "aud_3jsbb003r",
+      "updatedAt": "2026-06-18T06:49:48.618Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "change_app_language",
+      "description": "Changed application UI language to English",
+      "details": {
+        "language": "English"
+      },
+      "createdAt": "2026-06-18T06:49:49.653Z",
+      "id": "aud_2onkiqwfb",
+      "updatedAt": "2026-06-18T06:49:49.653Z"
+    },
+    {
+      "user": "Super Admin",
+      "userId": "admin_super",
+      "action": "Updated system settings",
+      "resource": "Settings",
+      "date": "18/06/2026",
+      "time": "12:22:58 PM",
+      "createdAt": "2026-06-18T06:52:58.178Z",
+      "id": "aud_e742vzkdg",
+      "updatedAt": "2026-06-18T06:52:58.178Z"
+    },
+    {
+      "user": "Super Admin",
+      "userId": "admin_super",
+      "action": "Updated system settings",
+      "resource": "Settings",
+      "date": "18/06/2026",
+      "time": "12:23:13 PM",
+      "createdAt": "2026-06-18T06:53:13.596Z",
+      "id": "aud_1voll956t",
+      "updatedAt": "2026-06-18T06:53:13.596Z"
+    },
+    {
+      "user": "Super Admin",
+      "userId": "admin_super",
+      "action": "Updated system settings",
+      "resource": "Settings",
+      "date": "18/06/2026",
+      "time": "12:23:53 PM",
+      "createdAt": "2026-06-18T06:53:53.270Z",
+      "id": "aud_0rk3v3qqk",
+      "updatedAt": "2026-06-18T06:53:53.270Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "add_favorite",
+      "description": "Added template to favorites",
+      "details": {
+        "templateId": "tem_ik8mkco7p"
+      },
+      "createdAt": "2026-06-18T07:11:39.439Z",
+      "id": "aud_vrq1ipv8d",
+      "updatedAt": "2026-06-18T07:11:39.439Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "remove_favorite",
+      "description": "Removed template from favorites",
+      "details": {
+        "templateId": "tem_ik8mkco7p"
+      },
+      "createdAt": "2026-06-18T07:11:40.613Z",
+      "id": "aud_tm434p7bd",
+      "updatedAt": "2026-06-18T07:11:40.613Z"
+    },
+    {
+      "user": "Super Admin",
+      "userId": "admin_super",
+      "action": "Created category: dsfsadf",
+      "resource": "Categories",
+      "date": "18/06/2026",
+      "time": "02:11:21 PM",
+      "createdAt": "2026-06-18T08:41:21.504Z",
+      "id": "aud_sprwnoih6",
+      "updatedAt": "2026-06-18T08:41:21.504Z"
+    },
+    {
+      "user": "Super Admin",
+      "userId": "admin_super",
+      "action": "Deleted category: dsfsadf",
+      "resource": "Categories",
+      "date": "18/06/2026",
+      "time": "02:11:25 PM",
+      "createdAt": "2026-06-18T08:41:25.196Z",
+      "id": "aud_9z0lnqx3b",
+      "updatedAt": "2026-06-18T08:41:25.196Z"
     }
   ],
   "user_cards": [],
@@ -124,6 +268,116 @@
       "isVerified": true,
       "id": "otp_xtm4ig0zq",
       "updatedAt": "2026-06-18T05:12:53.379Z"
+    },
+    {
+      "phone": "+910101010101",
+      "otp": "335830",
+      "createdAt": "2026-06-18T06:49:28.395Z",
+      "expiresAt": "2026-06-18T06:54:28.395Z",
+      "isVerified": true,
+      "id": "otp_3wkrclavp",
+      "updatedAt": "2026-06-18T06:49:38.452Z"
+    },
+    {
+      "phone": "+910101010101",
+      "otp": "148954",
+      "createdAt": "2026-06-18T06:54:43.223Z",
+      "expiresAt": "2026-06-18T06:59:43.223Z",
+      "isVerified": true,
+      "id": "otp_y4g1lamzt",
+      "updatedAt": "2026-06-18T06:54:53.906Z"
+    },
+    {
+      "phone": "+910101010101",
+      "otp": "352540",
+      "createdAt": "2026-06-18T06:55:30.324Z",
+      "expiresAt": "2026-06-18T07:00:30.323Z",
+      "isVerified": true,
+      "id": "otp_mb2o5pqsg",
+      "updatedAt": "2026-06-18T06:55:40.023Z"
+    },
+    {
+      "phone": "+916355983475",
+      "otp": "342444",
+      "createdAt": "2026-06-18T06:55:57.740Z",
+      "expiresAt": "2026-06-18T07:00:57.738Z",
+      "isVerified": true,
+      "id": "otp_uq50tg9eu",
+      "updatedAt": "2026-06-18T06:56:05.377Z"
     }
-  ]
+  ],
+  "users": [
+    {
+      "id": "admin_super",
+      "email": "superadmin@amantran.com",
+      "name": "Super Admin",
+      "displayName": "Super Admin",
+      "role": "super_admin",
+      "roleId": "super_admin",
+      "isBlocked": false,
+      "invitationCount": 18,
+      "draftsCount": 6,
+      "createdAt": "2026-06-18T06:42:34.931Z",
+      "updatedAt": "2026-06-18T06:42:34.931Z",
+      "password": "AmantranAdmin_2026_Secure!"
+    },
+    {
+      "id": "admin_super",
+      "email": "superadmin@amantran.com",
+      "name": "Super Admin",
+      "displayName": "Super Admin",
+      "role": "super_admin",
+      "roleId": "super_admin",
+      "isBlocked": false,
+      "invitationCount": 18,
+      "draftsCount": 6,
+      "createdAt": "2026-06-18T06:46:04.533Z",
+      "updatedAt": "2026-06-18T06:46:04.533Z",
+      "password": "AmantranAdmin_2026_Secure!"
+    }
+  ],
+  "settings": [
+    {
+      "id": "system_config",
+      "appName": "Amantran Invitation App CMS",
+      "supportEmail": "support@amantran.com",
+      "maintenanceMode": false,
+      "defaultUserRole": "user",
+      "allowSelfRegistration": false,
+      "createdAt": "2026-06-12T05:22:19.698Z",
+      "updatedAt": "2026-06-18T06:53:53.258Z"
+    }
+  ],
+  "user_subscriptions": [
+    {
+      "userId": "app_5u58h73tk",
+      "planType": "monthly",
+      "type": "monthly",
+      "status": "trial",
+      "isActive": true,
+      "startDate": "2026-06-18T07:06:52.088Z",
+      "expiryDate": "2026-06-21T07:06:52.088Z",
+      "amountPaid": 0,
+      "autoRenew": true,
+      "createdAt": "2026-06-18T07:06:52.090Z",
+      "updatedAt": "2026-06-18T07:06:52.090Z",
+      "id": "use_l2wvosgiq"
+    }
+  ],
+  "transactions": [
+    {
+      "userId": "app_5u58h73tk",
+      "type": "subscription",
+      "amount": 0,
+      "planId": "monthly",
+      "status": "success",
+      "timestamp": "2026-06-18T07:06:52.088Z",
+      "details": "3-day trial activated",
+      "id": "tra_zknh3sxle",
+      "createdAt": "2026-06-18T07:06:52.092Z",
+      "updatedAt": "2026-06-18T07:06:52.092Z"
+    }
+  ],
+  "user_favorites": [],
+  "categories": []
 }

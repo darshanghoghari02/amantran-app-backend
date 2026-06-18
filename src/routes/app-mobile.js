@@ -111,6 +111,27 @@ async function requireActiveUser(req, res, next) {
   }
 }
 
+// GET public app config (brand settings & maintenance status)
+router.get('/config', async (req, res) => {
+  try {
+    const config = await dbService.getOne('settings', 'system_config');
+    if (config) {
+      return res.json({
+        appName: config.appName,
+        supportEmail: config.supportEmail,
+        maintenanceMode: config.maintenanceMode
+      });
+    }
+    res.json({
+      appName: 'Amantran Invitation App CMS',
+      supportEmail: 'support@amantran.com',
+      maintenanceMode: false
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // -------------------------------------------------------------
 // 1. PUBLIC CATALOG DATA
 // -------------------------------------------------------------
@@ -352,6 +373,13 @@ router.post('/users', async (req, res) => {
       const updated = await dbService.update('app_users', uid, userData);
       res.json(updated);
     } else {
+      // Check if self-registration is allowed
+      const config = await dbService.getOne('settings', 'system_config');
+      if (config && config.allowSelfRegistration === false) {
+        return res.status(403).json({ error: 'Public registrations are currently disabled by settings.' });
+      }
+      const defaultRole = (config && config.defaultUserRole) || 'user';
+      userData.role = userData.role || defaultRole;
       userData.createdAt = now;
       const created = await dbService.add('app_users', userData);
       res.status(201).json(created);

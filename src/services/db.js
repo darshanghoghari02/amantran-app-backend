@@ -99,12 +99,16 @@ class DatabaseService {
       // 5. Migrate data from db.json if tables are empty
       await this.migrateDataFromLocalDb(collections);
 
+      // 6. Ensure Super Admin account exists/is seeded with current credentials
+      await this.ensureSuperAdminExists();
+
     } catch (error) {
       console.error('❌ Failed to initialize MySQL database. Falling back to local JSON database mode.');
       console.error('Connection Error:', error.message || error);
       this.isMySQL = false;
       this.connectionError = error.message || String(error);
       await this.initLocalDbFile();
+      await this.ensureSuperAdminExists();
     }
   }
 
@@ -123,7 +127,7 @@ class DatabaseService {
     try {
       // Read db.json
       const localData = JSON.parse(await fs.readFile(LOCAL_DB_PATH, 'utf-8'));
-      
+
       for (const col of collections) {
         // Check if table has any data
         const [rows] = await this.pool.query(`SELECT COUNT(*) as count FROM \`${col}\``);
@@ -145,6 +149,120 @@ class DatabaseService {
       }
     } catch (err) {
       console.error('⚠️ Migration from local database failed:', err.message);
+    }
+  }
+
+  async ensureSuperAdminExists() {
+    const adminEmail = process.env.ADMIN_EMAIL;
+    const adminPassword = process.env.ADMIN_PASSWORD;
+
+    if (!adminEmail || !adminPassword) {
+      console.log('⚠️ ADMIN_EMAIL or ADMIN_PASSWORD not set in environment variables. Skipping Super Admin seeding.');
+      return;
+    }
+
+    console.log(`🔑 Verifying Super Admin account (${adminEmail}) in database...`);
+
+    const now = new Date().toISOString();
+    const adminUser = {
+      id: 'admin_super',
+      email: adminEmail,
+      name: 'Super Admin',
+      displayName: 'Super Admin',
+      role: 'super_admin',
+      roleId: 'super_admin',
+      isBlocked: false,
+      invitationCount: 18,
+      draftsCount: 6,
+      createdAt: now,
+      updatedAt: now,
+      password: adminPassword
+    };
+
+    if (this.isMySQL) {
+      try {
+        // Query database directly bypassing initPromise to avoid deadlock
+        const [rows] = await this.pool.query(
+          `SELECT id, data FROM \`users\` WHERE JSON_UNQUOTE(JSON_EXTRACT(data, '$.email')) = ?`,
+          [adminEmail.toLowerCase()]
+        );
+
+        if (rows.length === 0) {
+          console.log(`➕ Seeding new Super Admin user in MySQL: ${adminEmail}`);
+          await this.pool.query(
+            `INSERT INTO \`users\` (id, data) VALUES (?, ?)`,
+            [adminUser.id, JSON.stringify(adminUser)]
+          );
+          // Also sync to local JSON backup
+          await this.syncLocalDbBackup('users', adminUser, 'add');
+        } else {
+          // If super admin exists, verify password or metadata matches
+          const existing = JSON.parse(rows[0].data);
+          if (existing.id !== 'admin_super' || existing.password !== adminPassword || existing.role !== 'super_admin') {
+            console.log(`🔄 Updating existing Super Admin credentials/role in MySQL...`);
+            if (existing.id !== 'admin_super') {
+              console.log(`🧹 Deleting old Super Admin record with ID: ${existing.id}`);
+              await this.pool.query(`DELETE FROM \`users\` WHERE id = ?`, [existing.id]);
+              await this.syncLocalDbBackup('users', { id: existing.id }, 'delete');
+              
+              await this.pool.query(
+                `INSERT INTO \`users\` (id, data) VALUES (?, ?)`,
+                [adminUser.id, JSON.stringify(adminUser)]
+              );
+              await this.syncLocalDbBackup('users', adminUser, 'add');
+            } else {
+              const updated = {
+                ...existing,
+                password: adminPassword,
+                role: 'super_admin',
+                roleId: 'super_admin',
+                updatedAt: now
+              };
+              await this.pool.query(
+                `UPDATE \`users\` SET data = ? WHERE id = ?`,
+                [JSON.stringify(updated), existing.id]
+              );
+              await this.syncLocalDbBackup('users', updated, 'update');
+            }
+          }
+        }
+      } catch (err) {
+        console.error('❌ Failed to seed Super Admin in MySQL:', err.message);
+      }
+    } else {
+      // Local JSON mode fallback
+      try {
+        const localData = await this.readLocal();
+        if (!localData.users) {
+          localData.users = [];
+        }
+
+        const existingIdx = localData.users.findIndex(
+          u => u.email && u.email.toLowerCase() === adminEmail.toLowerCase()
+        );
+
+        if (existingIdx === -1) {
+          console.log(`➕ Seeding new Super Admin user in local db.json: ${adminEmail}`);
+          localData.users.push(adminUser);
+          await this.writeLocal(localData);
+        } else {
+          const existing = localData.users[existingIdx];
+          if (existing.id !== 'admin_super' || existing.password !== adminPassword || existing.role !== 'super_admin') {
+            console.log(`🔄 Updating existing Super Admin credentials/role in local db.json...`);
+            localData.users[existingIdx] = {
+              ...existing,
+              id: 'admin_super',
+              password: adminPassword,
+              role: 'super_admin',
+              roleId: 'super_admin',
+              updatedAt: now
+            };
+            await this.writeLocal(localData);
+          }
+        }
+      } catch (err) {
+        console.error('❌ Failed to seed Super Admin in local JSON:', err.message);
+      }
     }
   }
 
@@ -512,7 +630,7 @@ class DatabaseService {
     await this.initPromise;
     const now = new Date().toISOString();
     const id = documentData.id || `${collectionName.slice(0, 3)}_${Math.random().toString(36).substr(2, 9)}`;
-    
+
     const finalDoc = {
       ...documentData,
       id,
@@ -656,7 +774,7 @@ class DatabaseService {
     try {
       const data = await this.readLocal();
       if (!data[collectionName]) data[collectionName] = [];
-      
+
       if (operation === 'add') {
         data[collectionName].push(item);
       } else if (operation === 'update') {
@@ -669,7 +787,7 @@ class DatabaseService {
       } else if (operation === 'delete') {
         data[collectionName] = data[collectionName].filter(x => x.id !== item.id);
       }
-      
+
       await this.writeLocal(data);
     } catch (err) {
       console.warn('⚠️ Background db.json backup sync failed:', err.message);
@@ -689,7 +807,7 @@ class DatabaseService {
         }
         return;
       }
-      
+
       // 2. Skip legacy Firebase Storage URLs
       if (filePath.startsWith('https://firebasestorage.googleapis.com')) {
         return;
@@ -701,7 +819,7 @@ class DatabaseService {
         try {
           const urlObj = new URL(filePath);
           relativePath = urlObj.pathname;
-        } catch (_) {}
+        } catch (_) { }
       }
 
       const cleanPath = relativePath.startsWith('/') ? relativePath.substring(1) : relativePath;

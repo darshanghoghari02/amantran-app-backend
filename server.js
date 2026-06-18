@@ -107,18 +107,54 @@ app.use('/api/user-drafts', userDraftRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/audit-logs', auditLogRoutes);
 app.use('/api/settings', settingsRoutes);
+// Global Maintenance Mode Middleware for Mobile/Client App routes
+app.use(async (req, res, next) => {
+  const isMobileEndpoint = req.path.startsWith('/api/app') || req.path.startsWith('/api/auth');
+  if (isMobileEndpoint) {
+    try {
+      const config = await dbService.getOne('settings', 'system_config');
+      if (config && config.maintenanceMode === true) {
+        return res.status(503).json({
+          error: 'The platform is currently offline for scheduled maintenance. Please try again later.',
+          maintenance: true
+        });
+      }
+    } catch (err) {
+      console.error('Error checking maintenance mode status:', err.message);
+    }
+  }
+  next();
+});
+
 app.use('/api/app', appMobileRoutes);
 app.use('/api/auth', authRoutes);
 
 // Base route info
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+  let appName = 'Amantran CMS Admin Backend API';
+  let supportEmail = 'support@amantran.com';
+  let maintenanceMode = false;
+
+  try {
+    const config = await dbService.getOne('settings', 'system_config');
+    if (config) {
+      appName = config.appName || appName;
+      supportEmail = config.supportEmail || supportEmail;
+      maintenanceMode = config.maintenanceMode || false;
+    }
+  } catch (err) {
+    console.error('Error fetching settings for base route:', err.message);
+  }
+
   res.json({
-    name: 'Amantran CMS Admin Backend API',
+    name: appName,
     version: '1.0.0',
     mode: dbService.isMySQL ? 'mysql' : (dbService.isFirebase ? 'firebase' : 'local'),
     isFirebase: dbService.isFirebase,
     isMySQL: dbService.isMySQL,
     status: 'online',
+    maintenanceMode,
+    supportEmail,
     assetsUrl: `${req.protocol}://${req.get('host')}/assets`
   });
 });

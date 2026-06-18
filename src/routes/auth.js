@@ -290,10 +290,18 @@ router.post('/verify-whatsapp-otp', async (req, res) => {
       }
       await dbService.update('app_users', user.id, updates);
     } else {
+      // Check if self-registration is allowed
+      const config = await dbService.getOne('settings', 'system_config');
+      if (config && config.allowSelfRegistration === false) {
+        return res.status(403).json({ error: 'Public registrations are currently disabled by settings.' });
+      }
+      const defaultRole = (config && config.defaultUserRole) || 'user';
+
       // Create new user only if no existing user found
       const newUser = {
         phone: normalizedPhone,
         provider: 'phone',
+        role: defaultRole,
         accountStatus: 'active',
         isBlocked: false,
         invitationCount: 0,
@@ -485,6 +493,13 @@ router.post('/google-login', async (req, res) => {
       // Merge updates into user object for response
       user = { ...user, ...updates };
     } else {
+      // Check if self-registration is allowed
+      const config = await dbService.getOne('settings', 'system_config');
+      if (config && config.allowSelfRegistration === false) {
+        return res.status(403).json({ error: 'Public registrations are currently disabled by settings.' });
+      }
+      const defaultRole = (config && config.defaultUserRole) || 'user';
+
       // Create new user
       const newUser = {
         google_id: googleId,
@@ -493,6 +508,7 @@ router.post('/google-login', async (req, res) => {
         displayName: name || 'Google User',
         profilePhoto: picture || '',
         provider: 'google',
+        role: defaultRole,
         accountStatus: 'active',
         isBlocked: false,
         invitationCount: 0,
@@ -560,6 +576,13 @@ router.post('/apple-login', async (req, res) => {
       
       await dbService.update('app_users', user.id, updates);
     } else {
+      // Check if self-registration is allowed
+      const config = await dbService.getOne('settings', 'system_config');
+      if (config && config.allowSelfRegistration === false) {
+        return res.status(403).json({ error: 'Public registrations are currently disabled by settings.' });
+      }
+      const defaultRole = (config && config.defaultUserRole) || 'user';
+
       // Create new user only if no existing user found
       const newUser = {
         id: uid,
@@ -568,6 +591,7 @@ router.post('/apple-login', async (req, res) => {
         displayName: name || 'Apple User',
         profilePhoto: photoURL || '',
         provider: 'apple',
+        role: defaultRole,
         accountStatus: 'active',
         isBlocked: false,
         invitationCount: 0,
