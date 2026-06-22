@@ -1,4 +1,58 @@
 {
+  "audit_logs": [
+    {
+      "userId": "anonymous",
+      "type": "remove_favorite",
+      "description": "Removed template from favorites",
+      "details": {
+        "templateId": "tem_iyxsz3ird"
+      },
+      "createdAt": "2026-06-22T05:59:58.902Z",
+      "id": "aud_equzvyzef",
+      "updatedAt": "2026-06-22T05:59:58.902Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "customize_template",
+      "description": "Started customizing template: wedding",
+      "details": {
+        "designId": "1781874231534",
+        "templateId": "tem_iyxsz3ird",
+        "templateName": "wedding"
+      },
+      "createdAt": "2026-06-22T09:02:41.390Z",
+      "id": "aud_ct7nmrumi",
+      "updatedAt": "2026-06-22T09:02:41.390Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "save_draft",
+      "description": "Saved draft invitation design: wedding",
+      "details": {
+        "designId": "1781874231534",
+        "originalDesignId": "1781874231534",
+        "templateId": "tem_iyxsz3ird",
+        "isDraft": true
+      },
+      "createdAt": "2026-06-22T09:02:42.158Z",
+      "id": "aud_nmdib1ioj",
+      "updatedAt": "2026-06-22T09:02:42.158Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "save_draft",
+      "description": "Saved draft invitation design: wedding",
+      "details": {
+        "designId": "1781874231534",
+        "originalDesignId": "1781874231534",
+        "templateId": "tem_iyxsz3ird",
+        "isDraft": true
+      },
+      "createdAt": "2026-06-22T09:02:52.912Z",
+      "id": "aud_6evfvli0l",
+      "updatedAt": "2026-06-22T09:02:52.912Z"
+    }
+  ],
   "app_users": [
     {
       "phone": "+916355983475",
@@ -10,16 +64,15 @@
       "createdAt": "2026-06-17T11:11:32.117Z",
       "lastLoginAt": "2026-06-19T09:34:38.918Z",
       "id": "app_5u58h73tk",
-      "updatedAt": "2026-06-19T13:21:24.363Z",
+      "updatedAt": "2026-06-22T09:23:14.987Z",
       "settings": {
         "app_language": "English",
-        "invitation_language": "Gujarati",
+        "invitation_language": "English",
         "invitation_languages_list": [
           "English",
           "Urdu",
           "Hindi",
-          "Gujarati",
-          "Marathi"
+          "Gujarati"
         ]
       },
       "uid": "app_5u58h73tk",
@@ -27,191 +80,6 @@
       "email": "ghogharidarshan1202@gmail.com",
       "profilePhoto": "http://192.168.1.68:5000/assets/images/general/asset_1000343195_1781694845991.jpg",
       "google_id": "108137626736919130174"
-    }
-  ],
-  "audit_logs": [
-    {
-      "userId": "anonymous",
-      "type": "customize_template",
-      "description": "Started customizing template: wedding",
-      "details": {
-        "designId": "1781874231534",
-        "templateId": "tem_iyxsz3ird",
-        "templateName": "wedding"
-      },
-      "createdAt": "2026-06-19T13:17:41.011Z",
-      "id": "aud_qj360negp",
-      "updatedAt": "2026-06-19T13:17:41.011Z"
-    },
-    {
-      "userId": "anonymous",
-      "type": "save_draft",
-      "description": "Saved draft invitation design: wedding",
-      "details": {
-        "designId": "1781874231534",
-        "originalDesignId": "1781874231534",
-        "templateId": "tem_iyxsz3ird",
-        "isDraft": true
-      },
-      "createdAt": "2026-06-19T13:17:41.621Z",
-      "id": "aud_4ylzapcbh",
-      "updatedAt": "2026-06-19T13:17:41.621Z"
-    },
-    {
-      "userId": "anonymous",
-      "type": "save_draft",
-      "description": "Saved draft invitation design: wedding",
-      "details": {
-        "designId": "1781874231534",
-        "originalDesignId": "1781874231534",
-        "templateId": "tem_iyxsz3ird",
-        "isDraft": true
-      },
-      "createdAt": "2026-06-19T13:17:43.658Z",
-      "id": "aud_xgf3tn6dd",
-      "updatedAt": "2026-06-19T13:17:43.658Z"
-    },
-    {
-      "userId": "anonymous",
-      "type": "customize_template",
-      "description": "Started customizing template: wedding",
-      "details": {
-        "designId": "1781874231534",
-        "templateId": "tem_iyxsz3ird",
-        "templateName": "wedding"
-      },
-      "createdAt": "2026-06-19T13:19:04.210Z",
-      "id": "aud_ez9e6iy1t",
-      "updatedAt": "2026-06-19T13:19:04.210Z"
-    },
-    {
-      "userId": "anonymous",
-      "type": "change_invitation_language",
-      "description": "Changed active invitation language to Gujarati",
-      "details": {
-        "language": "Gujarati"
-      },
-      "createdAt": "2026-06-19T13:19:04.241Z",
-      "id": "aud_fqiio6qoc",
-      "updatedAt": "2026-06-19T13:19:04.241Z"
-    },
-    {
-      "userId": "anonymous",
-      "type": "save_draft",
-      "description": "Saved draft invitation design: wedding",
-      "details": {
-        "designId": "1781874231534",
-        "originalDesignId": "1781874231534",
-        "templateId": "tem_iyxsz3ird",
-        "isDraft": true
-      },
-      "createdAt": "2026-06-19T13:19:04.513Z",
-      "id": "aud_x6gnrlgbd",
-      "updatedAt": "2026-06-19T13:19:04.513Z"
-    },
-    {
-      "userId": "anonymous",
-      "type": "save_draft",
-      "description": "Saved draft invitation design: wedding",
-      "details": {
-        "designId": "1781874231534",
-        "originalDesignId": "1781874231534",
-        "templateId": "tem_iyxsz3ird",
-        "isDraft": true
-      },
-      "createdAt": "2026-06-19T13:19:33.528Z",
-      "id": "aud_najxypzzx",
-      "updatedAt": "2026-06-19T13:19:33.528Z"
-    },
-    {
-      "userId": "anonymous",
-      "type": "customize_template",
-      "description": "Started customizing template: wedding",
-      "details": {
-        "designId": "1781874231534",
-        "templateId": "tem_iyxsz3ird",
-        "templateName": "wedding"
-      },
-      "createdAt": "2026-06-19T13:20:25.437Z",
-      "id": "aud_mvp1lrd0d",
-      "updatedAt": "2026-06-19T13:20:25.437Z"
-    },
-    {
-      "userId": "anonymous",
-      "type": "change_invitation_language",
-      "description": "Changed active invitation language to Gujarati",
-      "details": {
-        "language": "Gujarati"
-      },
-      "createdAt": "2026-06-19T13:20:25.458Z",
-      "id": "aud_ayjo6f2j1",
-      "updatedAt": "2026-06-19T13:20:25.458Z"
-    },
-    {
-      "userId": "anonymous",
-      "type": "save_draft",
-      "description": "Saved draft invitation design: wedding",
-      "details": {
-        "designId": "1781874231534",
-        "originalDesignId": "1781874231534",
-        "templateId": "tem_iyxsz3ird",
-        "isDraft": true
-      },
-      "createdAt": "2026-06-19T13:20:26.018Z",
-      "id": "aud_3x9coabmr",
-      "updatedAt": "2026-06-19T13:20:26.018Z"
-    },
-    {
-      "userId": "anonymous",
-      "type": "customize_template",
-      "description": "Started customizing template: wedding",
-      "details": {
-        "designId": "1781874231534",
-        "templateId": "tem_iyxsz3ird",
-        "templateName": "wedding"
-      },
-      "createdAt": "2026-06-19T13:21:24.332Z",
-      "id": "aud_5atkf3gm1",
-      "updatedAt": "2026-06-19T13:21:24.332Z"
-    },
-    {
-      "userId": "anonymous",
-      "type": "change_invitation_language",
-      "description": "Changed active invitation language to Gujarati",
-      "details": {
-        "language": "Gujarati"
-      },
-      "createdAt": "2026-06-19T13:21:24.355Z",
-      "id": "aud_k7sayq1tn",
-      "updatedAt": "2026-06-19T13:21:24.355Z"
-    },
-    {
-      "userId": "anonymous",
-      "type": "save_draft",
-      "description": "Saved draft invitation design: wedding",
-      "details": {
-        "designId": "1781874231534",
-        "originalDesignId": "1781874231534",
-        "templateId": "tem_iyxsz3ird",
-        "isDraft": true
-      },
-      "createdAt": "2026-06-19T13:21:24.737Z",
-      "id": "aud_7sv7h20hk",
-      "updatedAt": "2026-06-19T13:21:24.737Z"
-    },
-    {
-      "userId": "anonymous",
-      "type": "save_draft",
-      "description": "Saved draft invitation design: wedding",
-      "details": {
-        "designId": "1781874231534",
-        "originalDesignId": "1781874231534",
-        "templateId": "tem_iyxsz3ird",
-        "isDraft": true
-      },
-      "createdAt": "2026-06-19T13:21:29.065Z",
-      "id": "aud_a47fdbp6u",
-      "updatedAt": "2026-06-19T13:21:29.065Z"
     }
   ],
   "user_drafts": [
@@ -224,7 +92,7 @@
         "id": "1781874231534",
         "userId": "app_5u58h73tk",
         "templateId": "tem_iyxsz3ird",
-        "updatedAt": "2026-06-19T18:51:26.678665",
+        "updatedAt": "2026-06-22T14:32:49.439463",
         "isDraft": true,
         "elements": [
           {
@@ -335,7 +203,7 @@
             "width": 880,
             "height": 100,
             "fontSize": 56,
-            "fontFamily": "KAP011",
+            "fontFamily": "Noto Serif Gujarati",
             "color": "#ff8a1e2b",
             "fontWeight": "w700",
             "textAlign": "center",
@@ -390,7 +258,7 @@
             "width": 400,
             "height": 100,
             "fontSize": 44,
-            "fontFamily": "KAP011",
+            "fontFamily": "Noto Serif Gujarati",
             "color": "#ff3e603b",
             "fontWeight": "w700",
             "textAlign": "right",
@@ -445,7 +313,7 @@
             "width": 120,
             "height": 100,
             "fontSize": 36,
-            "fontFamily": "KAP011",
+            "fontFamily": "Noto Serif Gujarati",
             "color": "#ff3e603b",
             "fontWeight": "w700",
             "textAlign": "center",
@@ -500,7 +368,7 @@
             "width": 400,
             "height": 100,
             "fontSize": 44,
-            "fontFamily": "KAP011",
+            "fontFamily": "Noto Serif Gujarati",
             "color": "#ff3e603b",
             "fontWeight": "w700",
             "textAlign": "left",
@@ -757,200 +625,8 @@
         "pdfName": null
       },
       "isDraft": true,
-      "updatedAt": "2026-06-19T13:21:28.554Z",
+      "updatedAt": "2026-06-22T09:02:51.893Z",
       "createdAt": "2026-06-19T13:03:53.364Z"
-    }
-  ],
-  "users": [
-    {
-      "id": "admin_super",
-      "email": "superadmin@amantran.com",
-      "name": "Super Admin",
-      "displayName": "Super Admin",
-      "role": "super_admin",
-      "roleId": "super_admin",
-      "isBlocked": false,
-      "invitationCount": 18,
-      "draftsCount": 6,
-      "createdAt": "2026-06-22T04:32:37.621Z",
-      "updatedAt": "2026-06-22T04:32:37.621Z",
-      "password": "pbkdf2$1000$77672b9c3f08d67de782219f41d17feb$87f37d4318c9c0c822f6694dbdb9ea83bb3516c9735f2bb4c4a8a1e2d4979bf669f43aef54a8e33b617c0b45fcc4f1296ff32872c823d227bd368a1a6d89716c"
-    }
-  ],
-  "roles": [
-    {
-      "id": "super_admin",
-      "name": "Super Admin",
-      "description": "Super Administrator with absolute control over all features, settings, roles, and user accounts. System-protected.",
-      "permissions": [
-        "*"
-      ],
-      "isDefault": true,
-      "isActive": true,
-      "createdAt": "2026-06-22T04:33:18.561Z",
-      "updatedAt": "2026-06-22T04:33:18.561Z"
-    },
-    {
-      "id": "admin",
-      "name": "Admin",
-      "description": "Administrator who can manage content, subscriptions, and users, but cannot delete or modify Super Admin accounts.",
-      "permissions": [
-        "dashboard.view",
-        "templates.view",
-        "templates.create",
-        "templates.edit",
-        "templates.delete",
-        "templates.publish",
-        "templates.unpublish",
-        "templates.feature",
-        "categories.view",
-        "categories.create",
-        "categories.edit",
-        "categories.delete",
-        "fonts.view",
-        "fonts.create",
-        "fonts.edit",
-        "fonts.delete",
-        "languages.view",
-        "languages.create",
-        "languages.edit",
-        "languages.delete",
-        "subscriptions.view",
-        "subscriptions.create",
-        "subscriptions.edit",
-        "subscriptions.delete",
-        "subscriptions.activate",
-        "subscriptions.deactivate",
-        "subscriptions.manage_pricing",
-        "users.view",
-        "users.create",
-        "users.edit",
-        "users.delete",
-        "users.suspend",
-        "users.activate",
-        "users.assign_roles",
-        "users.manage_permissions",
-        "roles.view",
-        "roles.create",
-        "roles.edit",
-        "roles.delete",
-        "roles.clone",
-        "roles.assign_permissions",
-        "analytics.view",
-        "analytics.export",
-        "settings.view",
-        "settings.edit"
-      ],
-      "isDefault": true,
-      "isActive": true,
-      "createdAt": "2026-06-22T04:33:18.562Z",
-      "updatedAt": "2026-06-22T04:33:18.562Z"
-    },
-    {
-      "id": "content_manager",
-      "name": "Content Manager",
-      "description": "Can manage invitations, templates, categories, custom typography, and platform languages.",
-      "permissions": [
-        "dashboard.view",
-        "templates.view",
-        "templates.create",
-        "templates.edit",
-        "templates.delete",
-        "templates.publish",
-        "templates.unpublish",
-        "templates.feature",
-        "categories.view",
-        "categories.create",
-        "categories.edit",
-        "categories.delete",
-        "fonts.view",
-        "fonts.create",
-        "fonts.edit",
-        "fonts.delete",
-        "languages.view",
-        "languages.create",
-        "languages.edit",
-        "languages.delete"
-      ],
-      "isDefault": true,
-      "isActive": true,
-      "createdAt": "2026-06-22T04:33:18.564Z",
-      "updatedAt": "2026-06-22T04:33:18.564Z"
-    },
-    {
-      "id": "subscription_manager",
-      "name": "Subscription Manager",
-      "description": "Can manage billing, subscription plans, pricing tiers, and deactivate payment integrations.",
-      "permissions": [
-        "dashboard.view",
-        "templates.view",
-        "subscriptions.view",
-        "subscriptions.create",
-        "subscriptions.edit",
-        "subscriptions.delete",
-        "subscriptions.activate",
-        "subscriptions.deactivate",
-        "subscriptions.manage_pricing"
-      ],
-      "isDefault": true,
-      "isActive": true,
-      "createdAt": "2026-06-22T04:33:18.566Z",
-      "updatedAt": "2026-06-22T04:33:18.566Z"
-    },
-    {
-      "id": "editor",
-      "name": "Editor",
-      "description": "Can edit templates and view content catalogs but cannot delete records or adjust configurations.",
-      "permissions": [
-        "dashboard.view",
-        "templates.view",
-        "templates.edit",
-        "categories.view",
-        "fonts.view",
-        "languages.view"
-      ],
-      "isDefault": true,
-      "isActive": true,
-      "createdAt": "2026-06-22T04:33:18.567Z",
-      "updatedAt": "2026-06-22T04:33:18.567Z"
-    },
-    {
-      "id": "user",
-      "name": "Standard User",
-      "description": "Read-only access to view stats and design catalog.",
-      "permissions": [
-        "dashboard.view",
-        "templates.view",
-        "categories.view"
-      ],
-      "isDefault": true,
-      "isActive": true,
-      "createdAt": "2026-06-22T04:33:18.569Z",
-      "updatedAt": "2026-06-22T04:33:18.569Z"
-    }
-  ],
-  "subscriptions": [
-    {
-      "id": "monthly",
-      "name": "Monthly Premium",
-      "price": 99,
-      "description": "Access all monthly premium templates.",
-      "isActive": true,
-      "includedCategories": [],
-      "includedTemplateIds": [],
-      "createdAt": "2026-06-22T04:33:20.713Z",
-      "updatedAt": "2026-06-22T04:33:20.713Z"
-    },
-    {
-      "id": "yearly",
-      "name": "Yearly Premium",
-      "price": 499,
-      "description": "Access all premium templates including yearly exclusives.",
-      "isActive": true,
-      "includedCategories": [],
-      "includedTemplateIds": [],
-      "createdAt": "2026-06-22T04:33:20.716Z",
-      "updatedAt": "2026-06-22T04:33:20.716Z"
     }
   ]
 }
