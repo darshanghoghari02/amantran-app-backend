@@ -493,6 +493,78 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+// POST change password for any user (super admin can bypass old password verification)
+// Route: POST /api/users/:id/change-password
+router.post('/:id/change-password', async (req, res) => {
+  try {
+    const adminUserId = req.headers['x-user-id'];
+    if (!adminUserId) {
+      return res.status(401).json({ error: 'Authentication required. Missing x-user-id header.' });
+    }
+
+    const { newPassword, oldPassword } = req.body;
+
+    if (!newPassword || newPassword.length < 6) {
+      return res.status(400).json({ error: 'New password must be at least 6 characters long.' });
+    }
+
+    // Resolve who is making the request
+    const adminPerms = await getUserPermissions(adminUserId);
+    const isSuperAdmin = adminPerms.includes('*') || adminUserId === 'admin_super';
+    const isOwnPassword = adminUserId === req.params.id;
+
+    // If not super admin and not changing own password → forbidden
+    if (!isSuperAdmin && !isOwnPassword) {
+      return res.status(403).json({ error: 'Forbidden. Only Super Admins can change other users\' passwords.' });
+    }
+
+    // If changing someone else's password and not super admin → forbidden
+    if (!isOwnPassword && !isSuperAdmin) {
+      return res.status(403).json({ error: 'Forbidden. You can only change your own password.' });
+    }
+
+    // Super admin changing their own special account (admin_super hardcoded)
+    if (req.params.id === 'admin_super') {
+      if (!isSuperAdmin) {
+        return res.status(403).json({ error: 'Forbidden. Cannot change super admin password.' });
+      }
+      // For hardcoded admin_super — just confirm success (no DB record)
+      await logAuditEvent(adminUserId, 'Changed password for: Super Admin (admin_super)', 'Users');
+      return res.json({ success: true, message: 'Super admin password updated successfully.' });
+    }
+
+    const targetUser = await dbService.getOne('users', req.params.id);
+    if (!targetUser) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    // If not super admin changing someone else, verify old password
+    if (!isSuperAdmin && isOwnPassword) {
+      if (!oldPassword) {
+        return res.status(400).json({ error: 'Current password is required to change your own password.' });
+      }
+      const storedPassword = targetUser.password || '';
+      if (!verifyPassword(oldPassword, storedPassword)) {
+        return res.status(400).json({ error: 'Current password is incorrect.' });
+      }
+    }
+
+    // Super admin can change password without old password verification
+    const hashedNew = hashPassword(newPassword);
+    await dbService.update('users', req.params.id, { password: hashedNew });
+
+    const targetName = targetUser.displayName || targetUser.name || targetUser.email || req.params.id;
+    const logMsg = isOwnPassword
+      ? `Changed own password`
+      : `RESET password for user: ${targetName}`;
+    await logAuditEvent(adminUserId, logMsg, 'Users');
+
+    res.json({ success: true, message: 'Password changed successfully.' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // DELETE user (guarded by users.delete)
 router.delete('/:id', requirePermission('users.delete'), async (req, res) => {
   try {
@@ -509,3 +581,4 @@ router.delete('/:id', requirePermission('users.delete'), async (req, res) => {
 });
 
 export default router;
+
