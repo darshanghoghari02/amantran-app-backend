@@ -1,58 +1,4 @@
 {
-  "audit_logs": [
-    {
-      "userId": "anonymous",
-      "type": "remove_favorite",
-      "description": "Removed template from favorites",
-      "details": {
-        "templateId": "tem_iyxsz3ird"
-      },
-      "createdAt": "2026-06-22T05:59:58.902Z",
-      "id": "aud_equzvyzef",
-      "updatedAt": "2026-06-22T05:59:58.902Z"
-    },
-    {
-      "userId": "anonymous",
-      "type": "customize_template",
-      "description": "Started customizing template: wedding",
-      "details": {
-        "designId": "1781874231534",
-        "templateId": "tem_iyxsz3ird",
-        "templateName": "wedding"
-      },
-      "createdAt": "2026-06-22T09:02:41.390Z",
-      "id": "aud_ct7nmrumi",
-      "updatedAt": "2026-06-22T09:02:41.390Z"
-    },
-    {
-      "userId": "anonymous",
-      "type": "save_draft",
-      "description": "Saved draft invitation design: wedding",
-      "details": {
-        "designId": "1781874231534",
-        "originalDesignId": "1781874231534",
-        "templateId": "tem_iyxsz3ird",
-        "isDraft": true
-      },
-      "createdAt": "2026-06-22T09:02:42.158Z",
-      "id": "aud_nmdib1ioj",
-      "updatedAt": "2026-06-22T09:02:42.158Z"
-    },
-    {
-      "userId": "anonymous",
-      "type": "save_draft",
-      "description": "Saved draft invitation design: wedding",
-      "details": {
-        "designId": "1781874231534",
-        "originalDesignId": "1781874231534",
-        "templateId": "tem_iyxsz3ird",
-        "isDraft": true
-      },
-      "createdAt": "2026-06-22T09:02:52.912Z",
-      "id": "aud_6evfvli0l",
-      "updatedAt": "2026-06-22T09:02:52.912Z"
-    }
-  ],
   "app_users": [
     {
       "phone": "+916355983475",
@@ -64,15 +10,16 @@
       "createdAt": "2026-06-17T11:11:32.117Z",
       "lastLoginAt": "2026-06-19T09:34:38.918Z",
       "id": "app_5u58h73tk",
-      "updatedAt": "2026-06-22T09:23:14.987Z",
+      "updatedAt": "2026-06-22T10:35:15.186Z",
       "settings": {
         "app_language": "English",
-        "invitation_language": "English",
+        "invitation_language": "Gujarati",
         "invitation_languages_list": [
           "English",
           "Urdu",
           "Hindi",
-          "Gujarati"
+          "Gujarati",
+          "Tamil"
         ]
       },
       "uid": "app_5u58h73tk",
@@ -92,7 +39,7 @@
         "id": "1781874231534",
         "userId": "app_5u58h73tk",
         "templateId": "tem_iyxsz3ird",
-        "updatedAt": "2026-06-22T14:32:49.439463",
+        "updatedAt": "2026-06-22T16:02:51.663502",
         "isDraft": true,
         "elements": [
           {
@@ -625,8 +572,38 @@
         "pdfName": null
       },
       "isDraft": true,
-      "updatedAt": "2026-06-22T09:02:51.893Z",
+      "updatedAt": "2026-06-22T10:32:51.411Z",
       "createdAt": "2026-06-19T13:03:53.364Z"
+    }
+  ],
+  "audit_logs": [
+    {
+      "userId": "anonymous",
+      "type": "save_draft",
+      "description": "Saved draft invitation design: wedding",
+      "details": {
+        "designId": "1781874231534",
+        "originalDesignId": "1781874231534",
+        "templateId": "tem_iyxsz3ird",
+        "isDraft": true
+      },
+      "createdAt": "2026-06-22T10:32:49.183Z",
+      "id": "aud_j480adphd",
+      "updatedAt": "2026-06-22T10:32:49.183Z"
+    },
+    {
+      "userId": "anonymous",
+      "type": "save_draft",
+      "description": "Saved draft invitation design: wedding",
+      "details": {
+        "designId": "1781874231534",
+        "originalDesignId": "1781874231534",
+        "templateId": "tem_iyxsz3ird",
+        "isDraft": true
+      },
+      "createdAt": "2026-06-22T10:32:51.445Z",
+      "id": "aud_2d9n9efjh",
+      "updatedAt": "2026-06-22T10:32:51.445Z"
     }
   ]
 }
