@@ -12,10 +12,10 @@ const ASSETS_DIR = path.join(BACKEND_DIR, 'assets');
 const getUploadsDir = () => {
   if (process.env.UPLOAD_DIR) return process.env.UPLOAD_DIR;
   const siblingDir = path.resolve(BACKEND_DIR, '..', 'public_html');
-  if (fs.existsSync(siblingDir)) return path.join(siblingDir, 'uploads');
+  if (fs.existsSync(siblingDir)) return path.join(siblingDir, 'assets', 'uploads');
   const parentSiblingDir = path.resolve(BACKEND_DIR, '..', '..', 'public_html');
-  if (fs.existsSync(parentSiblingDir)) return path.join(parentSiblingDir, 'uploads');
-  return path.join(BACKEND_DIR, 'public_html', 'uploads');
+  if (fs.existsSync(parentSiblingDir)) return path.join(parentSiblingDir, 'assets', 'uploads');
+  return path.join(BACKEND_DIR, 'assets', 'uploads');
 };
 const UPLOADS_DIR = getUploadsDir();
 
@@ -36,7 +36,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const { templateSlug, categorySlug, type } = req.query;
-    
+
     // Clean name logic
     const ext = path.extname(file.originalname).toLowerCase();
     const originalNameClean = path.basename(file.originalname, ext)
@@ -62,14 +62,14 @@ const storage = multer.diskStorage({
 const fileFilter = (req, file, cb) => {
   const allowedExts = /jpeg|jpg|png|webp|gif|ttf|otf|woff|woff2/;
   const extname = allowedExts.test(path.extname(file.originalname).toLowerCase());
-  
+
   // Safely allow standard image or font mimetypes, or octet-stream fallbacks for fonts
   const mimetype = /image|font|octet-stream|x-font|sfnt/.test(file.mimetype);
 
   if (extname && mimetype) {
     return cb(null, true);
   }
-  
+
   cb(new Error(`Invalid file type. Only standard images (JPEG, PNG, WEBP) and fonts (TTF, OTF) are allowed!`));
 };
 

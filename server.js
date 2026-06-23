@@ -80,19 +80,20 @@ requiredDirs.forEach(dir => {
   }
 });
 
+const getUploadsDir = () => {
+  if (process.env.UPLOAD_DIR) return process.env.UPLOAD_DIR;
+  const siblingDir = path.resolve(__dirname, '..', 'public_html');
+  if (fs.existsSync(siblingDir)) return path.join(siblingDir, 'assets', 'uploads');
+  const parentSiblingDir = path.resolve(__dirname, '..', '..', 'public_html');
+  if (fs.existsSync(parentSiblingDir)) return path.join(parentSiblingDir, 'assets', 'uploads');
+  return path.join(__dirname, 'assets', 'uploads');
+};
+
 // Serve assets directory statically (including /static as fallback)
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/static', express.static(path.join(__dirname, 'assets')));
 
 // Serve uploads directory permanently
-const getUploadsDir = () => {
-  if (process.env.UPLOAD_DIR) return process.env.UPLOAD_DIR;
-  const siblingDir = path.resolve(__dirname, '..', 'public_html');
-  if (fs.existsSync(siblingDir)) return path.join(siblingDir, 'uploads');
-  const parentSiblingDir = path.resolve(__dirname, '..', '..', 'public_html');
-  if (fs.existsSync(parentSiblingDir)) return path.join(parentSiblingDir, 'uploads');
-  return path.join(__dirname, 'public_html', 'uploads');
-};
 const UPLOADS_DIR = getUploadsDir();
 if (!fs.existsSync(UPLOADS_DIR)) {
   fs.mkdirSync(UPLOADS_DIR, { recursive: true });

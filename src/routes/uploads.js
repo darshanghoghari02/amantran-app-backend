@@ -16,10 +16,10 @@ const ASSETS_DIR = path.join(BACKEND_DIR, 'assets');
 const getUploadsDir = () => {
   if (process.env.UPLOAD_DIR) return process.env.UPLOAD_DIR;
   const siblingDir = path.resolve(BACKEND_DIR, '..', 'public_html');
-  if (fs.existsSync(siblingDir)) return path.join(siblingDir, 'uploads');
+  if (fs.existsSync(siblingDir)) return path.join(siblingDir, 'assets', 'uploads');
   const parentSiblingDir = path.resolve(BACKEND_DIR, '..', '..', 'public_html');
-  if (fs.existsSync(parentSiblingDir)) return path.join(parentSiblingDir, 'uploads');
-  return path.join(BACKEND_DIR, 'public_html', 'uploads');
+  if (fs.existsSync(parentSiblingDir)) return path.join(parentSiblingDir, 'assets', 'uploads');
+  return path.join(BACKEND_DIR, 'assets', 'uploads');
 };
 const UPLOADS_DIR = getUploadsDir();
 
@@ -110,7 +110,7 @@ router.post('/single', upload.single('file'), async (req, res) => {
       // If Cloudinary is configured but upload failed, return error (don't silently fallback)
       if (isCloudinaryConfigured()) {
         // Clean up local temp file
-        try { fs.unlinkSync(req.file.path); } catch (_) {}
+        try { fs.unlinkSync(req.file.path); } catch (_) { }
         return res.status(500).json({
           error: cloudErr.message,
           hint: 'Cloudinary upload failed. Please verify your CLOUDINARY_URL or CLOUDINARY_CLOUD_NAME/API_KEY/API_SECRET environment variables.'
@@ -119,8 +119,8 @@ router.post('/single', upload.single('file'), async (req, res) => {
     }
 
     // Fallback: Local disk path resolution (only when Cloudinary is NOT configured — dev mode)
-    const webUrl = `/uploads/${req.file.filename}`;
-    const flutterPath = `uploads/${req.file.filename}`;
+    const webUrl = `/assets/uploads/${req.file.filename}`;
+    const flutterPath = `assets/uploads/${req.file.filename}`;
 
     res.json({
       success: true,
@@ -158,7 +158,7 @@ router.post('/multiple', upload.array('files', 15), async (req, res) => {
           });
         } else {
           // Cloudinary not configured — local fallback (dev mode)
-          const webUrl = `/uploads/${file.filename}`;
+          const webUrl = `/assets/uploads/${file.filename}`;
           uploadedFiles.push({
             filePath: webUrl,
             flutterPath: webUrl,
@@ -169,7 +169,7 @@ router.post('/multiple', upload.array('files', 15), async (req, res) => {
       } catch (uploadErr) {
         errors.push({ fileName: file.filename, error: uploadErr.message });
         // Clean up temp file on failed cloud upload
-        try { fs.unlinkSync(file.path); } catch (_) {}
+        try { fs.unlinkSync(file.path); } catch (_) { }
       }
     }
 
@@ -224,13 +224,13 @@ router.delete('/', async (req, res) => {
 
     // Fallback: Delete local file
     let absolutePath;
-    if (filePath.startsWith('/uploads/') || filePath.startsWith('uploads/')) {
+    if (filePath.startsWith('/assets/uploads/') || filePath.startsWith('assets/uploads/')) {
       const filename = path.basename(filePath);
       absolutePath = path.join(UPLOADS_DIR, filename);
     } else {
       const cleanPath = filePath.startsWith('/') ? filePath.substring(1) : filePath;
       absolutePath = path.join(BACKEND_DIR, cleanPath);
-      
+
       // Safety guard for legacy assets
       if (!absolutePath.startsWith(ASSETS_DIR)) {
         return res.status(403).json({ error: 'Access denied. You can only delete files inside the assets directory.' });
