@@ -14,3 +14,8 @@ yarn-error.log*
 # OS files
 .DS_Store
 Thumbs.db
+
+# Local Uploads Directories
+assets/uploads/
+public_html/assets/uploads/
+public_html/uploads/
