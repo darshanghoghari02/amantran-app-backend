@@ -8,37 +8,19 @@ const __dirname = path.dirname(__filename);
 
 const BACKEND_DIR = path.resolve(__dirname, '../..');
 const ASSETS_DIR = path.join(BACKEND_DIR, 'assets');
+const UPLOADS_DIR = process.env.UPLOAD_DIR || path.join(BACKEND_DIR, 'public_html', 'uploads');
 
 // Setup storage engine
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     try {
-      const { type, categorySlug, templateSlug } = req.query;
-      let targetDir = ASSETS_DIR;
-
-      if (type === 'font') {
-        targetDir = path.join(ASSETS_DIR, 'fonts');
-      } else if (type === 'sticker') {
-        targetDir = path.join(ASSETS_DIR, 'images', 'stickers');
-      } else if (type === 'category') {
-        const cat = categorySlug || 'categories';
-        targetDir = path.join(ASSETS_DIR, 'images', cat);
-      } else if (type === 'template') {
-        const cat = categorySlug || 'uncategorized';
-        const tpl = templateSlug || 'temp_template';
-        targetDir = path.join(ASSETS_DIR, 'images', cat, tpl);
-      } else {
-        // Default general uploads
-        targetDir = path.join(ASSETS_DIR, 'images', 'general');
-      }
-
       // Check if folder exists, if not, create it recursively
-      if (!fs.existsSync(targetDir)) {
-        fs.mkdirSync(targetDir, { recursive: true });
-        console.log(`📁 Dynamically created asset folder: ${targetDir}`);
+      if (!fs.existsSync(UPLOADS_DIR)) {
+        fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+        console.log(`📁 Dynamically created uploads folder: ${UPLOADS_DIR}`);
       }
 
-      cb(null, targetDir);
+      cb(null, UPLOADS_DIR);
     } catch (error) {
       cb(error);
     }

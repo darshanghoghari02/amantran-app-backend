@@ -84,6 +84,14 @@ requiredDirs.forEach(dir => {
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/static', express.static(path.join(__dirname, 'assets')));
 
+// Serve uploads directory permanently
+const UPLOADS_DIR = process.env.UPLOAD_DIR || path.join(__dirname, 'public_html', 'uploads');
+if (!fs.existsSync(UPLOADS_DIR)) {
+  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+  console.log(`📁 Initial uploads directory created: ${UPLOADS_DIR}`);
+}
+app.use('/uploads', express.static(UPLOADS_DIR));
+
 // Create simple placeholders if not present to avoid broken images
 const createPlaceholderSvg = (filePath, text, width = 400, height = 300) => {
   if (!fs.existsSync(filePath)) {

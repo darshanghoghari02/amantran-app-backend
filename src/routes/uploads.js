@@ -12,6 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const BACKEND_DIR = path.resolve(__dirname, '../..');
 const ASSETS_DIR = path.join(BACKEND_DIR, 'assets');
+const UPLOADS_DIR = process.env.UPLOAD_DIR || path.join(BACKEND_DIR, 'public_html', 'uploads');
 
 /**
  * Helper to upload a single local file to Cloudinary and delete temp file on success.
@@ -109,13 +110,12 @@ router.post('/single', upload.single('file'), async (req, res) => {
     }
 
     // Fallback: Local disk path resolution (only when Cloudinary is NOT configured — dev mode)
-    const relativePath = path.relative(BACKEND_DIR, req.file.path).replace(/\\/g, '/');
-    const webUrl = `/${relativePath}`;
-    const flutterPath = relativePath;
+    const webUrl = `/uploads/${req.file.filename}`;
+    const flutterPath = `uploads/${req.file.filename}`;
 
     res.json({
       success: true,
-      message: 'File uploaded to local storage (Cloudinary not configured — dev mode).',
+      message: 'File uploaded to permanent local storage.',
       filePath: webUrl,
       flutterPath: flutterPath,
       fileName: req.file.filename,
@@ -149,10 +149,10 @@ router.post('/multiple', upload.array('files', 15), async (req, res) => {
           });
         } else {
           // Cloudinary not configured — local fallback (dev mode)
-          const relativePath = path.relative(BACKEND_DIR, file.path).replace(/\\/g, '/');
+          const webUrl = `/uploads/${file.filename}`;
           uploadedFiles.push({
-            filePath: `/${relativePath}`,
-            flutterPath: relativePath,
+            filePath: webUrl,
+            flutterPath: webUrl,
             fileName: file.filename,
             size: file.size
           });
@@ -214,11 +214,18 @@ router.delete('/', async (req, res) => {
     }
 
     // Fallback: Delete local file
-    const cleanPath = filePath.startsWith('/') ? filePath.substring(1) : filePath;
-    const absolutePath = path.join(BACKEND_DIR, cleanPath);
-
-    if (!absolutePath.startsWith(ASSETS_DIR)) {
-      return res.status(403).json({ error: 'Access denied. You can only delete files inside the assets directory.' });
+    let absolutePath;
+    if (filePath.startsWith('/uploads/') || filePath.startsWith('uploads/')) {
+      const filename = path.basename(filePath);
+      absolutePath = path.join(UPLOADS_DIR, filename);
+    } else {
+      const cleanPath = filePath.startsWith('/') ? filePath.substring(1) : filePath;
+      absolutePath = path.join(BACKEND_DIR, cleanPath);
+      
+      // Safety guard for legacy assets
+      if (!absolutePath.startsWith(ASSETS_DIR)) {
+        return res.status(403).json({ error: 'Access denied. You can only delete files inside the assets directory.' });
+      }
     }
 
     if (fs.existsSync(absolutePath)) {
