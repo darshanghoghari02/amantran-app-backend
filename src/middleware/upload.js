@@ -11,10 +11,6 @@ const ASSETS_DIR = path.join(BACKEND_DIR, 'assets');
 
 const getUploadsDir = () => {
   if (process.env.UPLOAD_DIR) return process.env.UPLOAD_DIR;
-  const siblingDir = path.resolve(BACKEND_DIR, '..', 'public_html');
-  if (fs.existsSync(siblingDir)) return path.join(siblingDir, 'assets', 'uploads');
-  const parentSiblingDir = path.resolve(BACKEND_DIR, '..', '..', 'public_html');
-  if (fs.existsSync(parentSiblingDir)) return path.join(parentSiblingDir, 'assets', 'uploads');
   return path.join(BACKEND_DIR, 'assets', 'uploads');
 };
 const UPLOADS_DIR = getUploadsDir();
