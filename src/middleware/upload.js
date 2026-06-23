@@ -8,7 +8,16 @@ const __dirname = path.dirname(__filename);
 
 const BACKEND_DIR = path.resolve(__dirname, '../..');
 const ASSETS_DIR = path.join(BACKEND_DIR, 'assets');
-const UPLOADS_DIR = process.env.UPLOAD_DIR || path.join(BACKEND_DIR, 'public_html', 'uploads');
+
+const getUploadsDir = () => {
+  if (process.env.UPLOAD_DIR) return process.env.UPLOAD_DIR;
+  const siblingDir = path.resolve(BACKEND_DIR, '..', 'public_html');
+  if (fs.existsSync(siblingDir)) return path.join(siblingDir, 'uploads');
+  const parentSiblingDir = path.resolve(BACKEND_DIR, '..', '..', 'public_html');
+  if (fs.existsSync(parentSiblingDir)) return path.join(parentSiblingDir, 'uploads');
+  return path.join(BACKEND_DIR, 'public_html', 'uploads');
+};
+const UPLOADS_DIR = getUploadsDir();
 
 // Setup storage engine
 const storage = multer.diskStorage({
