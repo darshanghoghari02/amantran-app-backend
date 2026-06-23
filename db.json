@@ -89,5 +89,35 @@
       "createdAt": "2026-06-12T06:10:09.455Z",
       "updatedAt": "2026-06-23T06:26:31.270Z"
     }
+  ],
+  "app_users": [
+    {
+      "phone": "+916355983475",
+      "provider": "google",
+      "accountStatus": "active",
+      "isBlocked": false,
+      "invitationCount": 0,
+      "draftsCount": 0,
+      "createdAt": "2026-06-17T11:11:32.117Z",
+      "lastLoginAt": "2026-06-19T09:34:38.918Z",
+      "id": "app_5u58h73tk",
+      "updatedAt": "2026-06-23T09:07:15.943Z",
+      "settings": {
+        "app_language": "English",
+        "invitation_language": "English",
+        "invitation_languages_list": [
+          "English",
+          "Urdu",
+          "Hindi",
+          "Gujarati",
+          "Tamil"
+        ]
+      },
+      "uid": "app_5u58h73tk",
+      "name": "Darshan Ghoghari",
+      "email": "ghogharidarshan1202@gmail.com",
+      "profilePhoto": "http://192.168.1.68:5000/assets/images/general/asset_1000343195_1781694845991.jpg",
+      "google_id": "108137626736919130174"
+    }
   ]
 }

@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 import { hashPassword, verifyPassword } from '../utils/hash.js';
+import { realtimeService } from './realtime.js';
 
 // Load environment variables
 dotenv.config();
@@ -643,6 +644,7 @@ class DatabaseService {
       updatedAt: now
     };
 
+    let result;
     if (this.isMySQL) {
       try {
         await this.pool.query(
@@ -651,14 +653,19 @@ class DatabaseService {
         );
         // Sync local db.json file in the background so it is kept in sync as a backup
         this.syncLocalDbBackup(collectionName, finalDoc, 'add');
-        return finalDoc;
+        result = finalDoc;
       } catch (error) {
         console.error(`⚠️ MySQL write failed (add: ${collectionName}):`, error.message);
-        return this.addLocalFallback(collectionName, finalDoc);
+        result = await this.addLocalFallback(collectionName, finalDoc);
       }
     } else {
-      return this.addLocalFallback(collectionName, finalDoc);
+      result = await this.addLocalFallback(collectionName, finalDoc);
     }
+
+    if (['categories', 'templates', 'languages'].includes(collectionName)) {
+      realtimeService.notifyUpdate(collectionName, 'add', id);
+    }
+    return result;
   }
 
   async addLocalFallback(collectionName, finalDoc) {
@@ -674,6 +681,7 @@ class DatabaseService {
     await this.initPromise;
     const now = new Date().toISOString();
 
+    let result;
     if (this.isMySQL) {
       try {
         // Fetch current first
@@ -705,14 +713,19 @@ class DatabaseService {
         );
         // Sync local db.json in the background
         this.syncLocalDbBackup(collectionName, updatedDoc, 'update');
-        return updatedDoc;
+        result = updatedDoc;
       } catch (error) {
         console.error(`⚠️ MySQL write failed (update: ${collectionName}, id: ${id}):`, error.message);
-        return this.updateLocalFallback(collectionName, id, updates, now);
+        result = await this.updateLocalFallback(collectionName, id, updates, now);
       }
     } else {
-      return this.updateLocalFallback(collectionName, id, updates, now);
+      result = await this.updateLocalFallback(collectionName, id, updates, now);
     }
+
+    if (['categories', 'templates', 'languages'].includes(collectionName)) {
+      realtimeService.notifyUpdate(collectionName, 'update', id);
+    }
+    return result;
   }
 
   async updateLocalFallback(collectionName, id, updates, now) {
@@ -750,19 +763,25 @@ class DatabaseService {
   // Generic Delete Document
   async delete(collectionName, id) {
     await this.initPromise;
+    let result;
     if (this.isMySQL) {
       try {
         await this.pool.query(`DELETE FROM \`${collectionName}\` WHERE id = ?`, [id]);
         // Sync local db.json in the background
         this.syncLocalDbBackup(collectionName, { id }, 'delete');
-        return true;
+        result = true;
       } catch (error) {
         console.error(`⚠️ MySQL delete failed (delete: ${collectionName}, id: ${id}):`, error.message);
-        return this.deleteLocalFallback(collectionName, id);
+        result = await this.deleteLocalFallback(collectionName, id);
       }
     } else {
-      return this.deleteLocalFallback(collectionName, id);
+      result = await this.deleteLocalFallback(collectionName, id);
     }
+
+    if (['categories', 'templates', 'languages'].includes(collectionName)) {
+      realtimeService.notifyUpdate(collectionName, 'delete', id);
+    }
+    return result;
   }
 
   async deleteLocalFallback(collectionName, id) {

@@ -4,6 +4,7 @@ import { deleteFromCloudinary, extractPublicId, isCloudinaryConfigured } from '.
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { realtimeService } from '../services/realtime.js';
 
 const router = express.Router();
 
@@ -110,6 +111,25 @@ async function requireActiveUser(req, res, next) {
     res.status(500).json({ error: err.message });
   }
 }
+
+// GET SSE connection for real-time mobile app updates
+router.get('/realtime', (req, res) => {
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+    'X-Accel-Buffering': 'no'
+  });
+
+  // Send initial connection verification event
+  res.write(`data: ${JSON.stringify({ type: 'connected' })}\n\n`);
+
+  realtimeService.addClient(res);
+
+  req.on('close', () => {
+    realtimeService.removeClient(res);
+  });
+});
 
 // GET public app config (brand settings & maintenance status)
 router.get('/config', async (req, res) => {
