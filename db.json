@@ -21,6 +21,61 @@
       "createdAt": "2026-06-23T06:26:31.273Z",
       "id": "aud_snqhqr325",
       "updatedAt": "2026-06-23T06:26:31.273Z"
+    },
+    {
+      "user": "Super Admin",
+      "userId": "admin_super",
+      "action": "Deleted template: wedding",
+      "resource": "Templates",
+      "date": "24/06/2026",
+      "time": "02:07:35 PM",
+      "createdAt": "2026-06-24T08:37:35.524Z",
+      "id": "aud_jh75r1wsb",
+      "updatedAt": "2026-06-24T08:37:35.524Z"
+    },
+    {
+      "user": "Super Admin",
+      "userId": "admin_super",
+      "action": "Deleted template: test",
+      "resource": "Templates",
+      "date": "24/06/2026",
+      "time": "02:07:41 PM",
+      "createdAt": "2026-06-24T08:37:41.234Z",
+      "id": "aud_zhn5ay7kn",
+      "updatedAt": "2026-06-24T08:37:41.234Z"
+    },
+    {
+      "user": "Super Admin",
+      "userId": "admin_super",
+      "action": "Created category: nhxcbn xcb",
+      "resource": "Categories",
+      "date": "24/06/2026",
+      "time": "02:38:32 PM",
+      "createdAt": "2026-06-24T09:08:32.402Z",
+      "id": "aud_ifroyfo76",
+      "updatedAt": "2026-06-24T09:08:32.402Z"
+    },
+    {
+      "user": "Super Admin",
+      "userId": "admin_super",
+      "action": "Created template: ZDFhnfvgncn ",
+      "resource": "Templates",
+      "date": "24/06/2026",
+      "time": "02:38:54 PM",
+      "createdAt": "2026-06-24T09:08:54.766Z",
+      "id": "aud_2rwud5sqy",
+      "updatedAt": "2026-06-24T09:08:54.766Z"
+    },
+    {
+      "user": "Super Admin",
+      "userId": "admin_super",
+      "action": "Updated subscription settings for: Yearly Premium",
+      "resource": "Subscription Management",
+      "date": "24/06/2026",
+      "time": "02:38:54 PM",
+      "createdAt": "2026-06-24T09:08:54.774Z",
+      "id": "aud_91ztjfo7i",
+      "updatedAt": "2026-06-24T09:08:54.774Z"
     }
   ],
   "templates": [
@@ -88,6 +143,69 @@
       "id": "tem_h33ls332j",
       "createdAt": "2026-06-12T06:10:09.455Z",
       "updatedAt": "2026-06-23T06:26:31.270Z"
+    },
+    {
+      "categoryId": "cat_yys6pkalu",
+      "name": "ZDFhnfvgncn ",
+      "slug": "zdfhnfvgncn_",
+      "thumbnail": "/assets/uploads/zdfhnfvgncn__chandla_vidhhi__1__1782292134730.jpg",
+      "previewImages": [
+        "/assets/uploads/zdfhnfvgncn__chandla_vidhhi__1__1782292134743.jpg"
+      ],
+      "localAssetPaths": [
+        "assets/uploads/zdfhnfvgncn__chandla_vidhhi__1__1782292134730.jpg",
+        "assets/uploads/zdfhnfvgncn__chandla_vidhhi__1__1782292134743.jpg"
+      ],
+      "isPremium": false,
+      "isActive": true,
+      "fonts": [
+        "Farsan",
+        "Hind Vadodara"
+      ],
+      "languages": [
+        "English",
+        "Gujarati",
+        "Hindi",
+        "Marathi",
+        "Urdu",
+        "Tamil"
+      ],
+      "pages": [
+        {
+          "id": "page_r0p1zzs4y",
+          "name": "Cover Page",
+          "backgroundImage": "/assets/uploads/zdfhnfvgncn__chandla_vidhhi__1__1782292134743.jpg",
+          "elements": [
+            {
+              "id": "elem_welcome_3r8dp65um",
+              "type": "text",
+              "x": 100,
+              "y": 400,
+              "width": 880,
+              "height": 100,
+              "rotation": 0,
+              "opacity": 1,
+              "zIndex": 1,
+              "isLocked": false,
+              "text": "WEDDING INVITATION",
+              "fontFamily": "Farsan",
+              "fontSize": 48,
+              "color": "#D4AF37",
+              "lineHeight": 1.2,
+              "alignment": "center",
+              "translations": {
+                "English": "WEDDING INVITATION"
+              }
+            }
+          ]
+        }
+      ],
+      "singlePurchasePrice": 49,
+      "includedInMonthlyPlan": true,
+      "includedInYearlyPlan": true,
+      "id": "tem_1gmk0j1bx",
+      "createdAt": "2026-06-24T09:08:54.764Z",
+      "updatedAt": "2026-06-24T09:08:54.764Z"
     }
   ],
   "app_users": [
@@ -99,9 +217,9 @@
       "invitationCount": 0,
       "draftsCount": 0,
       "createdAt": "2026-06-17T11:11:32.117Z",
-      "lastLoginAt": "2026-06-19T09:34:38.918Z",
+      "lastLoginAt": "2026-06-24T06:35:19.036Z",
       "id": "app_5u58h73tk",
-      "updatedAt": "2026-06-23T09:07:15.943Z",
+      "updatedAt": "2026-06-24T06:35:19.037Z",
       "settings": {
         "app_language": "English",
         "invitation_language": "English",
@@ -118,6 +236,53 @@
       "email": "ghogharidarshan1202@gmail.com",
       "profilePhoto": "http://192.168.1.68:5000/assets/images/general/asset_1000343195_1781694845991.jpg",
       "google_id": "108137626736919130174"
+    }
+  ],
+  "users": [
+    {
+      "id": "admin_super",
+      "email": "superadmin@amantran.com",
+      "name": "Super Admin",
+      "displayName": "Super Admin",
+      "role": "super_admin",
+      "roleId": "super_admin",
+      "isBlocked": false,
+      "invitationCount": 18,
+      "draftsCount": 6,
+      "createdAt": "2026-06-24T04:34:32.749Z",
+      "updatedAt": "2026-06-24T04:34:32.749Z",
+      "password": "pbkdf2$1000$bcf1ab43aaa3359bacd9be9a17624dce$ba785c2a4e1f4aef9b16b492158e88470f948418d75afc0eef1202aa5e00afa954cc878beaceee5e232be2d878325bf51dd1725deb5c62ac82a19bd001304744"
+    }
+  ],
+  "categories": [
+    {
+      "name": "nhxcbn xcb",
+      "slug": "nhxcbn_xcb",
+      "imageUrl": "",
+      "displayOrder": 1,
+      "isActive": true,
+      "id": "cat_yys6pkalu",
+      "createdAt": "2026-06-24T09:08:32.400Z",
+      "updatedAt": "2026-06-24T09:08:32.400Z"
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": "monthly",
+      "name": "Monthly Premium",
+      "price": 99,
+      "description": "Access all monthly premium templates.",
+      "isActive": true,
+      "includedCategories": [],
+      "includedTemplateIds": [
+        "tem_l70kly0ht",
+        "tem_h33ls332j",
+        "tem_hbvqrg7ix",
+        "tem_ik8mkco7p",
+        "tem_1gmk0j1bx"
+      ],
+      "createdAt": "2026-05-23T01:36:27.020Z",
+      "updatedAt": "2026-06-24T09:08:54.773Z"
     }
   ]
 }

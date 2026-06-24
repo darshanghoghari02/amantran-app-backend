@@ -1,0 +1,32 @@
+# ==============================================================
+# Amantran Backend - CORS & Proxy Configuration for Hostinger
+# ==============================================================
+
+# Enable RewriteEngine
+Options -MultiViews
+RewriteEngine On
+
+# ---------------------------------------------------------------
+# CORS Headers - Applied to ALL responses including errors
+# ---------------------------------------------------------------
+<IfModule mod_headers.c>
+    # Allow all origins (admin panel cross-origin access)
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, x-user-id, Accept, Origin, X-Requested-With"
+    Header always set Access-Control-Max-Age "86400"
+    Header always set Access-Control-Expose-Headers "Content-Length, Content-Range"
+</IfModule>
+
+# ---------------------------------------------------------------
+# Handle OPTIONS Preflight - Return 200 immediately
+# ---------------------------------------------------------------
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
+
+# ---------------------------------------------------------------
+# Proxy all requests to Node.js app on port 5000
+# ---------------------------------------------------------------
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ http://localhost:5000/$1 [P,L]

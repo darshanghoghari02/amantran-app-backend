@@ -35,17 +35,45 @@ class DatabaseService {
 
       console.log(`🔌 Connecting to MySQL server at ${dbHost}:${dbPort}...`);
 
-      // 1. Create connection without database to ensure DB exists
-      const connection = await mysql.createConnection({
-        host: dbHost,
-        port: dbPort,
-        user: dbUser,
-        password: dbPassword
-      });
-
-      await connection.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\``);
-      await connection.end();
-      console.log(`✅ Database \`${dbName}\` verified/created.`);
+      // 1. Try connecting directly to the database first
+      let dbExists = false;
+      try {
+        const testConn = await mysql.createConnection({
+          host: dbHost,
+          port: dbPort,
+          user: dbUser,
+          password: dbPassword,
+          database: dbName
+        });
+        await testConn.end();
+        dbExists = true;
+        console.log(`✅ Database \`${dbName}\` exists and connection verified.`);
+      } catch (connError) {
+        // Check if database does not exist (ER_BAD_DB_ERROR / errno: 1049)
+        const isDbMissing = connError.code === 'ER_BAD_DB_ERROR' || connError.errno === 1049;
+        if (isDbMissing) {
+          console.log(`ℹ️ Database \`${dbName}\` does not exist. Attempting to create it...`);
+          try {
+            const connection = await mysql.createConnection({
+              host: dbHost,
+              port: dbPort,
+              user: dbUser,
+              password: dbPassword
+            });
+            await connection.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\``);
+            await connection.end();
+            dbExists = true;
+            console.log(`✅ Database \`${dbName}\` created successfully.`);
+          } catch (createError) {
+            console.error(`❌ Failed to create database \`${dbName}\`:`, createError.message);
+            throw createError;
+          }
+        } else {
+          // Credential or host network issues (e.g. Access Denied)
+          console.error(`❌ Connection to database \`${dbName}\` failed:`, connError.message);
+          throw connError;
+        }
+      }
 
       // 2. Create the pool with the database specified
       this.pool = mysql.createPool({
