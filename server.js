@@ -5,8 +5,12 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
-// Load environment variables
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load environment variables relative to this file
+dotenv.config({ path: path.join(__dirname, '.env') });
+
 
 // Route Imports
 import categoryRoutes from './src/routes/categories.js';
@@ -30,8 +34,7 @@ import authRoutes from './src/routes/auth.js';
 import { dbService } from './src/services/db.js';
 import { isCloudinaryConfigured } from './src/services/cloudinary.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;

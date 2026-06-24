@@ -7,11 +7,12 @@ import dotenv from 'dotenv';
 import { hashPassword, verifyPassword } from '../utils/hash.js';
 import { realtimeService } from './realtime.js';
 
-// Load environment variables
-dotenv.config();
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Load environment variables relative to this file
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+
 
 const BACKEND_DIR = path.resolve(__dirname, '../..');
 const LOCAL_DB_PATH = path.join(BACKEND_DIR, 'db.json');
