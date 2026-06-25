@@ -158,6 +158,21 @@ router.delete('/:id', requirePermission('categories.delete'), async (req, res) =
       await deleteAssetFile(category.imageUrl);
     }
 
+    // Step 2.5: Try to remove category folder from Cloudinary
+    if (category.slug) {
+      const { deleteFolderFromCloudinary, isCloudinaryConfigured } = await import('../services/cloudinary.js');
+      if (isCloudinaryConfigured()) {
+        const cloudFolder = `amantran/images/${category.slug}`;
+        setTimeout(async () => {
+          try {
+            await deleteFolderFromCloudinary(cloudFolder);
+          } catch (e) {
+            console.warn(`⚠️ Failed to delete Cloudinary category folder: ${cloudFolder}`, e.message);
+          }
+        }, 1500); // 1.5 second delay to let image deletion complete
+      }
+    }
+
     // Step 3: Delete DB record
     await dbService.delete('categories', req.params.id);
     await logAuditEvent(userId, `Deleted category: ${category.name}`, 'Categories');

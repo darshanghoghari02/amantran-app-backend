@@ -253,9 +253,28 @@ router.put('/:id', async (req, res) => {
     if (categoryId !== undefined) updates.categoryId = categoryId;
     if (name !== undefined) updates.name = name;
     if (slug !== undefined) updates.slug = slug.toLowerCase().replace(/[^a-z0-9_]/g, '_');
-    if (thumbnail !== undefined) updates.thumbnail = thumbnail;
+    if (thumbnail !== undefined) {
+      updates.thumbnail = thumbnail;
+      if (thumbnail !== templateToEdit.thumbnail) {
+        let localAssets = [...(localAssetPaths || templateToEdit.localAssetPaths || [])];
+        const oldThumbClean = templateToEdit.thumbnail ? templateToEdit.thumbnail.replace(/^\//, '') : '';
+        if (oldThumbClean) {
+          localAssets = localAssets.filter(p => p !== oldThumbClean && p !== templateToEdit.thumbnail);
+        }
+        const isNewThumbLocal = thumbnail && !thumbnail.startsWith('http://') && !thumbnail.startsWith('https://');
+        if (isNewThumbLocal) {
+          const cleanNewThumb = thumbnail.replace(/^\//, '');
+          if (!localAssets.includes(cleanNewThumb)) {
+            localAssets.push(cleanNewThumb);
+          }
+        }
+        updates.localAssetPaths = localAssets;
+      }
+    }
     if (previewImages !== undefined) updates.previewImages = previewImages;
-    if (localAssetPaths !== undefined) updates.localAssetPaths = localAssetPaths;
+    if (localAssetPaths !== undefined && updates.localAssetPaths === undefined) {
+      updates.localAssetPaths = localAssetPaths;
+    }
     if (isPremium !== undefined) updates.isPremium = isPremium;
     if (isActive !== undefined) updates.isActive = isActive;
     if (fonts !== undefined) updates.fonts = fonts;
@@ -336,14 +355,27 @@ router.delete('/:id', requirePermission('templates.delete'), async (req, res) =>
     allPaths.forEach(filePath => deletePromises.push(deleteAssetFile(filePath)));
     await Promise.allSettled(deletePromises);
 
-    // Step 4: Try to remove the now-empty template folder (local only)
+    // Step 4: Try to remove the now-empty template folder (local & Cloudinary)
     if (template.slug) {
       // Template images are stored under assets/images/<categorySlug>/<templateSlug>/
       // Find the category to get its slug
       const category = await dbService.getOne('categories', template.categoryId).catch(() => null);
-      if (category?.slug) {
-        const templateDir = path.join(BACKEND_DIR, 'assets', 'images', category.slug, template.slug);
-        tryRemoveEmptyDir(templateDir);
+      const categorySlug = category?.slug || 'uncategorized';
+
+      const templateDir = path.join(BACKEND_DIR, 'assets', 'images', categorySlug, template.slug);
+      tryRemoveEmptyDir(templateDir);
+
+      // Cloudinary empty folder deletion
+      const { deleteFolderFromCloudinary, isCloudinaryConfigured } = await import('../services/cloudinary.js');
+      if (isCloudinaryConfigured()) {
+        const cloudFolder = `amantran/images/${categorySlug}/${template.slug}`;
+        setTimeout(async () => {
+          try {
+            await deleteFolderFromCloudinary(cloudFolder);
+          } catch (e) {
+            console.warn(`⚠️ Failed to delete Cloudinary folder: ${cloudFolder}`, e.message);
+          }
+        }, 1500); // 1.5 second delay to let asset deletions complete
       }
     }
 

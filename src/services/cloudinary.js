@@ -30,7 +30,10 @@ if (process.env.CLOUDINARY_URL) {
  * Check if Cloudinary is configured and ready to use.
  */
 export function isCloudinaryConfigured() {
-  return false;
+  return !!(
+    process.env.CLOUDINARY_URL || 
+    (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET)
+  );
 }
 
 /**
@@ -118,6 +121,23 @@ export function extractPublicId(url) {
     return afterUpload;
   } catch {
     return null;
+  }
+}
+
+/**
+ * Delete an empty folder from Cloudinary.
+ * Note: The folder must be completely empty first.
+ * @param {string} folderPath - Full folder path (e.g. "amantran/images/wedding/safvsa")
+ * @returns {Promise<boolean>}
+ */
+export async function deleteFolderFromCloudinary(folderPath) {
+  try {
+    const result = await cloudinary.api.delete_folder(folderPath);
+    console.log(`☁️ Cloudinary folder deleted: ${folderPath}`);
+    return true;
+  } catch (err) {
+    console.warn(`⚠️ Cloudinary folder delete failed for ${folderPath}:`, err.message);
+    return false;
   }
 }
 

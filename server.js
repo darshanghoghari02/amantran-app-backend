@@ -103,12 +103,10 @@ app.use('/uploads', express.static(UPLOADS_DIR));
 // Create simple placeholders if not present to avoid broken images
 const createPlaceholderSvg = (filePath, text, width = 400, height = 300) => {
   if (!fs.existsSync(filePath)) {
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-      <rect width="100%" height="100%" fill="#FAF3F0" stroke="#E6C280" stroke-width="4"/>
-      <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#4A2E35">${text}</text>
-    </svg>`;
-    fs.writeFileSync(filePath, svg);
-    console.log(`🖼️ Created SVG Placeholder: ${filePath}`);
+    // 1x1 transparent PNG base64 representation
+    const base64Png = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+    fs.writeFileSync(filePath, Buffer.from(base64Png, 'base64'));
+    console.log(`🖼️ Created PNG Placeholder: ${filePath}`);
   }
 };
 
